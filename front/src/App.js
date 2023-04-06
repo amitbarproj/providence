@@ -1,7 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
+import io from 'socket.io-client';
+const socket = io.connect("http://localhost:3002");
+
+
+
 
 function App() {
+
+  const sendMessage = () => {
+    socket.emit("bla", "BLA");
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -9,14 +19,11 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <button
+  onClick={() => sendMessage()}
+>
+  Click me
+</button>
       </header>
     </div>
   );
