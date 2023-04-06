@@ -1,0 +1,7 @@
+{
+    "ProvidenceServer" : {
+        "host": "localhost",
+        "port": 3002,
+        "protocol": "https"
+    }
+}
