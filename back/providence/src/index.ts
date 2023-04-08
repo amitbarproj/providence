@@ -1,4 +1,3 @@
-import { CorsOptions } from "cors";
 import { Main } from "./services/main";
 import { SocketServer } from "./services/socketServer";
 
@@ -9,10 +8,6 @@ const https = require("https");
 const cors = require("cors");
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-
-
-
-
 app.use(cors());
 const projConf = require("../../../../../../config/projConf.json");
 const port  = projConf.ProvidenceServer.port;

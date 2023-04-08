@@ -24,7 +24,6 @@ export type JOIN_ROOM_RES = {
 
 export type LEAVE_ROOM_BODY = {
     roomId: string,
-    secret?: string,
     username: string
 }
 

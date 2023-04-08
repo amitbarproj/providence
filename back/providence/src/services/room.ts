@@ -24,6 +24,13 @@ export class Room {
     }
     
     public leaveRoom = (leaveRoomBody: LEAVE_ROOM_BODY)  => {
+        const deletedPlayer: Player = this.players.get(leaveRoomBody.username);
+        if(deletedPlayer.isAdmin()) {
+            if(this.numOfPlayers > 1) {
+                const newAdminPlayer: Player = this.getFirstNonAdminPlayer();
+                newAdminPlayer.setIsAdmin(true);
+            }
+        }
         this.players.delete(leaveRoomBody.username);
         this.numOfPlayers--;
     }
@@ -38,6 +45,20 @@ export class Room {
 
     public needAuth = (): boolean  => {
         return this.auth;
+    }
+
+    public getNumOfPlayers = (): number  => {
+        return this.numOfPlayers;
+    }
+
+
+    private getFirstNonAdminPlayer = (): Player => {
+        this.players.forEach(player => {
+            if(!player.isAdmin()) {
+                return player;
+            }
+        })
+        throw new Error(`In Room ${this.roomId}, there are not players that NON admins`);
     }
 
 }

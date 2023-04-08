@@ -17,7 +17,7 @@ export class SocketServer {
         console.log("init Socket-Server....");
         this.ioServer = new Server(server, {
             cors: {
-                origin: "http://localhost:3000",
+                origin: "http://localhost:3000", // TODO: need to config and check what to put here
                 methods: ["GET","POST"]
             }
         });
@@ -37,8 +37,6 @@ export class SocketServer {
         })
     }
     
-
-
     public static init = SocketServer.instance.init;
 
 }

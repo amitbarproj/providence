@@ -57,7 +57,10 @@ export class Main {
         if(this.rooms.has(leaveRoomBody.roomId)){
             const currRoom: Room = this.rooms.get(leaveRoomBody.roomId);
             if(currRoom.getPlayers().has(leaveRoomBody.username)) {
-                currRoom.leaveRoom(leaveRoomBody);    
+                currRoom.leaveRoom(leaveRoomBody); 
+                if(currRoom.getNumOfPlayers() === 0 ) {
+                    this.rooms.delete(leaveRoomBody.roomId);
+                }   
                 ans.success = true;
             }
             else{
