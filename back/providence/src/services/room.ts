@@ -1,4 +1,4 @@
-import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES } from "../../../../classes/types";
+import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY } from "../../../../classes/types";
 import { Game } from "./game";
 import { Player } from "./player";
 
@@ -19,8 +19,13 @@ export class Room {
     }
 
     public joinRoom = (joinRoomBody: JOIN_ROOM_BODY)  => {
-        this.numOfPlayers++;
         this.players.set(joinRoomBody.username , new Player(joinRoomBody.username, false));
+        this.numOfPlayers++;
+    }
+    
+    public leaveRoom = (leaveRoomBody: LEAVE_ROOM_BODY)  => {
+        this.players.delete(leaveRoomBody.username);
+        this.numOfPlayers--;
     }
 
     public getPlayers = (): Map<string, Player>  => {

@@ -9,8 +9,5 @@ export class Player {
         this.username = username;
         this.isAdmin = isAdmin;
     }
-
-
-
 }
 
