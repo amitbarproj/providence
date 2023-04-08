@@ -36,7 +36,7 @@ export class SocketServer {
                 console.log(`user disconnected ${socket.id}`);
                 Main.getRooms().forEach(room => {
                     room.getPlayers().forEach(player => {
-                        if(player.getSocketInstance().id === socket.id) {
+                        if(player.getSocketInstance() && player.getSocketInstance().id === socket.id) {
                             leaveRoomBody =  {roomId: room.getRoomId() , username: player.getUserName()}
                         }
                     })
@@ -56,7 +56,7 @@ export class SocketServer {
                         console.log(`User ${data.username} joind to room: ${data.roomId}`);
                     }
                     else{
-                        console.log(`User ${data.username} Not exist`);
+                        console.log(`Player ${data.username} Not exist`);
                     }
                 }
                 else{
@@ -72,8 +72,13 @@ export class SocketServer {
 
         })
     }
+
+    private sendPrivateMessage = (clientID: string , message: any) => {
+        this.ioServer.to(clientID).emit("recieve_message" , message);
+    }
     
     public static init = SocketServer.instance.init;
+    public static sendPrivateMessage = SocketServer.instance.sendPrivateMessage;
 
 }
 

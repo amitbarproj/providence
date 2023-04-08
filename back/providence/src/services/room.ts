@@ -32,7 +32,11 @@ export class Room {
                 newAdminPlayer.setIsAdmin(true);
             }
         }
-        deletedPlayer.getSocketInstance().leave(leaveRoomBody.roomId);
+        const deletedPlayerSocketInstance =  deletedPlayer.getSocketInstance();
+        if(deletedPlayerSocketInstance) {
+            deletedPlayerSocketInstance.leave(leaveRoomBody.roomId);
+            SocketServer.sendPrivateMessage(deletedPlayerSocketInstance.id , `BYE BYE FROM ROOM ${leaveRoomBody.roomId}`);
+        }
         this.players.delete(leaveRoomBody.username);
         this.numOfPlayers--;
     }
@@ -63,13 +67,13 @@ export class Room {
 
 
     private getFirstNonAdminPlayer = (): Player => {
+        let ans: Player = undefined;
         this.players.forEach(player => {
             if(!player.isAdmin()) {
-                return player;
+                ans =  player;
             }
         })
-        throw new Error(`In Room ${this.roomId}, there are not players that NON admins`);
+        return ans;
     }
-
 }
 

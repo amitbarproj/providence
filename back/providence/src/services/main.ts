@@ -89,6 +89,18 @@ export class Main {
         const ans = this.leaveRoom(leaveRoomBody);
         res.send(ans)
     })
+
+    app.get('/getPlayersByRoom', (req, res) => {
+        let ans: any[] = [];
+        const getPlayersByRoomBody: {roomId : string} = req.body;
+        if(this.rooms.has(getPlayersByRoomBody.roomId)) {
+          this.rooms.get(getPlayersByRoomBody.roomId).getPlayers().forEach(bla => {
+                ans.push(bla);
+            });
+        }
+    
+        res.send(ans)
+    })
   }
 
     public static leaveRoom = Main.instance.leaveRoom;
