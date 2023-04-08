@@ -24,6 +24,9 @@ export class Main {
                 this.rooms.set(createRoomBody.roomId , new Room(createRoomBody));
                 ans.success = true;
             }
+            else{
+                ans.description = `Room ${createRoomBody.roomId} alreat exist`
+            }
             res.send(ans)
       })
 
