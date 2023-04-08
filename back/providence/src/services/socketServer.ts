@@ -1,4 +1,6 @@
+import { LEAVE_ROOM_BODY } from "../../../../classes/types";
 import { Main } from "./main";
+import { Player } from "./player";
 
 const { Server } = require("socket.io");
 
@@ -21,13 +23,47 @@ export class SocketServer {
                 methods: ["GET","POST"]
             }
         });
+
+        setInterval(() => {
+            this.ioServer.to("111").emit("recieve_message" , "HEY!");
+        } , 1000)
         
         this.ioServer.on("connection" , (socket) => {
             console.log(`User Connected: ${socket.id}`);
+
+            socket.on('disconnect', () => {
+                let leaveRoomBody: LEAVE_ROOM_BODY = undefined;
+                console.log(`user disconnected ${socket.id}`);
+                Main.getRooms().forEach(room => {
+                    room.getPlayers().forEach(player => {
+                        if(player.getSocketInstance().id === socket.id) {
+                            leaveRoomBody =  {roomId: room.getRoomId() , username: player.getUserName()}
+                        }
+                    })
+                })
+                if(leaveRoomBody !== undefined) {
+                    Main.leaveRoom(leaveRoomBody);
+                }
+              });
             
-            socket.on("join_room" , (roomId) => {
-                socket.join(roomId);
-                console.log(`User ${socket.id} joind to room: ${roomId}`);
+            socket.on("join_room" , (data: {roomId: string , username: string }) => {
+                if(Main.getRooms().has(data.roomId)) {
+                    const currRoom =  Main.getRooms().get(data.roomId);
+                    if(currRoom.getPlayers().has(data.username)) {
+                        const currPlayer = currRoom.getPlayers().get(data.username);
+                        currPlayer.setSocketInstance(socket);
+                        socket.join(data.roomId);
+                        console.log(`User ${data.username} joind to room: ${data.roomId}`);
+                    }
+                    else{
+                        console.log(`User ${data.username} Not exist`);
+                    }
+                }
+                else{
+                    console.log(`Room: ${data.roomId} Not exist`);
+                }
+                //check if room exist , and username
+               // Main.getRooms().get(data.roomId).getPlayers().get(data.username).setSocketID(socket.id);
             })
 
             socket.on("send_message" , (data) => {

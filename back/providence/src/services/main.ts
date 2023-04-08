@@ -16,6 +16,33 @@ export class Main {
     }
 
     
+    private getRooms = ():  Map<string , Room> => {
+        return this.rooms;
+    }
+       
+    private leaveRoom = (leaveRoomBody: LEAVE_ROOM_BODY): ASYNC_RESPONSE<LEAVE_ROOM_RES> => {
+        const ans: ASYNC_RESPONSE<LEAVE_ROOM_RES> = {success: false}
+        if(this.rooms.has(leaveRoomBody.roomId)){
+            const currRoom: Room = this.rooms.get(leaveRoomBody.roomId);
+            if(currRoom.getPlayers().has(leaveRoomBody.username)) {
+                currRoom.leaveRoom(leaveRoomBody); 
+                if(currRoom.getNumOfPlayers() === 0 ) {
+                    this.rooms.delete(leaveRoomBody.roomId);
+                }   
+                ans.success = true;
+            }
+            else{
+                ans.description = `${leaveRoomBody.username} not exist in Room ${leaveRoomBody.roomId}`
+            }
+        }
+        else{
+            ans.description = `Room ${leaveRoomBody.roomId} not exist`
+        }
+        return ans;
+    }
+
+    
+
     private listenToAllRestPaths = (app) => {
         app.post('/createRoom', (req, res) => {
             const ans: ASYNC_RESPONSE<CREATE_ROOM_RES> = {success: false}
@@ -35,7 +62,10 @@ export class Main {
             const joinRoomBody: JOIN_ROOM_BODY = req.body;
             if(this.rooms.has(joinRoomBody.roomId)){
                 const currRoom: Room = this.rooms.get(joinRoomBody.roomId);
-                if(currRoom.getPlayers().has(joinRoomBody.username)) {
+                if(currRoom.gameStarted()) {
+                    ans.description = `Game in room ${joinRoomBody.roomId} already started`
+                }
+                else if(currRoom.getPlayers().has(joinRoomBody.username)) {
                     ans.description = `${joinRoomBody.username} already exist in Room ${joinRoomBody.roomId}`
                 }
                 else if(currRoom.needAuth && currRoom.getSecret() !== joinRoomBody.secret) {
@@ -55,29 +85,15 @@ export class Main {
     })
 
     app.post('/leaveRoom', (req, res) => {
-        const ans: ASYNC_RESPONSE<LEAVE_ROOM_RES> = {success: false}
         const leaveRoomBody: LEAVE_ROOM_BODY = req.body;
-        if(this.rooms.has(leaveRoomBody.roomId)){
-            const currRoom: Room = this.rooms.get(leaveRoomBody.roomId);
-            if(currRoom.getPlayers().has(leaveRoomBody.username)) {
-                currRoom.leaveRoom(leaveRoomBody); 
-                if(currRoom.getNumOfPlayers() === 0 ) {
-                    this.rooms.delete(leaveRoomBody.roomId);
-                }   
-                ans.success = true;
-            }
-            else{
-                ans.description = `${leaveRoomBody.username} not exist in Room ${leaveRoomBody.roomId}`
-            }
-        }
-        else{
-            ans.description = `Room ${leaveRoomBody.roomId} not exist`
-        }
+        const ans = this.leaveRoom(leaveRoomBody);
         res.send(ans)
     })
   }
 
-
+    public static leaveRoom = Main.instance.leaveRoom;
     public static init = Main.instance.init;
+    public static getRooms = Main.instance.getRooms;
+
 }
 

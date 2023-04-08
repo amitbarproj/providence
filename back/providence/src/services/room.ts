@@ -1,6 +1,7 @@
 import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY } from "../../../../classes/types";
 import { Game } from "./game";
 import { Player } from "./player";
+import { SocketServer } from "./socketServer";
 
 export class Room {
     private roomId: string = undefined
@@ -31,12 +32,17 @@ export class Room {
                 newAdminPlayer.setIsAdmin(true);
             }
         }
+        deletedPlayer.getSocketInstance().leave(leaveRoomBody.roomId);
         this.players.delete(leaveRoomBody.username);
         this.numOfPlayers--;
     }
 
     public getPlayers = (): Map<string, Player>  => {
         return this.players;
+    }
+
+    public gameStarted = (): boolean  => {
+        return this.game ? true : false;
     }
 
     public getSecret = (): string  => {
@@ -49,6 +55,10 @@ export class Room {
 
     public getNumOfPlayers = (): number  => {
         return this.numOfPlayers;
+    }
+
+    public getRoomId = (): string  => {
+        return this.roomId;
     }
 
 

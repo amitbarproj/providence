@@ -3,13 +3,22 @@ import './App.css';
 import io from 'socket.io-client';
 const socket = io.connect("http://localhost:3002");
 
+socket.on('recieve_message', (d) => {
+  if(d === "DISCONNECT!") {
+    socket.disconnect();
+  }
+  else{
+    console.log(d);
+  }
+})
 
 
 
 function App() {
 
+
   const sendMessage = () => {
-    socket.emit("bla", "BLA");
+    socket.emit("join_room", {roomId: "111" , username: "amitbar101" });
   }
 
   return (
