@@ -7,7 +7,7 @@ export class Room {
     private secret: string = undefined;
     private auth: boolean = undefined;
     private numOfPlayers: number = 0;
-    private players: Map<string, Player>
+    private players: Map<string, Player> = new Map<string, Player>();
     private game:Game = undefined;
 
     constructor(createRoomBody: CREATE_ROOM_BODY) {
@@ -34,10 +34,6 @@ export class Room {
     public needAuth = (): boolean  => {
         return this.auth;
     }
-
-
-
-
 
 }
 

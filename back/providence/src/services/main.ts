@@ -4,7 +4,7 @@ import { Room } from "./room";
 
 export class Main {
     private static instance: Main = new Main();
-    private rooms: Map<string , Room>
+    private rooms: Map<string , Room> = new Map<string, Room>();
 
     constructor() {
 
@@ -12,7 +12,6 @@ export class Main {
 
     private init = (app) => {
         console.log("init Main...");
-        this.rooms = new Map<string, Room>();
         this.listenToAllRestPaths(app);
     }
 
@@ -49,9 +48,6 @@ export class Main {
         res.send(ans)
   })
 
-      app.get('/blaa', (req, res) => {
-        res.send('Hello World!!!')
-  })
     }
 
 
