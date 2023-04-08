@@ -1,4 +1,4 @@
-import { ASYNC_RESPONSE, CREATE_ROOM_BODY, CREATE_ROOM_RES, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, LEAVE_ROOM_RES } from "../../../../classes/types";
+import { ASYNC_RESPONSE, CREATE_ROOM_BODY, CREATE_ROOM_RES, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, LEAVE_ROOM_RES, START_GAME_BODY, START_GAME_RES } from "../../../../classes/types";
 import { Room } from "./room";
 
 const gameConf = require("../../../../../../../config/gameConf.json");
@@ -104,6 +104,26 @@ export class Main {
             });
         }
     
+        res.send(ans)
+    })
+
+    app.get('/startGame', (req, res) => {
+        const ans: ASYNC_RESPONSE<START_GAME_RES> = {success: false}
+        const startRoomBody: START_GAME_BODY = req.body;
+        if(this.rooms.has(startRoomBody.roomId)) {
+            const currRoom: Room = this.rooms.get(startRoomBody.roomId);
+            if(currRoom.getNumOfPlayers() < gameConf.minPlayers) {
+                ans.description = `Room ${startRoomBody.roomId} has less then minimum players requierd` 
+            }
+            else if(currRoom.gameStarted()) {
+                ans.description = `Game in room ${startRoomBody.roomId} already started` 
+            }
+            else{
+                currRoom.startGame();
+                ans.description = `Game in room ${startRoomBody.roomId} started right now`;
+                ans.success = true;
+            }
+        }
         res.send(ans)
     })
   }

@@ -31,3 +31,11 @@ export type LEAVE_ROOM_RES = {
 
 }
 
+export type START_GAME_BODY = {
+    roomId: string
+}
+
+export type START_GAME_RES = {
+
+}
+

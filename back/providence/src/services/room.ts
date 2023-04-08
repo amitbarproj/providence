@@ -1,4 +1,4 @@
-import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY } from "../../../../classes/types";
+import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, START_GAME_RES } from "../../../../classes/types";
 import { Game } from "./game";
 import { Player } from "./player";
 import { SocketServer } from "./socketServer";
@@ -43,6 +43,10 @@ export class Room {
 
     public getPlayers = (): Map<string, Player>  => {
         return this.players;
+    }
+
+    public startGame = ()  => {
+        this.game = new Game();
     }
 
     public gameStarted = (): boolean  => {
