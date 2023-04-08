@@ -5,7 +5,8 @@ export class Player {
     private username:  string;
     private admin: boolean; 
     private isConnected: boolean;
-    private socketInstance: Socket = undefined
+    private socketId: string;
+    // private socketInstance: Socket = undefined
 
     constructor(username: string, isAdmin: boolean) {
         this.username = username;
@@ -25,12 +26,20 @@ export class Player {
         return this.username;
       }
 
-      public getSocketInstance = (): Socket  => {
-        return this.socketInstance;
+    //   public getSocketInstance = (): Socket  => {
+    //     return this.socketInstance;
+    //   }
+
+    //   public setSocketInstance = (socketInstance: Socket)  => {
+    //     this.socketInstance = socketInstance;
+    //   }
+
+       public getSocketId = (): string  => {
+        return this.socketId;
       }
 
-      public setSocketInstance = (socketInstance: Socket)  => {
-        this.socketInstance = socketInstance;
+      public setSocketId = (socketId: string)  => {
+        this.socketId = socketId;
       }
 }
 

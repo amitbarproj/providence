@@ -22,12 +22,12 @@ export class Main {
         return this.rooms;
     }
        
-    private leaveRoom = (leaveRoomBody: LEAVE_ROOM_BODY): ASYNC_RESPONSE<LEAVE_ROOM_RES> => {
+    private leaveRoom = async (leaveRoomBody: LEAVE_ROOM_BODY): Promise<ASYNC_RESPONSE<LEAVE_ROOM_RES>> => {
         const ans: ASYNC_RESPONSE<LEAVE_ROOM_RES> = {success: false}
         if(this.rooms.has(leaveRoomBody.roomId)){
             const currRoom: Room = this.rooms.get(leaveRoomBody.roomId);
             if(currRoom.getPlayers().has(leaveRoomBody.username)) {
-                currRoom.leaveRoom(leaveRoomBody); 
+                await currRoom.leaveRoom(leaveRoomBody); 
                 if(currRoom.getNumOfPlayers() === 0 ) {
                     this.rooms.delete(leaveRoomBody.roomId);
                 }   
@@ -89,9 +89,9 @@ export class Main {
             res.send(ans)
     })
 
-    app.post('/leaveRoom', (req, res) => {
+    app.post('/leaveRoom', async(req, res) => {
         const leaveRoomBody: LEAVE_ROOM_BODY = req.body;
-        const ans = this.leaveRoom(leaveRoomBody);
+        const ans = await this.leaveRoom(leaveRoomBody);
         res.send(ans)
     })
 

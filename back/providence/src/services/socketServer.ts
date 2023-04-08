@@ -26,9 +26,6 @@ export class SocketServer {
             }
         });
 
-        setInterval(() => {
-            this.ioServer.to("111").emit("recieve_message" , "HEY!");
-        } , 1000)
         
         this.ioServer.on("connection" , (socket) => {
             console.log(`User Connected: ${socket.id}`);
@@ -38,7 +35,7 @@ export class SocketServer {
                 console.log(`user disconnected ${socket.id}`);
                 Main.getRooms().forEach(room => {
                     room.getPlayers().forEach(player => {
-                        if(player.getSocketInstance() && player.getSocketInstance().id === socket.id) {
+                        if(player.getSocketId() === socket.id) {
                             leaveRoomBody =  {roomId: room.getRoomId() , username: player.getUserName()}
                         }
                     })
@@ -53,7 +50,7 @@ export class SocketServer {
                     const currRoom =  Main.getRooms().get(data.roomId);
                     if(currRoom.getPlayers().has(data.username)) {
                         const currPlayer = currRoom.getPlayers().get(data.username);
-                        currPlayer.setSocketInstance(socket);
+                        currPlayer.setSocketId(socket.id);
                         socket.join(data.roomId);
                         console.log(`User ${data.username} joind to room: ${data.roomId}`);
                     }
@@ -78,9 +75,27 @@ export class SocketServer {
     private sendPrivateMessage = (clientID: string , message: any) => {
         this.ioServer.to(clientID).emit("recieve_message" , message);
     }
+
+    private sendGameMessage = (roomId: string , message: any) => {
+        console.log(roomId , message);
+        this.ioServer.to(roomId).emit("recieve_message" , message);
+    }
+
+    private leaveClient = async(roomId:string , socketId: string) => {
+        const sockets = await this.ioServer.in(roomId).fetchSockets();
+        sockets.forEach(socket => {
+            if(socket.id === socketId) {
+                socket.leave(roomId);
+                SocketServer.sendPrivateMessage(socketId , `BYE BYE FROM ROOM ${roomId}`);
+
+            }
+        })
+    }
     
     public static init = SocketServer.instance.init;
     public static sendPrivateMessage = SocketServer.instance.sendPrivateMessage;
+    public static sendGameMessage = SocketServer.instance.sendGameMessage;
+    public static leaveClient = SocketServer.instance.leaveClient;
 
 }
 

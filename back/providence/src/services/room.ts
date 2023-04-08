@@ -7,7 +7,6 @@ export class Room {
     private roomId: string = undefined
     private secret: string = undefined;
     private auth: boolean = undefined;
-    private numOfPlayers: number = 0;
     private players: Map<string, Player> = new Map<string, Player>();
     private game:Game = undefined;
 
@@ -15,30 +14,25 @@ export class Room {
         this.roomId = createRoomBody.roomId;
         this.auth = createRoomBody.auth;
         this.secret = createRoomBody.secret;
-        this.numOfPlayers++;
         this.players.set(createRoomBody.username , new Player(createRoomBody.username, true));
     }
 
     public joinRoom = (joinRoomBody: JOIN_ROOM_BODY)  => {
         this.players.set(joinRoomBody.username , new Player(joinRoomBody.username, false));
-        this.numOfPlayers++;
     }
     
-    public leaveRoom = (leaveRoomBody: LEAVE_ROOM_BODY)  => {
+    public leaveRoom = async(leaveRoomBody: LEAVE_ROOM_BODY)  => {
         const deletedPlayer: Player = this.players.get(leaveRoomBody.username);
         if(deletedPlayer.isAdmin()) {
-            if(this.numOfPlayers > 1) {
+            if(this.getNumOfPlayers() > 1) {
                 const newAdminPlayer: Player = this.getFirstNonAdminPlayer();
                 newAdminPlayer.setIsAdmin(true);
             }
         }
-        const deletedPlayerSocketInstance =  deletedPlayer.getSocketInstance();
-        if(deletedPlayerSocketInstance) {
-            deletedPlayerSocketInstance.leave(leaveRoomBody.roomId);
-            SocketServer.sendPrivateMessage(deletedPlayerSocketInstance.id , `BYE BYE FROM ROOM ${leaveRoomBody.roomId}`);
+        if(deletedPlayer.getSocketId()) {
+          await SocketServer.leaveClient(this.roomId , deletedPlayer.getSocketId());
         }
         this.players.delete(leaveRoomBody.username);
-        this.numOfPlayers--;
     }
 
     public getPlayers = (): Map<string, Player>  => {
@@ -46,7 +40,7 @@ export class Room {
     }
 
     public startGame = ()  => {
-        this.game = new Game();
+        this.game = new Game(this.players , this.roomId );
     }
 
     public gameStarted = (): boolean  => {
@@ -62,7 +56,7 @@ export class Room {
     }
 
     public getNumOfPlayers = (): number  => {
-        return this.numOfPlayers;
+        return this.players.size;
     }
 
     public getRoomId = (): string  => {
