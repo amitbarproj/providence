@@ -3,6 +3,8 @@ import { Main } from "./main";
 import { Player } from "./player";
 
 const { Server } = require("socket.io");
+const servConf = require("../../../../../../../config/services.json");
+
 
 
 export class SocketServer {
@@ -19,7 +21,7 @@ export class SocketServer {
         console.log("init Socket-Server....");
         this.ioServer = new Server(server, {
             cors: {
-                origin: "http://localhost:3000", // TODO: need to config and check what to put here
+                origin: `${servConf.protocol}://${servConf.host}:${servConf.port}`, // TODO: need to config and check what to put here
                 methods: ["GET","POST"]
             }
         });

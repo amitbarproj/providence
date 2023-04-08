@@ -1,7 +1,12 @@
 {
-    "ProvidenceServer" : {
+    "Server" : {
         "host": "localhost",
         "port": 3002,
+        "protocol": "http"
+    },
+    "SocketServerCorsOrigin" : {
+        "host": "localhost",
+        "port": 3000,
         "protocol": "http"
     }
 }
