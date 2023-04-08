@@ -1,6 +1,8 @@
 import { ASYNC_RESPONSE, CREATE_ROOM_BODY, CREATE_ROOM_RES, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, LEAVE_ROOM_RES } from "../../../../classes/types";
 import { Room } from "./room";
 
+const gameConf = require("../../../../../../../config/gameConf.json");
+
 
 export class Main {
     private static instance: Main = new Main();
@@ -62,7 +64,10 @@ export class Main {
             const joinRoomBody: JOIN_ROOM_BODY = req.body;
             if(this.rooms.has(joinRoomBody.roomId)){
                 const currRoom: Room = this.rooms.get(joinRoomBody.roomId);
-                if(currRoom.gameStarted()) {
+                if(currRoom.getNumOfPlayers() >= gameConf.maxPlayers) {
+                    ans.description = `Game in room ${joinRoomBody.roomId} has maximum players` 
+                }
+                else if(currRoom.gameStarted()) {
                     ans.description = `Game in room ${joinRoomBody.roomId} already started`
                 }
                 else if(currRoom.getPlayers().has(joinRoomBody.username)) {

@@ -9,9 +9,9 @@ const cors = require("cors");
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cors());
-const projConf = require("../../../../../../config/projConf.json");
-const port  = projConf.ProvidenceServer.port;
-const server = projConf.ProvidenceServer.protocol === "https" ? https.createServer(app) :http.createServer(app);
+const servicesConf = require("../../../../../../config/services.json");
+const port  = servicesConf.ProvidenceServer.port;
+const server = servicesConf.ProvidenceServer.protocol === "https" ? https.createServer(app) :http.createServer(app);
 
 
 server.listen(port, () => {
