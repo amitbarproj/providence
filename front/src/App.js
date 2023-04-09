@@ -7,10 +7,12 @@ import CardRoom from "./Components/CardRoom/CardRoom";
 const serverURL = ``;
 
 function App() {
-  const [username, setUsername] = useState("");
-  const [roomId, setRoomId] = useState("");
   const [inRoom, setInRoom] = useState(false);
   const [allRooms, setAllRooms] = useState([]);
+  const [roomId, setRoomId] = useState("");
+  const [username, setUsername] = useState("");
+
+
 
   useEffect(() => {
     getAllRooms();
@@ -26,46 +28,37 @@ function App() {
     }
   };
 
-  const handleUserNameChange = (event) => {
-    setUsername(event.target.value);
-    console.log(username);
+  const joinRoom = async (roomId, username, secret) => {
+    const dataToSend = {roomId: roomId , username: username , secret: secret}
+    console.log(dataToSend);
+    const response = await axios.post(`http://localhost:3002/joinRoom`, dataToSend);
+    const data = response.data;
+    console.log(data);
+
+    if (data.success) {
+      setRoomId(roomId);
+      setUsername(username);
+      setInRoom(true);
+    } else {
+      console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
+    }
   };
 
-  const handleRoomIdChange = (event) => {
-    setRoomId(event.target.value);
-    console.log(roomId);
-  };
 
-  const joinRoom = () => {
-    setInRoom(true);
-  };
-
+ 
   const renderList = allRooms.map((item, index) => (
     <CardRoom
       roomId={item.roomId}
       auth={item.roomId}
       numOfPlayers={item.numOfPlayers}
       maxPlayers={item.maxPlayers}
+      joinRoomCallback={joinRoom}
     ></CardRoom>
   ));
 
   return (
     <div className="App">
-      <input
-        placeholder="username"
-        type="username"
-        value={username}
-        onChange={handleUserNameChange}
-      />
-      <input
-        placeholder="roomid"
-        type="roomId"
-        value={roomId}
-        onChange={handleRoomIdChange}
-      />
-      {renderList}
-
-      <button onClick={() => joinRoom()}>Join Room</button>
+      {!inRoom && renderList}
       {inRoom && <Room roomId={roomId} username={username}></Room>}
     </div>
   );

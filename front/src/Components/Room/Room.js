@@ -1,11 +1,4 @@
-// socket.on('connection_success', (d) => {
-//   if(d === "DISCONNECT!") {
-//     socket.disconnect();
-//   }
-//   else{
-//     console.log(d);
-//   }
-// })
+
 import io from "socket.io-client";
 
 import { useEffect } from "react";
@@ -32,7 +25,7 @@ const Room = (props) => {
     };
   }, []);
 
-  return <div className="Room">BLAAAAAAAAAAAAAA</div>;
+  return <div className="Room">{props.username}, Welcome to room number {props.roomId}</div>;
 };
 
 export default Room;
