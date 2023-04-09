@@ -51,7 +51,7 @@ function App() {
   const renderList = allRooms.map((item, index) => (
     <CardRoom
       roomId={item.roomId}
-      auth={item.roomId}
+      auth={item.auth}
       numOfPlayers={item.numOfPlayers}
       maxPlayers={item.maxPlayers}
       joinRoomCallback={joinRoom}

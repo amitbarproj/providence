@@ -2,10 +2,12 @@ import { useEffect, useState, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { BsFillLockFill } from 'react-icons/bs';
+
 
 const CardRoom = (props) => {
   const roomId = props.roomId;
-  const auth = props.roomId;
+  const auth = props.auth;
   const numOfPlayers = props.numOfPlayers;
   const maxPlayers = props.maxPlayers;
   const joinRoomCallback = props.joinRoomCallback;
@@ -19,8 +21,6 @@ const CardRoom = (props) => {
 
   const joinRoom = () => {
     setModalShow(false);
-    console.log(username.current.value);
-    console.log(secret.current.value);
     joinRoomCallback(roomId, username.current.value, secret.current.value);
   };
 
@@ -40,7 +40,7 @@ const CardRoom = (props) => {
         <Modal.Body>
           <h4>Please Enter:</h4>
           <input placeholder="Username" ref={username}></input>
-          <input placeholder="Room Secret" ref={secret}></input>  
+          {auth && <input placeholder="Room Secret" ref={secret}></input>  }
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
@@ -53,15 +53,14 @@ const CardRoom = (props) => {
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Body>
-        <Card.Title>{roomId}</Card.Title>
+        <Card.Title>Room ID: {roomId}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
-          {numOfPlayers}/{maxPlayers}
+          Players: {numOfPlayers}/{maxPlayers}
         </Card.Subtitle>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          please join the game bla bla bla bla bla
         </Card.Text>
-        <Card.Link href="#">Another Link</Card.Link>
+        {auth && <BsFillLockFill />}
       </Card.Body>
       <Button variant="primary" onClick={() => setModalShow(true)}>
         Join Room
