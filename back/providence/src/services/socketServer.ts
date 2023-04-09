@@ -21,8 +21,8 @@ export class SocketServer {
         console.log("init Socket-Server....");
         this.ioServer = new Server(server, {
             cors: {
-                origin: `${servConf.UI.protocol}://${servConf.UI.host}:${servConf.UI.port}`, // TODO: need to config and check what to put here
-                methods: ["GET","POST"]
+                // origin: `${servConf.UI.protocol}://${servConf.UI.host}:${servConf.UI.port}`, // TODO: need to config and check what to put here
+                // methods: ["GET","POST"]
             }
         });
 

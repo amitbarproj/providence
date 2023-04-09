@@ -2,10 +2,11 @@
 import io from "socket.io-client";
 
 import { useEffect } from "react";
+const serverURL = `http://10.0.0.8:3002`;
 
 const Room = (props) => {
   useEffect(() => {
-    const socket = io.connect("http://localhost:3002");
+    const socket = io.connect(serverURL);
     socket.on("connect", () => {
       console.log(`Connection to SocketServer success`);
       socket.emit(
