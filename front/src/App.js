@@ -2,33 +2,29 @@ import "./App.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Room from "./Components/Room/Room";
-const serverURL = ``
+import CardRoom from "./Components/CardRoom/CardRoom";
+
+const serverURL = ``;
 
 function App() {
-
-
   const [username, setUsername] = useState("");
   const [roomId, setRoomId] = useState("");
   const [inRoom, setInRoom] = useState(false);
   const [allRooms, setAllRooms] = useState([]);
 
   useEffect(() => {
-      getAllRooms();
-
+    getAllRooms();
   }, []);
-  
 
-
-  const getAllRooms = async() => {
-    const response =  await axios.get(`http://localhost:3002/getAllRooms`);
+  const getAllRooms = async () => {
+    const response = await axios.get(`http://localhost:3002/getAllRooms`);
     const data = response.data;
-    if(data.success){
+    if (data.success) {
       setAllRooms(data.data);
-    }
-    else{
+    } else {
       console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
     }
-  }
+  };
 
   const handleUserNameChange = (event) => {
     setUsername(event.target.value);
@@ -38,20 +34,23 @@ function App() {
   const handleRoomIdChange = (event) => {
     setRoomId(event.target.value);
     console.log(roomId);
-
   };
 
   const joinRoom = () => {
     setInRoom(true);
   };
 
-  const renderList = allRooms.map((item, index) => 
-                               <div key={index}>{item.roomId}</div>
-                             );
-  
+  const renderList = allRooms.map((item, index) => (
+    <CardRoom
+      roomId={item.roomId}
+      auth={item.roomId}
+      numOfPlayers={item.numOfPlayers}
+      maxPlayers={item.maxPlayers}
+    ></CardRoom>
+  ));
 
   return (
-    <div className="Aspp">
+    <div className="App">
       <input
         placeholder="username"
         type="username"
@@ -65,14 +64,9 @@ function App() {
         onChange={handleRoomIdChange}
       />
       {renderList}
-  
+
       <button onClick={() => joinRoom()}>Join Room</button>
-      {inRoom && <Room
-        
-          roomId={roomId}
-          username={username}
-        
-      ></Room>}
+      {inRoom && <Room roomId={roomId} username={username}></Room>}
     </div>
   );
 }
