@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import Room from "./Components/Room/Room";
 import CardRoom from "./Components/CardRoom/CardRoom";
 
-const serverURL = ``;
+ 
+
+const serverURL = `http://10.0.0.8:3002`;
 
 function App() {
   const [inRoom, setInRoom] = useState(false);
@@ -19,7 +21,7 @@ function App() {
   }, []);
 
   const getAllRooms = async () => {
-    const response = await axios.get(`http://localhost:3002/getAllRooms`);
+    const response = await axios.get(`${serverURL}/getAllRooms`);
     const data = response.data;
     if (data.success) {
       setAllRooms(data.data);
@@ -31,7 +33,7 @@ function App() {
   const joinRoom = async (roomId, username, secret) => {
     const dataToSend = {roomId: roomId , username: username , secret: secret}
     console.log(dataToSend);
-    const response = await axios.post(`http://localhost:3002/joinRoom`, dataToSend);
+    const response = await axios.post(`${serverURL}/joinRoom`, dataToSend);
     const data = response.data;
     console.log(data);
 
