@@ -45,7 +45,7 @@ export class SocketServer {
                 }
               });
             
-            socket.on("join_room" , (data: {roomId: string , username: string }) => {
+            socket.on("join_room" , (data: {roomId: string , username: string }, cb) => {
                 if(Main.getRooms().has(data.roomId)) {
                     const currRoom =  Main.getRooms().get(data.roomId);
                     if(currRoom.getPlayers().has(data.username)) {
@@ -53,6 +53,7 @@ export class SocketServer {
                         currPlayer.setSocketId(socket.id);
                         socket.join(data.roomId);
                         console.log(`User ${data.username} joind to room: ${data.roomId}`);
+                        cb(`Joined ROom`);
                     }
                     else{
                         console.log(`Player ${data.username} Not exist`);
@@ -87,7 +88,6 @@ export class SocketServer {
             if(socket.id === socketId) {
                 socket.leave(roomId);
                 SocketServer.sendPrivateMessage(socketId , `BYE BYE FROM ROOM ${roomId}`);
-
             }
         })
     }
