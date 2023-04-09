@@ -1,40 +1,34 @@
 import "./App.css";
-import io from "socket.io-client";
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import Room from "./Components/Room/Room";
-
-// socket.on('connection_success', (d) => {
-//   if(d === "DISCONNECT!") {
-//     socket.disconnect();
-//   }
-//   else{
-//     console.log(d);
-//   }
-// })
+const serverURL = ``
 
 function App() {
-  //NEED TO PUT THIS SOCKET IN NEW ROOM COMPONENT!!!!
-  // const socket = io.connect("http://localhost:3002");
 
-  // socket.on('connect' , () => {
-  //   console.log(`Connection to SocketServer success`);
-  //   socket.emit("join_room", {roomId: "111" , username: "amitbar101" } , (message) => {
-  //     console.log(message);
-  //   });
-  // })
-
-  // socket.on('recieve_message', (d) => {
-  //   if(d === "connection_success") {
-  //     socket.emit("join_room", {roomId: "111" , username: username });
-  //   }
-  //   else{
-  //     console.log(d);
-  //   }
-  // })
 
   const [username, setUsername] = useState("");
   const [roomId, setRoomId] = useState("");
   const [inRoom, setInRoom] = useState(false);
+  const [allRooms, setAllRooms] = useState([]);
+
+  useEffect(() => {
+      getAllRooms();
+
+  }, []);
+  
+
+
+  const getAllRooms = async() => {
+    const response =  await axios.get(`http://localhost:3002/getAllRooms`);
+    const data = response.data;
+    if(data.success){
+      setAllRooms(data.data);
+    }
+    else{
+      console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
+    }
+  }
 
   const handleUserNameChange = (event) => {
     setUsername(event.target.value);
@@ -51,9 +45,10 @@ function App() {
     setInRoom(true);
   };
 
-  // const sendMessage = () => {
-  //   socket.emit("join_room", {roomId: "111" , username: username });
-  // }
+  const renderList = allRooms.map((item, index) => 
+                               <div key={index}>{item.roomId}</div>
+                             );
+  
 
   return (
     <div className="App">
@@ -69,8 +64,8 @@ function App() {
         value={roomId}
         onChange={handleRoomIdChange}
       />
-
-
+      {renderList}
+  
       <button onClick={() => joinRoom()}>Join Room</button>
       {inRoom && <Room
         

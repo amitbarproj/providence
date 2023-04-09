@@ -1,4 +1,4 @@
-import { ASYNC_RESPONSE, CREATE_ROOM_BODY, CREATE_ROOM_RES, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, LEAVE_ROOM_RES, START_GAME_BODY, START_GAME_RES } from "../../../../classes/types";
+import { ASYNC_RESPONSE, CREATE_ROOM_BODY, CREATE_ROOM_RES, GET_ROOM_RES, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, LEAVE_ROOM_RES, START_GAME_BODY, START_GAME_RES } from "../../../../classes/types";
 import { Room } from "./room";
 
 const gameConf = require("../../../../../../../config/gameConf.json");
@@ -30,7 +30,11 @@ export class Main {
                 await currRoom.leaveRoom(leaveRoomBody); 
                 if(currRoom.getNumOfPlayers() === 0 ) {
                     this.rooms.delete(leaveRoomBody.roomId);
-                }   
+                }
+                if(currRoom.getNumOfPlayers() < currRoom.getMinPlayers() ) {
+                    //need to delete the room, and delete all players and sockets
+                    this.rooms.delete(leaveRoomBody.roomId);
+                }     
                 ans.success = true;
             }
             else{
@@ -95,6 +99,19 @@ export class Main {
         res.send(ans)
     })
 
+    app.get('/getAllRooms', (req, res) => {
+        const ans: ASYNC_RESPONSE<GET_ROOM_RES[]> = {success: true , data: []};
+        this.rooms.forEach(room => {
+            ans.data.push({
+                roomId: room.getRoomId(),
+                auth: room.needAuth(),
+                numOfPlayers: room.getNumOfPlayers(),
+                maxPlayers: room.getMaxPlayers()
+            });
+        })
+        res.send(ans)
+    })
+
     app.get('/getPlayersByRoom', (req, res) => {
         let ans: any[] = [];
         const getPlayersByRoomBody: {roomId : string} = req.body;
@@ -112,7 +129,7 @@ export class Main {
         const startRoomBody: START_GAME_BODY = req.body;
         if(this.rooms.has(startRoomBody.roomId)) {
             const currRoom: Room = this.rooms.get(startRoomBody.roomId);
-            if(currRoom.getNumOfPlayers() < gameConf.minPlayers) {
+            if(currRoom.getNumOfPlayers() < currRoom.getMinPlayers()) {
                 ans.description = `Room ${startRoomBody.roomId} has less then minimum players requierd` 
             }
             else if(currRoom.gameStarted()) {

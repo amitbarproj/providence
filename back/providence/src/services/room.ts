@@ -3,17 +3,24 @@ import { Game } from "./game";
 import { Player } from "./player";
 import { SocketServer } from "./socketServer";
 
+const gameConf = require("../../../../../../../config/gameConf.json");
+
+
 export class Room {
     private roomId: string = undefined
     private secret: string = undefined;
     private auth: boolean = undefined;
     private players: Map<string, Player> = new Map<string, Player>();
+    private maxPlayers: number = undefined;
+    private minPlayers: number = undefined;
     private game:Game = undefined;
 
     constructor(createRoomBody: CREATE_ROOM_BODY) {
         this.roomId = createRoomBody.roomId;
         this.auth = createRoomBody.auth;
         this.secret = createRoomBody.secret;
+        this.maxPlayers = createRoomBody.maxPlayers || gameConf.maxPlayers;
+        this.minPlayers = createRoomBody.minPlayers || gameConf.minPlayers;
         this.players.set(createRoomBody.username , new Player(createRoomBody.username, true));
     }
 
@@ -61,6 +68,14 @@ export class Room {
 
     public getRoomId = (): string  => {
         return this.roomId;
+    }
+
+    public getMaxPlayers = (): number  => {
+        return this.maxPlayers;
+    }
+
+    public getMinPlayers = (): number  => {
+        return this.minPlayers;
     }
 
 
