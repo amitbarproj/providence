@@ -30,13 +30,13 @@ export class Main {
             if(currRoom.getPlayers().has(leaveRoomBody.username)) {
                 await currRoom.leaveRoom(leaveRoomBody); 
                 if(currRoom.getNumOfPlayers() === 0 ) {
-                    this.rooms.delete(leaveRoomBody.roomId);
+                   // this.rooms.delete(leaveRoomBody.roomId);
                 }
                 if(currRoom.getNumOfPlayers() < currRoom.getMinPlayers() ) {
-                    currRoom.getPlayers().forEach(async player => {
-                        await currRoom.leaveRoom({username: player.getUserName(), roomId:leaveRoomBody.roomId });
-                    })
-                    this.rooms.delete(leaveRoomBody.roomId);
+                    // currRoom.getPlayers().forEach(async player => {
+                    //     await currRoom.leaveRoom({username: player.getUserName(), roomId:leaveRoomBody.roomId });
+                    // })
+                    // this.rooms.delete(leaveRoomBody.roomId);
                 }     
                 ans.success = true;
             }
@@ -56,6 +56,8 @@ export class Main {
         app.post(SERVER_API.createRoom, (req, res) => {
             const ans: ASYNC_RESPONSE<CREATE_ROOM_RES> = {success: false}
             const createRoomBody: CREATE_ROOM_BODY = req.body;
+            console.log(createRoomBody);
+
             if(!this.rooms.has(createRoomBody.roomId)){
                 this.rooms.set(createRoomBody.roomId , new Room(createRoomBody));
                 ans.success = true;
@@ -69,9 +71,10 @@ export class Main {
         app.post(SERVER_API.joinRoom, (req, res) => {
             const ans: ASYNC_RESPONSE<JOIN_ROOM_RES> = {success: false}
             const joinRoomBody: JOIN_ROOM_BODY = req.body;
+            console.log(joinRoomBody);
             if(this.rooms.has(joinRoomBody.roomId)){
                 const currRoom: Room = this.rooms.get(joinRoomBody.roomId);
-                if(currRoom.getNumOfPlayers() >= gameConf.maxPlayers) {
+                if(currRoom.getNumOfPlayers() >= currRoom.getMaxPlayers()) {
                     ans.description = `Game in room ${joinRoomBody.roomId} has maximum players` 
                 }
                 else if(currRoom.gameStarted()) {
@@ -80,18 +83,20 @@ export class Main {
                 else if(currRoom.getPlayers().has(joinRoomBody.username)) {
                     ans.description = `${joinRoomBody.username} already exist in Room ${joinRoomBody.roomId}`
                 }
-                else if(currRoom.needAuth && currRoom.getSecret() !== joinRoomBody.secret) {
+                else if(currRoom.needAuth() && (currRoom.getSecret() !== joinRoomBody.secret)) {
                     ans.description = `Room secret invalid`
                 }
                 else{
                     currRoom.joinRoom(joinRoomBody);
                     // if success, client need to join_room with socket.io to start recieve messages
                     ans.success = true;
+                    console.log('777777777777');
                 }
             
             }
             else{
                 ans.description = `Room ${joinRoomBody.roomId} not exist`
+                console.log('88888888888888');
             }
             res.send(ans)
     })

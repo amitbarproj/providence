@@ -21,7 +21,8 @@ const CardRoom = (props) => {
 
   const joinRoom = () => {
     setModalShow(false);
-    joinRoomCallback(roomId, username.current.value, secret.current.value);
+    const secretToSend = auth? secret.current.value : undefined
+    joinRoomCallback(roomId, username.current.value, secretToSend);
   };
 
   const MyVerticallyCenteredModal = (props) => {
