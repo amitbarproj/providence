@@ -24,3 +24,4 @@ const initAllServices = () => {
     SocketServer.init(server);
     Main.init(app);
 }
+

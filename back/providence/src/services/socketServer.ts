@@ -52,8 +52,8 @@ export class SocketServer {
                         const currPlayer = currRoom.getPlayers().get(data.username);
                         currPlayer.setSocketId(socket.id);
                         socket.join(data.roomId);
-                        console.log(`User ${data.username} joind to room: ${data.roomId}`);
-                        cb(`Joined ROom`);
+                        console.log(`${data.username} joind to room: ${data.roomId}`);
+                        cb(`${data.username} joind to room: ${data.roomId}`);
                     }
                     else{
                         console.log(`Player ${data.username} Not exist`);

@@ -41,7 +41,6 @@ export type START_GAME_RES = {
 
 }
 
-
 export type GET_ROOM_RES = {
     roomId: string,
     auth: boolean,

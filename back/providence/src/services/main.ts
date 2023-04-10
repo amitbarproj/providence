@@ -1,3 +1,4 @@
+import { SERVER_API } from "../../../../classes/api_enums";
 import { ASYNC_RESPONSE, CREATE_ROOM_BODY, CREATE_ROOM_RES, GET_ROOM_RES, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, LEAVE_ROOM_RES, START_GAME_BODY, START_GAME_RES } from "../../../../classes/types";
 import { Room } from "./room";
 
@@ -32,7 +33,9 @@ export class Main {
                     this.rooms.delete(leaveRoomBody.roomId);
                 }
                 if(currRoom.getNumOfPlayers() < currRoom.getMinPlayers() ) {
-                    //need to delete the room, and delete all players and sockets
+                    currRoom.getPlayers().forEach(async player => {
+                        await currRoom.leaveRoom({username: player.getUserName(), roomId:leaveRoomBody.roomId });
+                    })
                     this.rooms.delete(leaveRoomBody.roomId);
                 }     
                 ans.success = true;
@@ -50,7 +53,7 @@ export class Main {
     
 
     private listenToAllRestPaths = (app) => {
-        app.post('/createRoom', (req, res) => {
+        app.post(SERVER_API.createRoom, (req, res) => {
             const ans: ASYNC_RESPONSE<CREATE_ROOM_RES> = {success: false}
             const createRoomBody: CREATE_ROOM_BODY = req.body;
             if(!this.rooms.has(createRoomBody.roomId)){
@@ -63,7 +66,7 @@ export class Main {
             res.send(ans)
       })
 
-        app.post('/joinRoom', (req, res) => {
+        app.post(SERVER_API.joinRoom, (req, res) => {
             const ans: ASYNC_RESPONSE<JOIN_ROOM_RES> = {success: false}
             const joinRoomBody: JOIN_ROOM_BODY = req.body;
             if(this.rooms.has(joinRoomBody.roomId)){
@@ -93,13 +96,13 @@ export class Main {
             res.send(ans)
     })
 
-    app.post('/leaveRoom', async(req, res) => {
+    app.post(SERVER_API.leaveRoom, async(req, res) => {
         const leaveRoomBody: LEAVE_ROOM_BODY = req.body;
         const ans = await this.leaveRoom(leaveRoomBody);
         res.send(ans)
     })
 
-    app.get('/getAllRooms', (req, res) => {
+    app.get(SERVER_API.getAllRooms, (req, res) => {
         const ans: ASYNC_RESPONSE<GET_ROOM_RES[]> = {success: true , data: []};
         this.rooms.forEach(room => {
             ans.data.push({
@@ -112,7 +115,7 @@ export class Main {
         res.send(ans)
     })
 
-    app.get('/getPlayersByRoom', (req, res) => {
+    app.get(SERVER_API.getPlayersByRoom, (req, res) => {
         let ans: any[] = [];
         const getPlayersByRoomBody: {roomId : string} = req.body;
         if(this.rooms.has(getPlayersByRoomBody.roomId)) {
@@ -124,7 +127,7 @@ export class Main {
         res.send(ans)
     })
 
-    app.get('/startGame', (req, res) => {
+    app.get(SERVER_API.startGame, (req, res) => {
         const ans: ASYNC_RESPONSE<START_GAME_RES> = {success: false}
         const startRoomBody: START_GAME_BODY = req.body;
         if(this.rooms.has(startRoomBody.roomId)) {

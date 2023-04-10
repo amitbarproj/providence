@@ -6,7 +6,6 @@ export class Player {
     private admin: boolean; 
     private isConnected: boolean;
     private socketId: string;
-    // private socketInstance: Socket = undefined
 
     constructor(username: string, isAdmin: boolean) {
         this.username = username;
@@ -21,18 +20,9 @@ export class Player {
         this.admin = isAdmin;
      }
 
-
      public getUserName = (): string  => {
         return this.username;
       }
-
-    //   public getSocketInstance = (): Socket  => {
-    //     return this.socketInstance;
-    //   }
-
-    //   public setSocketInstance = (socketInstance: Socket)  => {
-    //     this.socketInstance = socketInstance;
-    //   }
 
        public getSocketId = (): string  => {
         return this.socketId;
