@@ -22,6 +22,12 @@ const Room = (props) => {
         setUserInfo(JSON.parse(message));
         socket.on("recieve_message", (d) => {
           //TODO IF REACIEVE MESSAGE IS YOU ARE NEW ADMIN NEED TO SET ADIMN!!!!
+          //TODO SWITCH CASE ALL SOCKET MESSAGES!!!!!!!!!
+          switch(d) {
+            case SOCKET_ENUMS.YOU_ARE_NEW_ADMIN:
+            setUserInfo({admin: true});
+            break;
+          }
           console.log(d);
           setMessage(d);
         });
@@ -68,3 +74,7 @@ const Room = (props) => {
 };
 
 export default Room;
+const SOCKET_ENUMS = {
+  YOU_ARE_NEW_ADMIN: "YOU_ARE_NEW_ADMIN",
+
+}

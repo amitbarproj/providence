@@ -1,3 +1,4 @@
+import { SOCKET_ENUMS } from "../../../../classes/socketEnums";
 import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, START_GAME_RES } from "../../../../classes/types";
 import { Game } from "./game";
 import { User } from "./player";
@@ -34,7 +35,7 @@ export class Room {
             if(this.getNumOfPlayers() > 1) {
                 const newAdminPlayer: User = this.getFirstNonAdminPlayer();
                 newAdminPlayer.setIsAdmin(true);
-                //UPDATE NEW ADMIN IN SOCKET
+                SocketServer.sendPrivateMessage(newAdminPlayer.getSocketId() , SOCKET_ENUMS.YOU_ARE_NEW_ADMIN);
             }
         }
         if(deletedPlayer.getSocketId()) {
