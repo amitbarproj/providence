@@ -25,7 +25,7 @@ export class Room {
     }
 
     public joinRoom = (joinRoomBody: JOIN_ROOM_BODY)  => {
-        this.players.set(joinRoomBody.username , new Player(joinRoomBody.username, false));
+        this.players.set(joinRoomBody.username , new Player(joinRoomBody.username, this.getNumOfPlayers() === 0 ? true : false));
     }
     
     public leaveRoom = async(leaveRoomBody: LEAVE_ROOM_BODY)  => {
@@ -47,7 +47,7 @@ export class Room {
     }
 
     public startGame = ()  => {
-        this.game = new Game(this.players , this.roomId );
+        this.game = new Game(this.players , this.roomId, this.minPlayers );
     }
 
     public gameStarted = (): boolean  => {

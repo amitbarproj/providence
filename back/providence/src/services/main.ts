@@ -32,11 +32,11 @@ export class Main {
                 if(currRoom.getNumOfPlayers() === 0 ) {
                    // this.rooms.delete(leaveRoomBody.roomId);
                 }
-                if(currRoom.getNumOfPlayers() < currRoom.getMinPlayers() ) {
-                    // currRoom.getPlayers().forEach(async player => {
-                    //     await currRoom.leaveRoom({username: player.getUserName(), roomId:leaveRoomBody.roomId });
-                    // })
-                    // this.rooms.delete(leaveRoomBody.roomId);
+                if(((currRoom.getNumOfPlayers() < currRoom.getMinPlayers())||currRoom.getNumOfPlayers() === 0 ) && currRoom.gameStarted() ) {
+                    currRoom.getPlayers().forEach(async player => {
+                        await currRoom.leaveRoom({username: player.getUserName(), roomId:leaveRoomBody.roomId });
+                    })
+                    this.rooms.delete(leaveRoomBody.roomId);
                 }     
                 ans.success = true;
             }
