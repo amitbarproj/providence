@@ -1,6 +1,6 @@
 import { LEAVE_ROOM_BODY } from "../../../../classes/types";
 import { Main } from "./main";
-import { Player } from "./player";
+import { User } from "./player";
 
 const { Server } = require("socket.io");
 const servConf = require("../../../../../../../config/services.json");
@@ -53,7 +53,8 @@ export class SocketServer {
                         currPlayer.setSocketId(socket.id);
                         socket.join(data.roomId);
                         console.log(`${data.username} joind to room: ${data.roomId}`);
-                        cb(`${data.username} joind to room: ${data.roomId}`);
+                       
+                        cb(JSON.stringify(currPlayer));
                     }
                     else{
                         console.log(`Player ${data.username} Not exist`);

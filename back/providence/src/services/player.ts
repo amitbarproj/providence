@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 
-export class Player {
+export class User {
     
     private username:  string;
     private admin: boolean; 

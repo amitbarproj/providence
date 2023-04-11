@@ -1,6 +1,6 @@
 import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, START_GAME_RES } from "../../../../classes/types";
 import { Game } from "./game";
-import { Player } from "./player";
+import { User } from "./player";
 import { SocketServer } from "./socketServer";
 
 const gameConf = require("../../../../../../../config/gameConf.json");
@@ -10,7 +10,7 @@ export class Room {
     private roomId: string = undefined
     private secret: string = undefined;
     private auth: boolean = undefined;
-    private players: Map<string, Player> = new Map<string, Player>();
+    private players: Map<string, User> = new Map<string, User>();
     private maxPlayers: number = undefined;
     private minPlayers: number = undefined;
     private game:Game = undefined;
@@ -21,19 +21,20 @@ export class Room {
         this.secret = createRoomBody.secret;
         this.maxPlayers = createRoomBody.maxPlayers || gameConf.maxPlayers;
         this.minPlayers = createRoomBody.minPlayers || gameConf.minPlayers;
-        this.players.set(createRoomBody.username , new Player(createRoomBody.username, true));
+        this.players.set(createRoomBody.username , new User(createRoomBody.username, true));
     }
 
     public joinRoom = (joinRoomBody: JOIN_ROOM_BODY)  => {
-        this.players.set(joinRoomBody.username , new Player(joinRoomBody.username, this.getNumOfPlayers() === 0 ? true : false));
+        this.players.set(joinRoomBody.username , new User(joinRoomBody.username, this.getNumOfPlayers() === 0 ? true : false));
     }
     
     public leaveRoom = async(leaveRoomBody: LEAVE_ROOM_BODY)  => {
-        const deletedPlayer: Player = this.players.get(leaveRoomBody.username);
+        const deletedPlayer: User = this.players.get(leaveRoomBody.username);
         if(deletedPlayer.isAdmin()) {
             if(this.getNumOfPlayers() > 1) {
-                const newAdminPlayer: Player = this.getFirstNonAdminPlayer();
+                const newAdminPlayer: User = this.getFirstNonAdminPlayer();
                 newAdminPlayer.setIsAdmin(true);
+                //UPDATE NEW ADMIN IN SOCKET
             }
         }
         if(deletedPlayer.getSocketId()) {
@@ -42,7 +43,7 @@ export class Room {
         this.players.delete(leaveRoomBody.username);
     }
 
-    public getPlayers = (): Map<string, Player>  => {
+    public getPlayers = (): Map<string, User>  => {
         return this.players;
     }
 
@@ -79,8 +80,8 @@ export class Room {
     }
 
 
-    private getFirstNonAdminPlayer = (): Player => {
-        let ans: Player = undefined;
+    private getFirstNonAdminPlayer = (): User => {
+        let ans: User = undefined;
         this.players.forEach(player => {
             if(!player.isAdmin()) {
                 ans =  player;

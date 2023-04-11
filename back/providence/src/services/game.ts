@@ -1,15 +1,15 @@
 import e = require("cors");
-import { Player } from "./player";
+import { User } from "./player";
 import { SocketServer } from "./socketServer";
 
 export class Game {
     private roomId: string = undefined
-    private players: Map<string, Player> = undefined;
+    private players: Map<string, User> = undefined;
     private minPlayers: number = undefined
     private myIterator = undefined;
     private currentPlayer = undefined
 
-    constructor(players: Map<string, Player> , roomId: string, minPlayers: number ) {
+    constructor(players: Map<string, User> , roomId: string, minPlayers: number ) {
         this.players = players;
         this.myIterator = this.players.entries();
         this.currentPlayer = this.myIterator.next();
@@ -19,9 +19,7 @@ export class Game {
              this.setNextPlayer();   
         }, 3000)
 
-        setInterval(() => {
-            console.log(this.currentPlayer.value);;   
-       }, 500)
+     
     }
 
 
@@ -34,10 +32,11 @@ export class Game {
             this.currentPlayer = this.myIterator.next();
         }
 
+        SocketServer.sendGameMessage( this.roomId, `${this.currentPlayer.value[1].username}`);
+
     }
 
 
 
 }
 
-        // SocketServer.sendGameMessage(this.roomId , this.currentPlayer.value );
