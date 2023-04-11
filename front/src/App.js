@@ -16,6 +16,7 @@ function App() {
   const [roomId, setRoomId] = useState("");
   const [username, setUsername] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [createRoomError, setCreateRoomError] = useState("");
 
   //
 
@@ -30,7 +31,6 @@ function App() {
   }, []);
 
   const createRoom = async () => {
-    setModalShow(false);
 
     const dataToSend = {
       roomId: newRoomId.current.value,
@@ -47,10 +47,12 @@ function App() {
     console.log(data);
 
     if (data.success) {
+      setModalShow(false);
       setRoomId(dataToSend.roomId);
       setUsername(dataToSend.username);
       setInRoom(true);
     } else {
+      setCreateRoomError(data.description);
       console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
     }
   };
@@ -62,6 +64,7 @@ function App() {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        animation={false}
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -77,6 +80,7 @@ function App() {
           <Form.Range ref={newMaxPlayers} min={3} max={9} />
           <Form.Switch ref={newAuth} />
         </Modal.Body>
+        <p>{createRoomError}</p>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
           <Button onClick={createRoom}>Create</Button>
@@ -96,21 +100,7 @@ function App() {
     }
   };
 
-  const joinRoom = async (roomId, username, secret) => {
-    const dataToSend = { roomId: roomId, username: username, secret: secret };
-    console.log(dataToSend);
-    const response = await axios.post(`${serverURL}/joinRoom`, dataToSend);
-    const data = response.data;
-    console.log(data);
 
-    if (data.success) {
-      setRoomId(roomId);
-      setUsername(username);
-      setInRoom(true);
-    } else {
-      console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
-    }
-  };
 
   const renderList = allRooms.map((item, index) => (
     <CardRoom
@@ -118,7 +108,9 @@ function App() {
       auth={item.auth}
       numOfPlayers={item.numOfPlayers}
       maxPlayers={item.maxPlayers}
-      joinRoomCallback={joinRoom}
+      setRoomId={setRoomId}
+      setUsername={setUsername}
+      setInRoom={setInRoom}
     ></CardRoom>
   ));
 
