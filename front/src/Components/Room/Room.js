@@ -21,6 +21,7 @@ const Room = (props) => {
         console.log(JSON.parse(message));
         setUserInfo(JSON.parse(message));
         socket.on("recieve_message", (d) => {
+          //TODO IF REACIEVE MESSAGE IS YOU ARE NEW ADMIN NEED TO SET ADIMN!!!!
           console.log(d);
           setMessage(d);
         });
@@ -33,12 +34,15 @@ const Room = (props) => {
 
 
   const startGame = async () => {
-    const response = await axios.get(`${serverURL}/startGame`);
+    console.log(props.roomId);
+    const response = await axios.post(`${serverURL}/startGame` , {
+      roomId: props.roomId
+  });
     const data = response.data;
     if (data.success) {
-      console.log(data.data);
+      console.log(data);
     } else {
-      console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
+      console.log(data);
     }
   };
 

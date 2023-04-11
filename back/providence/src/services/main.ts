@@ -88,15 +88,12 @@ export class Main {
                 }
                 else{
                     currRoom.joinRoom(joinRoomBody);
-                    // if success, client need to join_room with socket.io to start recieve messages
                     ans.success = true;
-                    console.log('777777777777');
                 }
             
             }
             else{
                 ans.description = `Room ${joinRoomBody.roomId} not exist`
-                console.log('88888888888888');
             }
             res.send(ans)
     })
@@ -132,7 +129,7 @@ export class Main {
         res.send(ans)
     })
 
-    app.get(SERVER_API.startGame, (req, res) => {
+    app.post(SERVER_API.startGame, (req, res) => {
         const ans: ASYNC_RESPONSE<START_GAME_RES> = {success: false}
         const startRoomBody: START_GAME_BODY = req.body;
         if(this.rooms.has(startRoomBody.roomId)) {
