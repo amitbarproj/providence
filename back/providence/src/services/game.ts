@@ -31,8 +31,12 @@ export class Game {
             this.myIterator = this.players.entries();
             this.currentPlayer = this.myIterator.next();
         }
-
-        SocketServer.sendGameMessage( this.roomId, `${this.currentPlayer.value[1].username}`);
+        if(this.currentPlayer.value) {
+            SocketServer.sendGameMessage( this.roomId, `${this.currentPlayer.value[1].username}`);
+        }
+        else{
+            //NO PLAYERS IN GAME
+        }
 
     }
 

@@ -23,6 +23,7 @@ const Room = (props) => {
         socket.on("recieve_message", (d) => {
           //TODO IF REACIEVE MESSAGE IS YOU ARE NEW ADMIN NEED TO SET ADIMN!!!!
           //TODO SWITCH CASE ALL SOCKET MESSAGES!!!!!!!!!
+          //TODO ne wplayer join room,,,
           switch(d) {
             case SOCKET_ENUMS.YOU_ARE_NEW_ADMIN:
             setUserInfo({admin: true});
