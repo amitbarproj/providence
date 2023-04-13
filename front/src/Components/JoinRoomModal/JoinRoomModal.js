@@ -2,7 +2,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
 const JoinRoomModal = (props) => {
 

@@ -1,4 +1,4 @@
-import e = require("cors");
+// import e = require("cors");
 import { User } from "./player";
 import { SocketServer } from "./socketServer";
 

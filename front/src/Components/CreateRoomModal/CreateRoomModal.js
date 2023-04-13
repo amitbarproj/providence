@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Collapse from "react-bootstrap/Collapse";
 import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 import { useState, useRef } from "react";
 
@@ -25,7 +26,6 @@ const CreateRoomModal = (props) => {
       minPlayers: undefined,
     };
     createRoomCallback(dataToSend);
-    console.log(dataToSend);
   };
 
   return (
@@ -43,43 +43,53 @@ const CreateRoomModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form.Group as={Col} md="4" >
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Username"
-            ref={newUsername}
-          />
-          <Form.Label>Room ID</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Room ID"
-            ref={newRoomId}
-          />
-          <Form.Label>Maximum Players: {newMaxPlayers}</Form.Label>
-          <Form.Range
-            value={newMaxPlayers}
-            onChange={(e) => {
-              setNewMaxPlayers(Number(e.target.value));
-            }}
-            min={3}
-            max={9}
-          />
-          <Form.Switch onChange={() => setOpen(!open)} checked={open} />
-          <Collapse in={open}>
-            <div id="example-collapse-text">
-              <Form.Label>Room Secret</Form.Label>
-              <Form.Control
-                required
-                type="password"
-                placeholder="Secret"
-                ref={newSecret}
-              />
-            </div>
-          </Collapse>
-        </Form.Group>
+        <Row className="mb-3">
+          <Form.Group as={Col}>
+            <Form.Label>Room ID</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Enter Room ID"
+              ref={newRoomId}
+            />
+            <br />
+            <Form.Label>Maximum Players: {newMaxPlayers}</Form.Label>
+            <Form.Range
+              value={newMaxPlayers}
+              onChange={(e) => {
+                setNewMaxPlayers(Number(e.target.value));
+              }}
+              min={3}
+              max={9}
+            />
+            <Form.Switch
+              label= {open? "" : "Add Room Secret"}
+              // reverse
+              onChange={() => setOpen(!open)}
+              checked={open}
+            />
+            <Collapse in={open}>
+              <div id="example-collapse-text">
+                <Form.Label>Room Secret</Form.Label>
+                <Form.Control
+                  required
+                  type="password"
+                  placeholder="Enter Secret"
+                  ref={newSecret}
+                />
+              </div>
+            </Collapse>
+            <br />
+
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Enter Username"
+              ref={newUsername}
+            />
+          </Form.Group>
+        </Row>
       </Modal.Body>
       <p>{createRoomError}</p>
       <Modal.Footer>

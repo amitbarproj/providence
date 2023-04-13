@@ -1,8 +1,7 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import { BsFillLockFill } from "react-icons/bs";
 import JoinRoomModal from "../JoinRoomModal/JoinRoomModal";
 const serverURL = `http://10.0.0.8:3002`;
