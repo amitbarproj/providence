@@ -83,7 +83,7 @@ function App() {
           // variant="primary"
           onClick={() => setModalShow(true)}
         >
-          Create Room <AiOutlinePlus/>
+         Create Room <AiOutlinePlus/>
         </button>
       </div>
     </div>
