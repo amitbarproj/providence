@@ -1,18 +1,19 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Form from "react-bootstrap/Form";
+import Collapse from "react-bootstrap/Collapse";
 
 import { useRef } from "react";
 
 const JoinRoomModal = (props) => {
-
   const joinRoomCallback = props.joinRoomCallback;
   const newSecret = useRef();
   const newUsername = useRef();
   const roomId = props.roomId;
   const auth = props.auth;
   const joinRoomError = props.joinRoomError;
-
 
   const joinRoom = async () => {
     console.log(newUsername.current.value);
@@ -40,14 +41,39 @@ const JoinRoomModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Please Enter:</h4>
-        <input placeholder="Username" ref={newUsername}></input>
-        {auth && <input placeholder="Room Secret" ref={newSecret}></input>}
+        <Row className="mb-3">
+          <Form.Group as={Col}>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Enter Username"
+              ref={newUsername}
+            />
+            {auth && (
+              <>
+                <br />
+                <Form.Label>Room ID</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter Password"
+                  ref={newSecret}
+                />
+              </>
+            )}
+          </Form.Group>
+          <Collapse in={joinRoomError !== ""}>
+            <div className="CreateRoomErrorLabel">
+              <br />
+              <Form.Label>{joinRoomError}</Form.Label>
+            </div>
+          </Collapse>
+        </Row>
       </Modal.Body>
-      <p>{joinRoomError}</p>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-        <Button onClick={joinRoom}>Join</Button>
+        <Button variant="secondary" onClick={props.onHide}>Cancel</Button>
+        <Button variant="primary" onClick={joinRoom}>Join</Button>
       </Modal.Footer>
     </Modal>
   );

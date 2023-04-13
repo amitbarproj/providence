@@ -88,7 +88,10 @@ export class Main {
       console.log(joinRoomBody);
       if (this.rooms.has(joinRoomBody.roomId)) {
         const currRoom: Room = this.rooms.get(joinRoomBody.roomId);
-        if (currRoom.getNumOfPlayers() >= currRoom.getMaxPlayers()) {
+        if(joinRoomBody.username === "") {
+            ans.description = `Please enter Username`;
+        }
+        else if (currRoom.getNumOfPlayers() >= currRoom.getMaxPlayers()) {
           ans.description = `Game in room ${joinRoomBody.roomId} has maximum players`;
         } else if (currRoom.gameStarted()) {
           ans.description = `Game in room ${joinRoomBody.roomId} already started`;
@@ -98,7 +101,7 @@ export class Main {
           currRoom.needAuth() &&
           currRoom.getSecret() !== joinRoomBody.secret
         ) {
-          ans.description = `Room secret invalid`;
+          ans.description = `Invalid Password`;
         } else {
           currRoom.joinRoom(joinRoomBody);
           ans.success = true;
