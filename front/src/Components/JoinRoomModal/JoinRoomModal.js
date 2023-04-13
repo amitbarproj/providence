@@ -53,7 +53,7 @@ const JoinRoomModal = (props) => {
             {auth && (
               <>
                 <br />
-                <Form.Label>Password</Form.Label>
+                <Form.Label>Room Password</Form.Label>
                 <Form.Control
                   required
                   type="text"

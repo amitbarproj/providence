@@ -1,8 +1,10 @@
 import CardRoom from "../CardRoom/CardRoom";
+import "./CardsRoom.css"
 
 const CardsRoom = (props) => {
   const renderList = props.allRooms.map((item, index) => (
     <CardRoom
+      className="card"
       roomId={item.roomId}
       auth={item.auth}
       numOfPlayers={item.numOfPlayers}
@@ -13,7 +15,7 @@ const CardsRoom = (props) => {
       setInRoom={props.setInRoom}
     ></CardRoom>
   ));
-  return <>{renderList}</>;
+  return <div className="cards">{renderList}</div>;
 };
 
 export default CardsRoom;
