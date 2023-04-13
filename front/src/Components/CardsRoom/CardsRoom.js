@@ -7,6 +7,7 @@ const CardsRoom = (props) => {
       auth={item.auth}
       numOfPlayers={item.numOfPlayers}
       maxPlayers={item.maxPlayers}
+      description={item.description}
       setRoomId={props.setRoomId}
       setUsername={props.setUsername}
       setInRoom={props.setInRoom}

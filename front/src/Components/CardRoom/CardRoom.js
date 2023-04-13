@@ -11,6 +11,7 @@ const CardRoom = (props) => {
   const auth = props.auth;
   const numOfPlayers = props.numOfPlayers;
   const maxPlayers = props.maxPlayers;
+  const description = props.description;
   const setRoomId = props.setRoomId;
   const setUsername = props.setUsername;
   const setInRoom = props.setInRoom;
@@ -101,7 +102,7 @@ const CardRoom = (props) => {
         <Card.Subtitle className="mb-2 text-muted">
           Players: {numOfPlayers}/{maxPlayers}
         </Card.Subtitle>
-        <Card.Text>please join the game bla bla bla bla bla</Card.Text>
+        <Card.Text>{description}</Card.Text>
         {auth && <BsFillLockFill />}
       </Card.Body>
       <Button variant="primary" onClick={() => setModalShow(true)}>

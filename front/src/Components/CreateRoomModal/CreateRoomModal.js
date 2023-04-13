@@ -1,5 +1,8 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { BsFillLockFill } from "react-icons/bs";
+import "./CreateRoomModal.css";
+
 import Form from "react-bootstrap/Form";
 import Collapse from "react-bootstrap/Collapse";
 import Col from "react-bootstrap/Col";
@@ -13,7 +16,9 @@ const CreateRoomModal = (props) => {
   const newRoomId = useRef();
   const newSecret = useRef();
   const newUsername = useRef();
+  const newDescription = useRef();
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
   const [newMaxPlayers, setNewMaxPlayers] = useState(9);
 
   const createRoomm = () => {
@@ -22,6 +27,7 @@ const CreateRoomModal = (props) => {
       auth: open,
       secret: newSecret.current.value,
       username: newUsername.current.value,
+      description: newDescription.current.value,
       maxPlayers: newMaxPlayers,
       minPlayers: undefined,
     };
@@ -62,25 +68,42 @@ const CreateRoomModal = (props) => {
               min={3}
               max={9}
             />
+            <br /> <br />
             <Form.Switch
-              label= {open? "" : "Add Room Secret"}
+              label={open2 ? "" : "Add Description"}
+              // reverse
+              onChange={() => setOpen2(!open2)}
+              checked={open2}
+            />
+            <Collapse in={open2}>
+              <div id="example-collapse-text">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Description"
+                  ref={newDescription}
+                />
+              </div>
+            </Collapse>
+            <br />
+            <Form.Switch
+              label={open ? <BsFillLockFill /> : "Add Room Password"}
               // reverse
               onChange={() => setOpen(!open)}
               checked={open}
             />
             <Collapse in={open}>
               <div id="example-collapse-text">
-                <Form.Label>Room Secret</Form.Label>
+                <Form.Label>Room Password</Form.Label>
                 <Form.Control
-                  required
+                  // required
                   type="password"
-                  placeholder="Enter Secret"
+                  placeholder="Enter Password"
                   ref={newSecret}
                 />
               </div>
             </Collapse>
             <br />
-
             <Form.Label>Username</Form.Label>
             <Form.Control
               required
@@ -89,12 +112,22 @@ const CreateRoomModal = (props) => {
               ref={newUsername}
             />
           </Form.Group>
+
+          <Collapse in={createRoomError !== ""}>
+            <div className="CreateRoomErrorLabel">
+              <br />
+              <Form.Label>{createRoomError}</Form.Label>
+            </div>
+          </Collapse>
         </Row>
       </Modal.Body>
-      <p>{createRoomError}</p>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-        <Button onClick={createRoomm}>Create</Button>
+        <Button variant="secondary" onClick={props.onHide}>
+          Cancel
+        </Button>
+        <Button variant="primary" onClick={createRoomm}>
+          Create
+        </Button>
       </Modal.Footer>
     </Modal>
   );

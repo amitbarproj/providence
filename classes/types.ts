@@ -7,7 +7,8 @@ export type CREATE_ROOM_BODY = {
     secret?: string,
     username: string,
     maxPlayers?: number,
-    minPlayers?: number
+    minPlayers?: number,
+    description?: string
 }
 
 export type CREATE_ROOM_RES = {
@@ -45,6 +46,7 @@ export type GET_ROOM_RES = {
     roomId: string,
     auth: boolean,
     numOfPlayers: number,
-    maxPlayers: number
+    maxPlayers: number,
+    description: string
 }
 

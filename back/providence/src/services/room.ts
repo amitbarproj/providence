@@ -11,6 +11,7 @@ export class Room {
     private roomId: string = undefined
     private secret: string = undefined;
     private auth: boolean = undefined;
+    private description: string = undefined;
     private players: Map<string, User> = new Map<string, User>();
     private maxPlayers: number = undefined;
     private minPlayers: number = undefined;
@@ -20,6 +21,7 @@ export class Room {
         this.roomId = createRoomBody.roomId;
         this.auth = createRoomBody.auth;
         this.secret = createRoomBody.secret;
+        this.description = createRoomBody.description || "";
         this.maxPlayers = createRoomBody.maxPlayers || gameConf.maxPlayers;
         this.minPlayers = createRoomBody.minPlayers || gameConf.minPlayers;
         this.players.set(createRoomBody.username , new User(createRoomBody.username, true));
@@ -78,6 +80,11 @@ export class Room {
 
     public getMinPlayers = (): number  => {
         return this.minPlayers;
+    }
+
+    
+    public getDescription = (): string  => {
+        return this.description;
     }
 
 
