@@ -92,7 +92,7 @@ export class Main {
             ans.description = `Please enter Username`;
         }
         else if (currRoom.getNumOfPlayers() >= currRoom.getMaxPlayers()) {
-          ans.description = `Game in room ${joinRoomBody.roomId} has maximum players`;
+          ans.description = `Room ${joinRoomBody.roomId} has maximum players`;
         } else if (currRoom.gameStarted()) {
           ans.description = `Game in room ${joinRoomBody.roomId} already started`;
         } else if (currRoom.getPlayers().has(joinRoomBody.username)) {
