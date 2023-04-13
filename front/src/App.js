@@ -2,10 +2,10 @@ import "./App.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Room from "./Components/Room/Room";
-import CardRoom from "./Components/CardRoom/CardRoom";
 import Button from "react-bootstrap/Button";
 
 import CreateRoomModal from "./Components/CreateRoomModal/CreateRoomModal";
+import CardsRoom from "./Components/CardsRoom/CardsRoom";
 
 const serverURL = `http://10.0.0.8:3002`;
 
@@ -49,22 +49,14 @@ function App() {
     }
   };
 
-  const renderList = allRooms.map((item, index) => (
-    <CardRoom
-      roomId={item.roomId}
-      auth={item.auth}
-      numOfPlayers={item.numOfPlayers}
-      maxPlayers={item.maxPlayers}
-      setRoomId={setRoomId}
-      setUsername={setUsername}
-      setInRoom={setInRoom}
-    ></CardRoom>
-  ));
-
   return (
     <div className="App">
-      {renderList}
-
+      <CardsRoom
+        allRooms={allRooms}
+        setRoomId={setRoomId}
+        setUsername={setUsername}
+        setInRoom={setInRoom}
+      ></CardsRoom>
       <>
         <Button variant="primary" onClick={() => setModalShow(true)}>
           Create Room
