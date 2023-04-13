@@ -15,7 +15,7 @@ const CreateRoomModal = (props) => {
   const [open, setOpen] = useState(false);
   const [newMaxPlayers, setNewMaxPlayers] = useState(9);
 
-  const createRoom = () => {
+  const createRoomm = () => {
     const dataToSend = {
       roomId: newRoomId.current.value,
       auth: open,
@@ -30,7 +30,8 @@ const CreateRoomModal = (props) => {
 
   return (
     <Modal
-      {...props}
+      show={props.show}
+      onHide={props.onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -42,7 +43,7 @@ const CreateRoomModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form.Group as={Col} md="4" controlId="validationCustom01">
+        <Form.Group as={Col} md="4" >
           <Form.Label>Username</Form.Label>
           <Form.Control
             required
@@ -66,12 +67,7 @@ const CreateRoomModal = (props) => {
             min={3}
             max={9}
           />
-          <Form.Switch
-            onClick={() => setOpen(!open)}
-            //   aria-controls="example-collapse-text"
-            //   aria-expanded={open}
-            checked={open}
-          />
+          <Form.Switch onChange={() => setOpen(!open)} checked={open} />
           <Collapse in={open}>
             <div id="example-collapse-text">
               <Form.Label>Room Secret</Form.Label>
@@ -88,7 +84,7 @@ const CreateRoomModal = (props) => {
       <p>{createRoomError}</p>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
-        <Button onClick={createRoom}>Create</Button>
+        <Button onClick={createRoomm}>Create</Button>
       </Modal.Footer>
     </Modal>
   );
