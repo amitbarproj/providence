@@ -77,7 +77,7 @@ export class Main {
         this.rooms.set(createRoomBody.roomId, new Room(createRoomBody));
         ans.success = true;
       } else {
-        ans.description = `Room ${createRoomBody.roomId} alreat exist`;
+        ans.description = `Room ${createRoomBody.roomId} already exist. Please choose another ID`;
       }
       res.send(ans);
     });
