@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { BsFillLockFill } from "react-icons/bs";
 import JoinRoomModal from "../JoinRoomModal/JoinRoomModal";
-import "./CardRoom.css"
+import "./CardRoom.css";
 const serverURL = `http://10.0.0.8:3002`;
 
 const CardRoom = (props) => {
@@ -19,7 +19,6 @@ const CardRoom = (props) => {
 
   const [modalShow, setModalShow] = useState(false);
   const [joinRoomError, setJoinRoomError] = useState("");
-
 
   const joinRoom = async (dataToSendd) => {
     const dataToSend = {
@@ -42,15 +41,15 @@ const CardRoom = (props) => {
     }
   };
 
-
   return (
-    <Card >
+    <Card>
+      <Card.Header>Room ID: {roomId}</Card.Header>
       <Card.Body>
-        <Card.Title>Room ID: {roomId}</Card.Title>
+        <Card.Title>Providence</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
           Players: {numOfPlayers}/{maxPlayers}
         </Card.Subtitle>
-        <Card.Text>{description}</Card.Text>
+        {/* <Card.Text>{description}</Card.Text> */}
         {auth && <BsFillLockFill />}
       </Card.Body>
       <Button variant="primary" onClick={() => setModalShow(true)}>
