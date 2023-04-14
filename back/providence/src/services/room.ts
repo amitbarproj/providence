@@ -1,3 +1,4 @@
+import { GAMES } from "../../../../classes/enums";
 import { SOCKET_ENUMS } from "../../../../classes/socketEnums";
 import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, START_GAME_RES } from "../../../../classes/types";
 import { Game } from "./game";
@@ -15,12 +16,14 @@ export class Room {
     private players: Map<string, User> = new Map<string, User>();
     private maxPlayers: number = undefined;
     private minPlayers: number = undefined;
+    private gameType: GAMES = undefined;
     private game:Game = undefined;
 
     constructor(createRoomBody: CREATE_ROOM_BODY) {
         this.roomId = createRoomBody.roomId;
         this.auth = createRoomBody.auth;
         this.secret = createRoomBody.secret;
+        this.gameType = createRoomBody.game;
         this.description = createRoomBody.description || "";
         this.maxPlayers = createRoomBody.maxPlayers || gameConf.maxPlayers;
         this.minPlayers = createRoomBody.minPlayers || gameConf.minPlayers;
@@ -85,6 +88,10 @@ export class Room {
     
     public getDescription = (): string  => {
         return this.description;
+    }
+
+    public getGameType = (): GAMES  => {
+        return this.gameType;
     }
 
 

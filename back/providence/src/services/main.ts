@@ -1,4 +1,5 @@
 import { SERVER_API } from "../../../../classes/api_enums";
+import { GAMES } from "../../../../classes/enums";
 import {
   ASYNC_RESPONSE,
   CREATE_ROOM_BODY,
@@ -71,6 +72,8 @@ export class Main {
       console.log(createRoomBody);
       if (createRoomBody.roomId === "") {
         ans.description = `Please enter Room ID`;
+      }else if (createRoomBody.game === GAMES.Error) {
+        ans.description = `Please select a Game`;
       } else if (createRoomBody.username === "") {
         ans.description = `Please enter Username`;
       } else if (!this.rooms.has(createRoomBody.roomId)) {
@@ -88,10 +91,9 @@ export class Main {
       console.log(joinRoomBody);
       if (this.rooms.has(joinRoomBody.roomId)) {
         const currRoom: Room = this.rooms.get(joinRoomBody.roomId);
-        if(joinRoomBody.username === "") {
-            ans.description = `Please enter Username`;
-        }
-        else if (currRoom.getNumOfPlayers() >= currRoom.getMaxPlayers()) {
+        if (joinRoomBody.username === "") {
+          ans.description = `Please enter Username`;
+        } else if (currRoom.getNumOfPlayers() >= currRoom.getMaxPlayers()) {
           ans.description = `Room ${joinRoomBody.roomId} has maximum players`;
         } else if (currRoom.gameStarted()) {
           ans.description = `Game in room ${joinRoomBody.roomId} already started`;
@@ -127,6 +129,8 @@ export class Main {
           description: room.getDescription(),
           numOfPlayers: room.getNumOfPlayers(),
           maxPlayers: room.getMaxPlayers(),
+          isStarted: room.gameStarted(),
+          gameType: room.getGameType(),
         });
       });
       res.send(ans);

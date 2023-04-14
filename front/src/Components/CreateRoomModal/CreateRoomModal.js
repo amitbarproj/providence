@@ -13,6 +13,7 @@ import { useState, useRef } from "react";
 const CreateRoomModal = (props) => {
   const createRoomError = props.createRoomError;
   const createRoomCallback = props.createRoomCallback;
+  const newGame = useRef();
   const newRoomId = useRef();
   const newSecret = useRef();
   const newUsername = useRef();
@@ -28,11 +29,17 @@ const CreateRoomModal = (props) => {
       secret: newSecret.current.value,
       username: newUsername.current.value,
       description: newDescription.current.value,
+      game: newGame.current.value,
       maxPlayers: newMaxPlayers,
       minPlayers: undefined,
     };
     createRoomCallback(dataToSend);
+    console.log(dataToSend);
   };
+
+  const selectRender = Object.keys(GAMES).map((item) => {
+    return <option value={item}>{item}</option>;
+  });
 
   return (
     <Modal
@@ -58,6 +65,13 @@ const CreateRoomModal = (props) => {
               placeholder="Enter Room ID"
               ref={newRoomId}
             />
+            <br />
+            <Form.Select ref={newGame} aria-label="Default select example">
+              <option value="" disabled selected>
+                Select a Game
+              </option>
+              {selectRender}
+            </Form.Select>
             <br />
             <Form.Label>Maximum Players: {newMaxPlayers}</Form.Label>
             <Form.Range
@@ -131,6 +145,12 @@ const CreateRoomModal = (props) => {
       </Modal.Footer>
     </Modal>
   );
+};
+
+const GAMES = {
+  Providence: "Providence",
+  Poker: "Poker",
+  Chat: "Chat",
 };
 
 export default CreateRoomModal;

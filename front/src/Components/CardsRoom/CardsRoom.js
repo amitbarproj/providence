@@ -7,8 +7,10 @@ const CardsRoom = (props) => {
       className="card"
       roomId={item.roomId}
       auth={item.auth}
+      gameType={item.gameType}
       numOfPlayers={item.numOfPlayers}
       maxPlayers={item.maxPlayers}
+      gameStarted={item.isStarted}
       description={item.description}
       setRoomId={props.setRoomId}
       setUsername={props.setUsername}

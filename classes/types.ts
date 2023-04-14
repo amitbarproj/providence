@@ -1,3 +1,4 @@
+import { GAMES } from "./enums"
 
 export type ASYNC_RESPONSE<T=any> = {success: boolean, data?: T, description?: string}
 
@@ -8,7 +9,8 @@ export type CREATE_ROOM_BODY = {
     username: string,
     maxPlayers?: number,
     minPlayers?: number,
-    description?: string
+    description?: string,
+    game: GAMES
 }
 
 export type CREATE_ROOM_RES = {
@@ -47,6 +49,8 @@ export type GET_ROOM_RES = {
     auth: boolean,
     numOfPlayers: number,
     maxPlayers: number,
-    description: string
+    description: string,
+    gameType: GAMES,
+    isStarted: boolean
 }
 

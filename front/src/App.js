@@ -5,7 +5,6 @@ import Room from "./Components/Room/Room";
 import Button from "react-bootstrap/Button";
 import { AiOutlinePlus } from "react-icons/ai";
 
-
 import CreateRoomModal from "./Components/CreateRoomModal/CreateRoomModal";
 import CardsRoom from "./Components/CardsRoom/CardsRoom";
 
@@ -70,20 +69,11 @@ function App() {
 
       {inRoom && <Room roomId={roomId} username={username}></Room>}
       <div className="d-grid gap-2">
-        {/* <Button
-          className="create-room-button"
-          // variant="primary"
-          size="lg"
-          onClick={() => setModalShow(true)}
-        >
-          Create Room <AiOutlinePlus/>
-        </Button> */}
         <button
           className="create-room-button"
-          // variant="primary"
           onClick={() => setModalShow(true)}
         >
-         Create Room <AiOutlinePlus/>
+          Create Room <AiOutlinePlus />
         </button>
       </div>
     </div>
