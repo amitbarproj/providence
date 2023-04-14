@@ -53,8 +53,9 @@ export class SocketServer {
                         currPlayer.setSocketId(socket.id);
                         socket.join(data.roomId);
                         console.log(`${data.username} joind to room: ${data.roomId}`);
-                       
-                        cb(JSON.stringify(currPlayer));
+                        console.log(currRoom.getPlayers());
+                        //NEED TO SEND ONLY RELEVANT DATA!!! TO UI
+                        cb(JSON.stringify(currRoom.getPlayers()));
                     }
                     else{
                         console.log(`Player ${data.username} Not exist`);

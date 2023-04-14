@@ -9,6 +9,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
 import { useState, useRef } from "react";
+import GAMES from "../../Enums/enums";
 
 const CreateRoomModal = (props) => {
   const createRoomError = props.createRoomError;
@@ -147,10 +148,5 @@ const CreateRoomModal = (props) => {
   );
 };
 
-const GAMES = {
-  Providence: "Providence",
-  Poker: "Poker",
-  Chat: "Chat",
-};
 
 export default CreateRoomModal;

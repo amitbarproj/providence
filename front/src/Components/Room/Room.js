@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
+import SOCKET_ENUMS from "../../Enums/enums";
 
 const serverURL = `http://10.0.0.8:3002`;
 
@@ -10,16 +11,19 @@ const serverURL = `http://10.0.0.8:3002`;
 const Room = (props) => {
   const [message, setMessage] = useState("");
   const [userInfo, setUserInfo] = useState({});
+  const [players, setPlayers] = useState(undefined);
+
 
 
   useEffect(() => {
     const socket = io.connect(serverURL);
     socket.on("connect", () => {
       console.log(`Connection to SocketServer success`);
-      socket.emit("join_room", props, (message) => {
+      socket.emit("join_room", props, (players) => {
         //NEED TO CHECK IF THIS SUCCESS MESSAGE, if not need to disconnect ?
-        console.log(JSON.parse(message));
-        setUserInfo(JSON.parse(message));
+        console.log(JSON.parse(players));
+        // setUserInfo(JSON.parse(message));
+        //need to get all players
         socket.on("recieve_message", (d) => {
           //TODO IF REACIEVE MESSAGE IS YOU ARE NEW ADMIN NEED TO SET ADIMN!!!!
           //TODO SWITCH CASE ALL SOCKET MESSAGES!!!!!!!!!
@@ -28,6 +32,8 @@ const Room = (props) => {
             case SOCKET_ENUMS.YOU_ARE_NEW_ADMIN:
             setUserInfo({admin: true});
             break;
+
+         
           }
           console.log(d);
           setMessage(d);
@@ -78,7 +84,4 @@ const Room = (props) => {
 };
 
 export default Room;
-const SOCKET_ENUMS = {
-  YOU_ARE_NEW_ADMIN: "YOU_ARE_NEW_ADMIN",
 
-}
