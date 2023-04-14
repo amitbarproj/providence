@@ -54,8 +54,8 @@ const CardRoom = (props) => {
         <Card.Text>{description}</Card.Text>
         {auth && <BsFillLockFill />}
       </Card.Body>
-      <Button disabled={gameStarted} variant="primary" onClick={() => setModalShow(true)}>
-        {gameStarted? "Game Started" : "Join Room"}
+      <Button disabled={gameStarted || numOfPlayers >= maxPlayers} variant="primary" onClick={() => setModalShow(true)}>
+        {gameStarted? "Game Started" : (numOfPlayers >= maxPlayers? "Full Room" : "Join Room")}
       </Button>
       <JoinRoomModal
         show={modalShow}
