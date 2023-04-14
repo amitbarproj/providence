@@ -59,7 +59,10 @@ const Room = (props) => {
   return (
     <div className="Room">
       <h1>
-        {props.username}, Welcome to room number {props.roomId}
+        {props.username}, Welcome to room {props.roomId}
+      </h1>
+      <h1>
+        We are playing {props.game}
       </h1>
       <p>
         {message}

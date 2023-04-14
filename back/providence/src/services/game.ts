@@ -2,6 +2,7 @@
 import { User } from "./player";
 import { SocketServer } from "./socketServer";
 
+//Need to do this abstract class
 export class Game {
     private roomId: string = undefined
     private players: Map<string, User> = undefined;
