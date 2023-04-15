@@ -43,10 +43,12 @@ export class SocketServer {
                 if(leaveRoomBody !== undefined) {
                     await Main.leaveRoom(leaveRoomBody);
                     const currRoom =  Main.getRooms().get(leaveRoomBody.roomId);
-                    const newPlayersUsernames = {
-                        playersUsername: currRoom.getPlayersUsername(),
+                    if(currRoom) {
+                        const newPlayersUsernames = {
+                            playersUsername: currRoom.getPlayersUsername(),
+                        }
+                        SocketServer.sendGameMessage(currRoom.getRoomId(), "NEW_PLAYER_LEAVE" , newPlayersUsernames );
                     }
-                    SocketServer.sendGameMessage(currRoom.getRoomId(), "NEW_PLAYER_LEAVE" , newPlayersUsernames );
                 }
               });
             

@@ -43,10 +43,10 @@ export class Room {
                 SocketServer.sendPrivateMessage(newAdminPlayer.getSocketId() , SOCKET_ENUMS.YOU_ARE_NEW_ADMIN);
             }
         }
+        this.players.delete(leaveRoomBody.username);
         if(deletedPlayer.getSocketId()) {
           await SocketServer.leaveClient(this.roomId , deletedPlayer.getSocketId());
         }
-        this.players.delete(leaveRoomBody.username);
     }
 
     public getPlayers = (): Map<string, User>  => {
