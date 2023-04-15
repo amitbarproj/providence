@@ -54,3 +54,8 @@ export type GET_ROOM_RES = {
     isStarted: boolean
 }
 
+export type SOCKET_JOIN_ROOM_OBJ = {
+    playersUsername: string[],
+    youAdmin: boolean
+}
+

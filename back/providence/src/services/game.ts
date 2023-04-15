@@ -33,7 +33,7 @@ export class Game {
             this.currentPlayer = this.myIterator.next();
         }
         if(this.currentPlayer.value) {
-            SocketServer.sendGameMessage( this.roomId, `${this.currentPlayer.value[1].username}`);
+            SocketServer.sendGameMessage( this.roomId,"recieve_message", `${this.currentPlayer.value[1].username}`);
         }
         else{
             //NO PLAYERS IN GAME

@@ -53,6 +53,14 @@ export class Room {
         return this.players;
     }
 
+    public getPlayersUsername = (): string[]  => {
+        const ans = [];
+        this.players.forEach(player => {
+            ans.push(player.getUserName());
+        });
+        return ans;
+    }
+
     public startGame = ()  => {
         this.game = new Game(this.players , this.roomId, this.minPlayers );
     }

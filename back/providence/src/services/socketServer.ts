@@ -1,4 +1,4 @@
-import { LEAVE_ROOM_BODY } from "../../../../classes/types";
+import { LEAVE_ROOM_BODY, SOCKET_JOIN_ROOM_OBJ } from "../../../../classes/types";
 import { Main } from "./main";
 import { User } from "./player";
 
@@ -53,9 +53,16 @@ export class SocketServer {
                         currPlayer.setSocketId(socket.id);
                         socket.join(data.roomId);
                         console.log(`${data.username} joind to room: ${data.roomId}`);
-                        console.log(currRoom.getPlayers());
                         //NEED TO SEND ONLY RELEVANT DATA!!! TO UI
-                        cb(JSON.stringify(currRoom.getPlayers()));
+                        const newPlayersUsernames = {
+                            playersUsername: currRoom.getPlayersUsername(),
+                        }
+                        SocketServer.sendGameMessage(currRoom.getRoomId(), "NEW_PLAYER_JOIN" , newPlayersUsernames );
+                        const joinRoomObj:SOCKET_JOIN_ROOM_OBJ = {
+                            playersUsername: currRoom.getPlayersUsername(),
+                            youAdmin: currPlayer.isAdmin()
+                        }
+                        cb(JSON.stringify(joinRoomObj));
                     }
                     else{
                         console.log(`Player ${data.username} Not exist`);
@@ -79,9 +86,9 @@ export class SocketServer {
         this.ioServer.to(clientID).emit("recieve_message" , message);
     }
 
-    private sendGameMessage = (roomId: string , message: any) => {
-        console.log(roomId , message);
-        this.ioServer.to(roomId).emit("recieve_message" , message);
+    private sendGameMessage = (roomId: string ,subject:string, message: any) => {
+        console.log(subject , message);
+        this.ioServer.to(roomId).emit(subject , message);
     }
 
     private leaveClient = async(roomId:string , socketId: string) => {
@@ -91,7 +98,7 @@ export class SocketServer {
                 socket.leave(roomId);
                 SocketServer.sendPrivateMessage(socketId , `BYE BYE FROM ROOM ${roomId}`);
             }
-        })
+        })  
     }
     
     public static init = SocketServer.instance.init;
