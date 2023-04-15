@@ -47,6 +47,10 @@ const Room = (props) => {
           const newPlayers = msg;
           setPlayersUsername(newPlayers.playersUsername);
         });
+        socket.on("NEW_PLAYER_LEAVE", (msg) => {
+          const newPlayers = msg;
+          setPlayersUsername(newPlayers.playersUsername);
+        });
       });
     });
     return () => {

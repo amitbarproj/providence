@@ -30,7 +30,7 @@ export class SocketServer {
         this.ioServer.on("connection" , (socket) => {
             console.log(`User Connected: ${socket.id}`);
 
-            socket.on('disconnect', () => {
+            socket.on('disconnect', async () => {
                 let leaveRoomBody: LEAVE_ROOM_BODY = undefined;
                 console.log(`user disconnected ${socket.id}`);
                 Main.getRooms().forEach(room => {
@@ -41,7 +41,12 @@ export class SocketServer {
                     })
                 })
                 if(leaveRoomBody !== undefined) {
-                    Main.leaveRoom(leaveRoomBody);
+                    await Main.leaveRoom(leaveRoomBody);
+                    const currRoom =  Main.getRooms().get(leaveRoomBody.roomId);
+                    const newPlayersUsernames = {
+                        playersUsername: currRoom.getPlayersUsername(),
+                    }
+                    SocketServer.sendGameMessage(currRoom.getRoomId(), "NEW_PLAYER_LEAVE" , newPlayersUsernames );
                 }
               });
             
@@ -92,10 +97,15 @@ export class SocketServer {
     }
 
     private leaveClient = async(roomId:string , socketId: string) => {
+        const currRoom =  Main.getRooms().get(roomId);
         const sockets = await this.ioServer.in(roomId).fetchSockets();
         sockets.forEach(socket => {
             if(socket.id === socketId) {
                 socket.leave(roomId);
+                const newPlayersUsernames = {
+                    playersUsername: currRoom.getPlayersUsername(),
+                }
+                SocketServer.sendGameMessage(currRoom.getRoomId(), "NEW_PLAYER_LEAVE" , newPlayersUsernames );
                 SocketServer.sendPrivateMessage(socketId , `BYE BYE FROM ROOM ${roomId}`);
             }
         })  
