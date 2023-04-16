@@ -84,7 +84,7 @@ function App() {
         </div>
       )}
       {inRoom && (
-        <Room roomId={roomId} username={username} game={gameType}></Room>
+        <Room setInRoom={setInRoom} roomId={roomId} username={username} game={gameType}></Room>
       )}
     </div>
   );

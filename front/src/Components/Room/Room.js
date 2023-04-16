@@ -5,14 +5,13 @@ import Button from "react-bootstrap/Button";
 import { SOCKET_ENUMS } from "../../Enums/enums";
 import { SERVER_URL } from "../../Enums/enums";
 
-
-
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const Room = (props) => {
   const [message, setMessage] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [playersUsername, setPlayersUsername] = useState([]);
+  const setInRoomCallback = props.setInRoom;
 
   useEffect(() => {
     const socket = io.connect(serverURL);
@@ -26,7 +25,7 @@ const Room = (props) => {
           setIsAdmin(true);
         }
         setPlayersUsername(socketObj.playersUsername);
-     
+
         socket.on(SOCKET_ENUMS.NEW_PLAYER_JOIN, (msg) => {
           const newPlayers = msg;
           setPlayersUsername(newPlayers.playersUsername);
@@ -40,13 +39,14 @@ const Room = (props) => {
         });
         socket.on(SOCKET_ENUMS.ADMIN_DISMISS_YOU, (msg) => {
           console.log(msg);
+          setInRoomCallback(false);
         });
         socket.on(SOCKET_ENUMS.START_GAME, (msg) => {
           console.log(msg);
         });
         socket.on(SOCKET_ENUMS.GAME_MSG, (msg) => {
           setMessage(msg);
-        });//NEED TO BE IN SPECIFIG GAME LOGIC
+        }); //NEED TO BE IN SPECIFIG GAME LOGIC
       });
     });
     return () => {
@@ -77,13 +77,12 @@ const Room = (props) => {
       <p>{message}</p>
       {renderPlayers}
       {isAdmin && (
-        <Button variant="primary" onClick={() => startGame()}>
-          Strat Game
-        </Button>
+          <Button variant="primary" onClick={() => startGame()}>
+            Strat Game
+          </Button>
       )}
     </div>
   );
 };
 
 export default Room;
-
