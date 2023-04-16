@@ -5,7 +5,9 @@ import Button from "react-bootstrap/Button";
 import { BsFillLockFill } from "react-icons/bs";
 import JoinRoomModal from "../JoinRoomModal/JoinRoomModal";
 import "./CardRoom.css";
-const serverURL = `http://10.0.0.8:3002`;
+import { SERVER_URL } from "../../Enums/enums";
+const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
+
 
 const CardRoom = (props) => {
   const roomId = props.roomId;

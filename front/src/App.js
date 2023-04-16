@@ -7,8 +7,10 @@ import { AiOutlinePlus } from "react-icons/ai";
 
 import CreateRoomModal from "./Components/CreateRoomModal/CreateRoomModal";
 import CardsRoom from "./Components/CardsRoom/CardsRoom";
+import { SERVER_URL } from "./Enums/enums";
+const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
-const serverURL = `http://10.0.0.8:3002`;
+
 
 function App() {
   const [inRoom, setInRoom] = useState(false);

@@ -3,8 +3,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { SOCKET_ENUMS } from "../../Enums/enums";
+import { SERVER_URL } from "../../Enums/enums";
 
-const serverURL = `http://10.0.0.8:3002`;
+
+
+const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const Room = (props) => {
   const [message, setMessage] = useState("");
