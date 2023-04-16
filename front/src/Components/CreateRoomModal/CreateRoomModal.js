@@ -95,7 +95,7 @@ const CreateRoomModal = (props) => {
                 <Form.Label>Description</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter Descriptionn"
+                  placeholder="Enter Description"
                   ref={newDescription}
                 />
               </div>

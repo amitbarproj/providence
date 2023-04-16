@@ -1,3 +1,4 @@
+import { SOCKET_ENUMS } from "../../../../classes/socketEnums";
 import { LEAVE_ROOM_BODY, SOCKET_JOIN_ROOM_OBJ } from "../../../../classes/types";
 import { Main } from "./main";
 import { User } from "./player";
@@ -47,7 +48,7 @@ export class SocketServer {
                         const newPlayersUsernames = {
                             playersUsername: currRoom.getPlayersUsername(),
                         }
-                        SocketServer.sendGameMessage(currRoom.getRoomId(), "NEW_PLAYER_LEAVE" , newPlayersUsernames );
+                        SocketServer.sendGameMessage(currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_LEAVE , newPlayersUsernames );
                     }
                 }
               });
@@ -64,7 +65,7 @@ export class SocketServer {
                         const newPlayersUsernames = {
                             playersUsername: currRoom.getPlayersUsername(),
                         }
-                        SocketServer.sendGameMessage(currRoom.getRoomId(), "NEW_PLAYER_JOIN" , newPlayersUsernames );
+                        SocketServer.sendGameMessage(currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_JOIN , newPlayersUsernames );
                         const joinRoomObj:SOCKET_JOIN_ROOM_OBJ = {
                             playersUsername: currRoom.getPlayersUsername(),
                             youAdmin: currPlayer.isAdmin()
@@ -82,15 +83,15 @@ export class SocketServer {
                // Main.getRooms().get(data.roomId).getPlayers().get(data.username).setSocketID(socket.id);
             })
 
-            socket.on("send_message" , (data) => {
-                socket.to(data.room).emit("recieve_message" , data);
-            });
+            // socket.on("send_message" , (data) => {
+            //     socket.to(data.room).emit("recieve_message" , data);
+            // });
 
         })
     }
 
-    private sendPrivateMessage = (clientID: string , message: any) => {
-        this.ioServer.to(clientID).emit("recieve_message" , message);
+    private sendPrivateMessage = (clientID: string ,subject:string , message: any) => {
+        this.ioServer.to(clientID).emit(subject , message);
     }
 
     private sendGameMessage = (roomId: string ,subject:string, message: any) => {
@@ -107,8 +108,8 @@ export class SocketServer {
                 const newPlayersUsernames = {
                     playersUsername: currRoom.getPlayersUsername(),
                 }
-                SocketServer.sendGameMessage(currRoom.getRoomId(), "NEW_PLAYER_LEAVE" , newPlayersUsernames );
-                SocketServer.sendPrivateMessage(socketId , `BYE BYE FROM ROOM ${roomId}`);
+                SocketServer.sendGameMessage(currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_LEAVE , newPlayersUsernames );
+                SocketServer.sendPrivateMessage(socketId ,SOCKET_ENUMS.ADMIN_DISMISS_YOU ,`BYE BYE FROM ROOM ${roomId}`);
             }
         })  
     }

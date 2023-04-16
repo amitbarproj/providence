@@ -40,7 +40,7 @@ export class Room {
             if(this.getNumOfPlayers() > 1) {
                 const newAdminPlayer: User = this.getFirstNonAdminPlayer();
                 newAdminPlayer.setIsAdmin(true);
-                SocketServer.sendPrivateMessage(newAdminPlayer.getSocketId() , SOCKET_ENUMS.YOU_ARE_NEW_ADMIN);
+                SocketServer.sendPrivateMessage(newAdminPlayer.getSocketId(),SOCKET_ENUMS.YOU_ARE_NEW_ADMIN , SOCKET_ENUMS.YOU_ARE_NEW_ADMIN);
             }
         }
         this.players.delete(leaveRoomBody.username);

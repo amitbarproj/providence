@@ -19,7 +19,6 @@ const Room = (props) => {
     socket.on("connect", () => {
       console.log(`Connection to SocketServer success`);
       socket.emit("join_room", props, (message) => {  
-        console.log(`00000000000000000000000000`);
         //NEED TO CHECK IF THIS SUCCESS MESSAGE, if not need to disconnect ?
         const socketObj = JSON.parse(message);
         console.log(socketObj);
@@ -27,22 +26,18 @@ const Room = (props) => {
           setIsAdmin(true);
         }
         setPlayersUsername(socketObj.playersUsername);
-        socket.on("recieve_message", (msg) => {
-          //TODO IF REACIEVE MESSAGE IS YOU ARE NEW ADMIN NEED TO SET ADIMN!!!!
-          //TODO SWITCH CASE ALL SOCKET MESSAGES!!!!!!!!!
-          //TODO ne wplayer join room,,,
-          switch(msg) {
-            case "YOU_ARE_NEW_ADMIN":
-              setIsAdmin(true);
-            break;
-
-            case 'NEW PLAYER JOIN TABLE':
-              console.log(`New player join...`);
-              break;
-          }
-          console.log(msg);
-          setMessage(msg);
-        });
+        // socket.on("recieve_message", (msg) => {
+        //   //TODO IF REACIEVE MESSAGE IS YOU ARE NEW ADMIN NEED TO SET ADIMN!!!!
+        //   //TODO SWITCH CASE ALL SOCKET MESSAGES!!!!!!!!!
+        //   //TODO ne wplayer join room,,,
+        //   switch(msg) {
+        //     case "YOU_ARE_NEW_ADMIN":
+        //       setIsAdmin(true);
+        //     break;
+        //   }
+        //   console.log(msg);
+        //   setMessage(msg);
+        // });
         socket.on("NEW_PLAYER_JOIN", (msg) => {
           const newPlayers = msg;
           setPlayersUsername(newPlayers.playersUsername);
@@ -50,6 +45,15 @@ const Room = (props) => {
         socket.on("NEW_PLAYER_LEAVE", (msg) => {
           const newPlayers = msg;
           setPlayersUsername(newPlayers.playersUsername);
+        });
+        socket.on("YOU_ARE_NEW_ADMIN", (msg) => {
+          setIsAdmin(true);
+        });
+        socket.on("ADMIN_DISMISS_YOU", (msg) => {
+          console.log(msg);
+        });
+        socket.on("GAME_MSG", (msg) => {
+          setMessage(msg);
         });
       });
     });
