@@ -17,6 +17,11 @@ export class Game {
     this.currentPlayer = this.myIterator.next();
     this.roomId = roomId;
     this.minPlayers = minPlayers;
+    SocketServer.sendRoomMessage(
+        this.roomId,
+        SOCKET_ENUMS.START_GAME,
+        "...."
+      );
     setInterval(() => {
       this.setNextPlayer();
     }, 3000);
@@ -29,7 +34,7 @@ export class Game {
       this.currentPlayer = this.myIterator.next();
     }
     if (this.currentPlayer.value) {
-      SocketServer.sendGameMessage(
+      SocketServer.sendRoomMessage(
         this.roomId,
         SOCKET_ENUMS.GAME_MSG,
         `${this.currentPlayer.value[1].username}`

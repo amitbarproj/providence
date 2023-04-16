@@ -48,7 +48,8 @@ export class SocketServer {
                         const newPlayersUsernames = {
                             playersUsername: currRoom.getPlayersUsername(),
                         }
-                        SocketServer.sendGameMessage(currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_LEAVE , newPlayersUsernames );
+                        SocketServer.sendRoomMessage
+                        (currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_LEAVE , newPlayersUsernames );
                     }
                 }
               });
@@ -65,7 +66,8 @@ export class SocketServer {
                         const newPlayersUsernames = {
                             playersUsername: currRoom.getPlayersUsername(),
                         }
-                        SocketServer.sendGameMessage(currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_JOIN , newPlayersUsernames );
+                        SocketServer.sendRoomMessage
+                        (currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_JOIN , newPlayersUsernames );
                         const joinRoomObj:SOCKET_JOIN_ROOM_OBJ = {
                             playersUsername: currRoom.getPlayersUsername(),
                             youAdmin: currPlayer.isAdmin()
@@ -94,7 +96,8 @@ export class SocketServer {
         this.ioServer.to(clientID).emit(subject , message);
     }
 
-    private sendGameMessage = (roomId: string ,subject:string, message: any) => {
+    private sendRoomMessage
+     = (roomId: string ,subject:string, message: any) => {
         console.log(subject , message);
         this.ioServer.to(roomId).emit(subject , message);
     }
@@ -108,7 +111,8 @@ export class SocketServer {
                 const newPlayersUsernames = {
                     playersUsername: currRoom.getPlayersUsername(),
                 }
-                SocketServer.sendGameMessage(currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_LEAVE , newPlayersUsernames );
+                SocketServer.sendRoomMessage
+                (currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_LEAVE , newPlayersUsernames );
                 SocketServer.sendPrivateMessage(socketId ,SOCKET_ENUMS.ADMIN_DISMISS_YOU ,`BYE BYE FROM ROOM ${roomId}`);
             }
         })  
@@ -116,7 +120,9 @@ export class SocketServer {
     
     public static init = SocketServer.instance.init;
     public static sendPrivateMessage = SocketServer.instance.sendPrivateMessage;
-    public static sendGameMessage = SocketServer.instance.sendGameMessage;
+    public static sendRoomMessage
+     = SocketServer.instance.sendRoomMessage
+    ;
     public static leaveClient = SocketServer.instance.leaveClient;
 
 }

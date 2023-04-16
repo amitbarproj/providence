@@ -38,9 +38,12 @@ const Room = (props) => {
         socket.on(SOCKET_ENUMS.ADMIN_DISMISS_YOU, (msg) => {
           console.log(msg);
         });
+        socket.on(SOCKET_ENUMS.START_GAME, (msg) => {
+          console.log(msg);
+        });
         socket.on(SOCKET_ENUMS.GAME_MSG, (msg) => {
           setMessage(msg);
-        });
+        });//NEED TO BE IN SPECIFIG GAME LOGIC
       });
     });
     return () => {

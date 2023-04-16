@@ -13,6 +13,7 @@ import {
   START_GAME_RES,
 } from "../../../../classes/types";
 import { Room } from "./room";
+import { SocketServer } from "./socketServer";
 
 const gameConf = require("../../../../../../../config/gameConf.json");
 
