@@ -2,14 +2,12 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { BsFillLockFill } from "react-icons/bs";
 import "./CreateRoomModal.css";
-
 import Form from "react-bootstrap/Form";
 import Collapse from "react-bootstrap/Collapse";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-
 import { useState, useRef } from "react";
-import GAMES from "../../Enums/enums";
+import { GAMES } from "../../Enums/enums";
 
 const CreateRoomModal = (props) => {
   const createRoomError = props.createRoomError;
@@ -147,6 +145,5 @@ const CreateRoomModal = (props) => {
     </Modal>
   );
 };
-
 
 export default CreateRoomModal;
