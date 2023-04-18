@@ -6,6 +6,8 @@ import { BsFillLockFill } from "react-icons/bs";
 import JoinRoomModal from "../JoinRoomModal/JoinRoomModal";
 import "./CardRoom.css";
 import { SERVER_URL } from "../../Enums/enums";
+import { useNavigate } from "react-router-dom";
+
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 
@@ -19,10 +21,12 @@ const CardRoom = (props) => {
   const description = props.description;
   const setRoomId = props.setRoomId;
   const setUsername = props.setUsername;
-  const setInRoom = props.setInRoom;
 
   const [modalShow, setModalShow] = useState(false);
   const [joinRoomError, setJoinRoomError] = useState("");
+
+  const navigate = useNavigate();
+
 
   const joinRoom = async (dataToSendd) => {
     const dataToSend = {
@@ -39,7 +43,7 @@ const CardRoom = (props) => {
       setModalShow(false);
       setRoomId(roomId);
       setUsername(dataToSendd.username);
-      setInRoom(true);
+      navigate(`/room/${roomId}`);
     } else {
       setJoinRoomError(data.description);
     }

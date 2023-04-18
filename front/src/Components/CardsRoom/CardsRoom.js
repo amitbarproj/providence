@@ -14,7 +14,6 @@ const CardsRoom = (props) => {
       description={item.description}
       setRoomId={props.setRoomId}
       setUsername={props.setUsername}
-      setInRoom={props.setInRoom}
     ></CardRoom>
   ));
   return <div className="cards">{renderList}</div>;
