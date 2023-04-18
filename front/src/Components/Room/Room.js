@@ -79,7 +79,7 @@ const Room = (props) => {
           setPlayersUsername(socketObj.playersUsername);
 
           socket.on("NEW_PLAYER_JOIN", (msg) => {
-            console.log("NEW PLAYER JOINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+            console.log("NEW PLAYER JOINNNNNNNNNNNNNNNNNNNNvNNNNNNNNNNNNNNNN");
             const newPlayers = msg;
             console.log(newPlayers.playersUsername);
             setPlayersUsername(newPlayers.playersUsername);
