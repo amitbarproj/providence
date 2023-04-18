@@ -42,19 +42,20 @@ export class SocketServer {
                     })
                 })
                 if(leaveRoomBody !== undefined) {
-                    await Main.leaveRoom(leaveRoomBody);
-                    const currRoom =  Main.getRooms().get(leaveRoomBody.roomId);
-                    if(currRoom) {
-                        const newPlayersUsernames = {
-                            playersUsername: currRoom.getPlayersUsername(),
-                        }
-                        SocketServer.sendRoomMessage
-                        (currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_LEAVE , newPlayersUsernames );
-                    }
+                    // await Main.leaveRoom(leaveRoomBody);
+                    // const currRoom =  Main.getRooms().get(leaveRoomBody.roomId);
+                    // if(currRoom) {
+                    //     const newPlayersUsernames = {
+                    //         playersUsername: currRoom.getPlayersUsername(),
+                    //     }
+                    //     SocketServer.sendRoomMessage
+                    //     (currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_LEAVE , newPlayersUsernames );
+                    // }
                 }
               });
             
             socket.on("join_room" , (data: {roomId: string , username: string }, cb) => {
+                console.log(data.roomId);
                 if(Main.getRooms().has(data.roomId)) {
                     const currRoom =  Main.getRooms().get(data.roomId);
                     if(currRoom.getPlayers().has(data.username)) {
@@ -62,16 +63,17 @@ export class SocketServer {
                         currPlayer.setSocketId(socket.id);
                         socket.join(data.roomId);
                         console.log(`${data.username} joind to room: ${data.roomId}`);
-                        //NEED TO SEND ONLY RELEVANT DATA!!! TO UI
                         const newPlayersUsernames = {
                             playersUsername: currRoom.getPlayersUsername(),
                         }
+                        console.log(`@@@@@@@@@@@@@@@`);
                         SocketServer.sendRoomMessage
                         (currRoom.getRoomId(), SOCKET_ENUMS.NEW_PLAYER_JOIN , newPlayersUsernames );
                         const joinRoomObj:SOCKET_JOIN_ROOM_OBJ = {
                             playersUsername: currRoom.getPlayersUsername(),
                             youAdmin: currPlayer.isAdmin()
                         }
+                        console.log(`!!!!!!!!!!!!!!!!!!`)
                         cb(JSON.stringify(joinRoomObj));
                     }
                     else{
@@ -79,6 +81,7 @@ export class SocketServer {
                     }
                 }
                 else{
+                    console.log(`223232444444444444444444444`);
                     console.log(`Room: ${data.roomId} Not exist`);
                 }
                 //check if room exist , and username

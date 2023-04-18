@@ -4,5 +4,6 @@ export enum SERVER_API  {
     leaveRoom = "/leaveRoom",
     getAllRooms = "/getAllRooms",
     getPlayersByRoom = "/getPlayersByRoom",
-    startGame = "/startGame"
+    startGame = "/startGame",
+    checkIfUsernameExistInRoom = "/checkIfUsernameExistInRoom"
 }

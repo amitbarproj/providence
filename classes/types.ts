@@ -59,3 +59,14 @@ export type SOCKET_JOIN_ROOM_OBJ = {
     youAdmin: boolean
 }
 
+
+export type CHECK_IF_USERNAME_BODY = {
+    roomId: string,
+    username: string
+}
+
+export type CHECK_IF_USERNAME_RES = {
+    
+}
+
+

@@ -36,6 +36,8 @@ const Home = (props) => {
           setRoomId(modalObj.roomId);
           setUsername(modalObj.username);
           setGameType(modalObj.game);
+          localStorage.clear();
+          localStorage.setItem('username', JSON.stringify(modalObj.username));
           navigate(`/room/${modalObj.roomId}`);
         } else {
           setCreateRoomError(data.description);

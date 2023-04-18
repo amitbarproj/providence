@@ -43,6 +43,8 @@ const CardRoom = (props) => {
       setModalShow(false);
       setRoomId(roomId);
       setUsername(dataToSendd.username);
+      localStorage.clear();
+      localStorage.setItem('username', JSON.stringify(dataToSendd.username));
       navigate(`/room/${roomId}`);
     } else {
       setJoinRoomError(data.description);

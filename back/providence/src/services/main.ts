@@ -2,6 +2,8 @@ import { SERVER_API } from "../../../../classes/api_enums";
 import { GAMES } from "../../../../classes/enums";
 import {
   ASYNC_RESPONSE,
+  CHECK_IF_USERNAME_BODY,
+  CHECK_IF_USERNAME_RES,
   CREATE_ROOM_BODY,
   CREATE_ROOM_RES,
   GET_ROOM_RES,
@@ -73,7 +75,7 @@ export class Main {
       console.log(createRoomBody);
       if (createRoomBody.roomId === "") {
         ans.description = `Please enter Room ID`;
-      }else if (createRoomBody.game === GAMES.Error) {
+      } else if (createRoomBody.game === GAMES.Error) {
         ans.description = `Please select a Game`;
       } else if (createRoomBody.username === "") {
         ans.description = `Please enter Username`;
@@ -165,6 +167,44 @@ export class Main {
           currRoom.startGame();
           ans.description = `Game in room ${startRoomBody.roomId} started right now`;
           ans.success = true;
+        }
+      }
+      res.send(ans);
+    });
+
+    app.post(SERVER_API.startGame, (req, res) => {
+      const ans: ASYNC_RESPONSE<START_GAME_RES> = { success: false };
+      const startRoomBody: START_GAME_BODY = req.body;
+      if (this.rooms.has(startRoomBody.roomId)) {
+        const currRoom: Room = this.rooms.get(startRoomBody.roomId);
+        if (currRoom.getNumOfPlayers() < currRoom.getMinPlayers()) {
+          ans.description = `Room ${startRoomBody.roomId} has less then minimum players requierd`;
+        } else if (currRoom.gameStarted()) {
+          ans.description = `Game in room ${startRoomBody.roomId} already started`;
+        } else {
+          currRoom.startGame();
+          ans.description = `Game in room ${startRoomBody.roomId} started right now`;
+          ans.success = true;
+        }
+      }
+      res.send(ans);
+    });
+
+    app.post(SERVER_API.checkIfUsernameExistInRoom, (req, res) => {
+      const ans: ASYNC_RESPONSE<CHECK_IF_USERNAME_RES> = { success: false };
+      const checkUsername: CHECK_IF_USERNAME_BODY = req.body;
+      if (this.rooms.has(checkUsername.roomId)) {
+        const currRoom: Room = this.rooms.get(checkUsername.roomId);
+        if (currRoom.getPlayersUsername().includes(checkUsername.username)) {
+          ans.success = true;
+          ans.data = {
+            isAdmin: currRoom
+              .getPlayers()
+              .get(checkUsername.username)
+              .isAdmin(),
+            playersUsername: currRoom.getPlayersUsername(),
+            username: checkUsername.username,
+          };
         }
       }
       res.send(ans);
