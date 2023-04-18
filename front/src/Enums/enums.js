@@ -13,9 +13,13 @@ const GAMES = {
   Chat: "Chat",
 };
 
+const LOCAL_STORAGE = {
+  UserInfo: "UserInfo",
+};
+
 const SERVER_URL = {
   protocol: "http",
   host: "10.0.0.8",
   port: "3002",
 };
-module.exports = {SOCKET_ENUMS , GAMES, SERVER_URL};
+module.exports = {SOCKET_ENUMS , GAMES, SERVER_URL, LOCAL_STORAGE};

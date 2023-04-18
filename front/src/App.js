@@ -32,7 +32,7 @@ function App() {
             <Room
               roomId={roomId}
               username={username}
-              game={gameType}
+              // game={gameType}
             ></Room>
           }
         />

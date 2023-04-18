@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { SOCKET_ENUMS } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
-import { SERVER_URL } from "../../Enums/enums";
+import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -22,8 +22,9 @@ const Room = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!username) {
-      const usernamee = JSON.parse(localStorage.getItem("username"));
+    console.log(props.username);
+    if (props.username === "") {
+      const usernamee = JSON.parse(localStorage.getItem(LOCAL_STORAGE.UserInfo)).username;
       console.log(`1111111111111111`);
 
       async function checkIfUsernameExistInRoom() {
@@ -41,9 +42,7 @@ const Room = (props) => {
 
           setIsAdmin(data.data.isAdmin);
           setPlayersUsername(data.data.playersUsername);
-          console.log(data.data.username);
           setUsername(data.data.username);
-          console.log(username);
           SetRenderRoom(true);
           connectToRoom(usernamee);
         } else {
@@ -53,8 +52,9 @@ const Room = (props) => {
       }
       checkIfUsernameExistInRoom();
     } else {
+      setUsername(props.username);
       SetRenderRoom(true);
-      connectToRoom();
+      connectToRoom(props.username);
     }
   }, []);
 

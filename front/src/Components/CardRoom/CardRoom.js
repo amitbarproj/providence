@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import { BsFillLockFill } from "react-icons/bs";
 import JoinRoomModal from "../JoinRoomModal/JoinRoomModal";
 import "./CardRoom.css";
-import { SERVER_URL } from "../../Enums/enums";
+import { LOCAL_STORAGE, SERVER_URL } from "../../Enums/enums";
 import { useNavigate } from "react-router-dom";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
@@ -44,7 +44,11 @@ const CardRoom = (props) => {
       setRoomId(roomId);
       setUsername(dataToSendd.username);
       localStorage.clear();
-      localStorage.setItem('username', JSON.stringify(dataToSendd.username));
+      const localStorageObj = {
+        username: dataToSendd.username,
+        roomId: roomId,
+      }
+      localStorage.setItem(LOCAL_STORAGE.UserInfo, JSON.stringify(localStorageObj));
       navigate(`/room/${roomId}`);
     } else {
       setJoinRoomError(data.description);
