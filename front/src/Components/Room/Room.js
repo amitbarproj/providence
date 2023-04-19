@@ -23,11 +23,10 @@ const Room = (props) => {
 
   useEffect(() => {
     console.log(props.username);
-    if (props && props.username === "") {
+    if (!props || (props && props.username === "")) {
       const localObj = JSON.parse(localStorage.getItem(LOCAL_STORAGE.UserInfo));
       let usernamee = undefined;
       console.log(`1111111111111111`);
-
       async function checkIfUsernameExistInRoom() {
         const response = await axios.post(
           `${serverURL}/checkIfUsernameExistInRoom`,
@@ -40,13 +39,11 @@ const Room = (props) => {
         console.log(data);
         if (data.success) {
           console.log(`22222222222222222`);
-
-          setIsAdmin(data.data.isAdmin);
-          setPlayersUsername(data.data.playersUsername);
           setUsername(data.data.username);
           SetRenderRoom(true);
           connectToRoom(usernamee);
         } else {
+          localStorage.clear();
           navigate("/");
           console.log(data);
         }
@@ -137,6 +134,22 @@ const Room = (props) => {
     }
   };
 
+  const leaveRoom = async () => {
+    console.log(id);
+    const response = await axios.post(`${serverURL}/leaveRoom`, {
+      roomId: id,
+      username: username 
+    });
+    const data = response.data;
+    if (data.success) {
+      localStorage.clear();
+      navigate("/")
+      console.log(data);
+    } else {
+      console.log(data);
+    }
+  };
+
   const renderPlayers = playersUsername.map((item, index) => <h3>{item}</h3>);
 
   return (
@@ -151,7 +164,11 @@ const Room = (props) => {
           <Button variant="primary" onClick={() => startGame()}>
             Strat Game
           </Button>
+          
         )}
+         <Button variant="primary" onClick={() => leaveRoom()}>
+            Leave Room
+          </Button>
       </div>
     )
   );

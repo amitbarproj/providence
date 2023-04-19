@@ -1,12 +1,8 @@
 import "./App.css";
-// import axios from "axios";
 import { useState } from "react";
 import Room from "./Components/Room/Room";
-
-// import { SERVER_URL } from "./Enums/enums";
 import Home from "./Components/Home/Home";
 import { Route, Routes } from "react-router-dom";
-// const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 function App() {
   const [roomId, setRoomId] = useState("");
