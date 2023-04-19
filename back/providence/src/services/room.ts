@@ -1,6 +1,6 @@
 import { GAMES } from "../../../../classes/enums";
 import { SOCKET_ENUMS } from "../../../../classes/socketEnums";
-import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, START_GAME_RES } from "../../../../classes/types";
+import { ASYNC_RESPONSE, CREATE_ROOM_BODY, JOIN_ROOM_BODY, JOIN_ROOM_RES, LEAVE_ROOM_BODY, PLAYER_SOCKET_DATA, SOCKET_JOIN_ROOM_OBJ, START_GAME_RES } from "../../../../classes/types";
 import { Game } from "./game";
 import { User } from "./player";
 import { SocketServer } from "./socketServer";
@@ -101,6 +101,22 @@ export class Room {
     public getGameType = (): GAMES  => {
         return this.gameType;
     }
+
+    
+    public getPlayersSocketData = (): PLAYER_SOCKET_DATA[]  => {
+        const ans: PLAYER_SOCKET_DATA[] = [];
+        this.players.forEach(player => {
+            ans.push({
+                username: player.getUserName(),
+                isAdmin: player.isAdmin(),
+                points: player.getPoints(),
+                isConnected: player.Connected()
+            });
+        });
+        return ans;
+    }
+
+  
 
 
     private getFirstNonAdminPlayer = (): User => {

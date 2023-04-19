@@ -6,10 +6,12 @@ export class User {
     private admin: boolean; 
     private isConnected: boolean;
     private socketId: string;
+    private points: number;
 
     constructor(username: string, isAdmin: boolean) {
         this.username = username;
         this.admin = isAdmin;
+        this.points = 0;
     }
 
     public isAdmin = (): boolean  => {
@@ -30,6 +32,14 @@ export class User {
 
       public setSocketId = (socketId: string)  => {
         this.socketId = socketId;
+      }
+      
+      public getPoints = (): number  => {
+        return this.points;
+      }
+
+      public Connected = (): boolean  => {
+        return this.isConnected;
       }
 }
 

@@ -10,10 +10,12 @@ const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port
 
 const Room = (props) => {
   const [message, setMessage] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
 
-  const [playersUsername, setPlayersUsername] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [players, setPlayers] = useState([]);
+  const [gameType, setGameType] = useState(undefined);
   const [username, setUsername] = useState(undefined);
+
   const [renderRoom, SetRenderRoom] = useState(false);
 
   // const [userRoomInfo, setUserRoomInfo] = useState({isAdmin: false, playersUsername: [] , username: undefined  });
@@ -40,7 +42,7 @@ const Room = (props) => {
         if (data.success) {
           console.log(`22222222222222222`);
           setUsername(data.data.username);
-          SetRenderRoom(true);
+         // SetRenderRoom(true);
           connectToRoom(usernamee);
         } else {
           localStorage.clear();
@@ -57,7 +59,6 @@ const Room = (props) => {
       }
     } else {
       setUsername(props.username);
-      SetRenderRoom(true);
       connectToRoom(props.username);
     }
   }, []);
@@ -76,30 +77,37 @@ const Room = (props) => {
           if(message !== "ERROR") {
             console.log(`666666666666666`);
             console.log(message);
-            //NEED TO CHECK IF THIS SUCCESS MESSAGE, if not need to disconnect ?
             const socketObj = JSON.parse(message);
+          //   const joinRoomObj:SOCKET_JOIN_ROOM_OBJ = {
+          //     players: currRoom.getPlayersSocketData(),
+          //     youAdmin: currPlayer.isAdmin(),
+          //     gameType: currRoom.getGameType()
+          // }
             console.log(socketObj);
             if (socketObj.youAdmin) {
               setIsAdmin(true);
             }
-            setPlayersUsername(socketObj.playersUsername);
+            console.log(socketObj.players);
+            setPlayers(socketObj.players);
+            setGameType(socketObj.gameType)
+            SetRenderRoom(true);
 
             socket.on("NEW_PLAYER_JOIN", (msg) => {
-              console.log("NEW PLAYER JOINNNNNNNNNNNNNNNNNNNNvNNNNNNNNNNNNNNNN");
               const newPlayers = msg;
-              console.log(newPlayers.playersUsername);
-              setPlayersUsername(newPlayers.playersUsername);
+              console.log(newPlayers);
+              setPlayers(newPlayers.players);
             });
             socket.on(SOCKET_ENUMS.NEW_PLAYER_LEAVE, (msg) => {
               const newPlayers = msg;
-              setPlayersUsername(newPlayers.playersUsername);
+              setPlayers(newPlayers.players);
             });
             socket.on(SOCKET_ENUMS.YOU_ARE_NEW_ADMIN, (msg) => {
               setIsAdmin(true);
             });
             socket.on(SOCKET_ENUMS.ADMIN_DISMISS_YOU, (msg) => {
               console.log(msg);
-              //setInRoomCallback(false);
+              localStorage.clear();
+              navigate("/");
             });
             socket.on(SOCKET_ENUMS.START_GAME, (msg) => {
               console.log(msg);
@@ -150,8 +158,8 @@ const Room = (props) => {
     }
   };
 
-  const renderPlayers = playersUsername.map((item, index) => <h3>{item}</h3>);
-
+  const renderPlayers =   players.map((item, index) => <h3>{item.username}</h3>)
+  console.log(players);
   return (
     renderRoom && (
       <div className="Room">
