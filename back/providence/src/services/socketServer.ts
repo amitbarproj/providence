@@ -78,11 +78,14 @@ export class SocketServer {
                     }
                     else{
                         console.log(`Player ${data.username} Not exist`);
+                        cb("ERROR");
+
                     }
                 }
                 else{
                     console.log(`223232444444444444444444444`);
                     console.log(`Room: ${data.roomId} Not exist`);
+                    cb("ERROR");
                 }
                 //check if room exist , and username
                // Main.getRooms().get(data.roomId).getPlayers().get(data.username).setSocketID(socket.id);

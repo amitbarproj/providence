@@ -19,15 +19,13 @@ const Home = (props) => {
   const setRoomId = props.setRoomId;
 
   useEffect(() => {
-    const {roomId , username} = JSON.parse(localStorage.getItem(LOCAL_STORAGE.UserInfo));
-    if (roomId !== undefined) {
-      console.log(roomId);
-      console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@`);
-
-      setRoomId(roomId);
-      setUsername(username);
+    const localObj = JSON.parse(localStorage.getItem(LOCAL_STORAGE.UserInfo));
+    if (localObj && localObj.roomId) {
+      console.log(localObj.roomId);
+      setRoomId(localObj.roomId);
+      setUsername(localObj.username);
       // setGameType(gameType);
-      navigate(`/room/${roomId}`);
+      navigate(`/room/${localObj.roomId}`);
     } else {
       getAllRooms();
     }
