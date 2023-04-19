@@ -126,19 +126,9 @@ const Room = (props) => {
               navigate("/");
             });
             socket.on(SOCKET_ENUMS.START_GAME, (msg) => {
-              // console.log(msg);
-              // socket.on(SOCKET_ENUMS.GAME_MSG, (game_msg) => {
-              //   setMessage(game_msg);
-              // }); //NEED TO BE IN SPECIFIG GAME LOGIC
               setGameStarted(true);
             });
-            // console.log(gameStarted);
-            // if (socketObj.gameStarted) {
-            //   console.log(`BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB`);
-            //   socket.on(SOCKET_ENUMS.GAME_MSG, (game_msg) => {
-            //     setMessage(game_msg);
-            //   }); //NEED TO BE IN SPECIFIG GAME LOGIC
-            // }
+          
           } else {
             localStorage.clear();
             navigate("/");
