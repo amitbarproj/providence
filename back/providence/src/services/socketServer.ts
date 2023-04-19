@@ -78,6 +78,7 @@ export class SocketServer {
                 players: currRoom.getPlayersSocketData(),
                 youAdmin: currPlayer.isAdmin(),
                 gameType: currRoom.getGameType(),
+                gameStarted: currRoom.gameStarted()
               };
               console.log(`!!!!!!!!!!!!!!!!!!`);
               cb(JSON.stringify(joinRoomObj));

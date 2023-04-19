@@ -1,10 +1,11 @@
 import io from "socket.io-client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
-import { SOCKET_ENUMS } from "../../Enums/enums";
+import { GAMES, SOCKET_ENUMS } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
+import Providence from "../Providence/Providence";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -15,14 +16,26 @@ const Room = (props) => {
   const [players, setPlayers] = useState([]);
   const [gameType, setGameType] = useState(undefined);
   const [username, setUsername] = useState(undefined);
-
+  const [gameStarted, setGameStarted] = useState(false);
   const [renderRoom, SetRenderRoom] = useState(false);
+  const [socket, setSocket] = useState(undefined);
+
+  // let socket;
 
   // const [userRoomInfo, setUserRoomInfo] = useState({isAdmin: false, playersUsername: [] , username: undefined  });
 
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const renderSwitch = () => {
+    switch (gameType) {
+      case GAMES.Providence:
+        console.log(socket);
+        return <Providence players={players} socket={socket}></Providence>;
+      default:
+        return <h1>NON GAME</h1>;
+    }
+  };
   useEffect(() => {
     console.log(props.username);
     if (!props || (props && props.username === "")) {
@@ -42,19 +55,18 @@ const Room = (props) => {
         if (data.success) {
           console.log(`22222222222222222`);
           setUsername(data.data.username);
-         // SetRenderRoom(true);
+          // SetRenderRoom(true);
           connectToRoom(usernamee);
         } else {
-          localStorage.clear();
+          //localStorage.clear();
           navigate("/");
           console.log(data);
         }
       }
-      if(localObj) {
+      if (localObj) {
         usernamee = localObj.username;
         checkIfUsernameExistInRoom();
-      }
-      else{
+      } else {
         navigate("/");
       }
     } else {
@@ -64,7 +76,9 @@ const Room = (props) => {
   }, []);
 
   const connectToRoom = (usernamee) => {
+    //const socket = io.connect(serverURL);
     const socket = io.connect(serverURL);
+    setSocket(socket)
     console.log(`444444444444444444444`);
     socket.on("connect", () => {
       console.log(`555555555555555555`);
@@ -74,22 +88,24 @@ const Room = (props) => {
         "join_room",
         { roomId: id, username: usernamee },
         (message) => {
-          if(message !== "ERROR") {
+          if (message !== "ERROR") {
             console.log(`666666666666666`);
             console.log(message);
             const socketObj = JSON.parse(message);
-          //   const joinRoomObj:SOCKET_JOIN_ROOM_OBJ = {
-          //     players: currRoom.getPlayersSocketData(),
-          //     youAdmin: currPlayer.isAdmin(),
-          //     gameType: currRoom.getGameType()
-          // }
+            //   const joinRoomObj:SOCKET_JOIN_ROOM_OBJ = {
+            //     players: currRoom.getPlayersSocketData(),
+            //     youAdmin: currPlayer.isAdmin(),
+            //     gameType: currRoom.getGameType()
+            // }
             console.log(socketObj);
             if (socketObj.youAdmin) {
               setIsAdmin(true);
             }
             console.log(socketObj.players);
             setPlayers(socketObj.players);
-            setGameType(socketObj.gameType)
+            setGameType(socketObj.gameType);
+            console.log(socketObj.gameStarted);
+            setGameStarted(socketObj.gameStarted);
             SetRenderRoom(true);
 
             socket.on("NEW_PLAYER_JOIN", (msg) => {
@@ -110,17 +126,23 @@ const Room = (props) => {
               navigate("/");
             });
             socket.on(SOCKET_ENUMS.START_GAME, (msg) => {
-              console.log(msg);
+              // console.log(msg);
+              // socket.on(SOCKET_ENUMS.GAME_MSG, (game_msg) => {
+              //   setMessage(game_msg);
+              // }); //NEED TO BE IN SPECIFIG GAME LOGIC
+              setGameStarted(true);
             });
-            socket.on(SOCKET_ENUMS.GAME_MSG, (msg) => {
-              setMessage(msg);
-            }); //NEED TO BE IN SPECIFIG GAME LOGIC
-          }
-          else{
+            // console.log(gameStarted);
+            // if (socketObj.gameStarted) {
+            //   console.log(`BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB`);
+            //   socket.on(SOCKET_ENUMS.GAME_MSG, (game_msg) => {
+            //     setMessage(game_msg);
+            //   }); //NEED TO BE IN SPECIFIG GAME LOGIC
+            // }
+          } else {
             localStorage.clear();
             navigate("/");
           }
-         
         }
       );
     });
@@ -146,19 +168,19 @@ const Room = (props) => {
     console.log(id);
     const response = await axios.post(`${serverURL}/leaveRoom`, {
       roomId: id,
-      username: username 
+      username: username,
     });
     const data = response.data;
     if (data.success) {
       localStorage.clear();
-      navigate("/")
+      navigate("/");
       console.log(data);
     } else {
       console.log(data);
     }
   };
 
-  const renderPlayers =   players.map((item, index) => <h3>{item.username}</h3>)
+  const renderPlayers = players.map((item, index) => <h3>{item.username}</h3>);
   console.log(players);
   return (
     renderRoom && (
@@ -172,11 +194,11 @@ const Room = (props) => {
           <Button variant="primary" onClick={() => startGame()}>
             Strat Game
           </Button>
-          
         )}
-         <Button variant="primary" onClick={() => leaveRoom()}>
-            Leave Room
-          </Button>
+        <Button variant="primary" onClick={() => leaveRoom()}>
+          Leave Room
+        </Button>
+        <h1>{gameStarted && socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
       </div>
     )
   );

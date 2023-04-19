@@ -57,7 +57,8 @@ export type GET_ROOM_RES = {
 export type SOCKET_JOIN_ROOM_OBJ = {
     players: PLAYER_SOCKET_DATA[],
     youAdmin: boolean,
-    gameType: GAMES
+    gameType: GAMES,
+    gameStarted: boolean
 }
 
 export type PLAYER_SOCKET_DATA = {

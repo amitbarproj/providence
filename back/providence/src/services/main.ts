@@ -1,5 +1,6 @@
 import { SERVER_API } from "../../../../classes/api_enums";
 import { GAMES } from "../../../../classes/enums";
+import { SOCKET_ENUMS } from "../../../../classes/socketEnums";
 import {
   ASYNC_RESPONSE,
   CHECK_IF_USERNAME_BODY,
@@ -182,6 +183,11 @@ export class Main {
         } else if (currRoom.gameStarted()) {
           ans.description = `Game in room ${startRoomBody.roomId} already started`;
         } else {
+          SocketServer.sendRoomMessage(
+            currRoom.getRoomId(),
+            SOCKET_ENUMS.START_GAME,
+            `Game in room ${startRoomBody.roomId} started right now`
+          );
           currRoom.startGame();
           ans.description = `Game in room ${startRoomBody.roomId} started right now`;
           ans.success = true;
