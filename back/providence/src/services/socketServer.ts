@@ -34,6 +34,15 @@ export class SocketServer {
         Main.getRooms().forEach((room) => {
           room.getPlayers().forEach((player) => {
             if (player.getSocketId() === socket.id) {
+              player.setConnected(false);
+              const newPlayers = {
+                players: room.getPlayersSocketData(),
+              };
+              SocketServer.sendRoomMessage(
+                room.getRoomId(),
+                SOCKET_ENUMS.NEW_PLAYER_LEAVE,
+                newPlayers
+              );
               leaveRoomBody = {
                 roomId: room.getRoomId(),
                 username: player.getUserName(),
@@ -64,6 +73,7 @@ export class SocketServer {
               const currPlayer = currRoom.getPlayers().get(data.username);
               currPlayer.setSocketId(socket.id);
               socket.join(data.roomId);
+              currPlayer.setConnected(true);
               console.log(`${data.username} joind to room: ${data.roomId}`);
               const newPlayersUsernames = {
                 players: currRoom.getPlayersSocketData(),
@@ -77,7 +87,7 @@ export class SocketServer {
                 players: currRoom.getPlayersSocketData(),
                 youAdmin: currPlayer.isAdmin(),
                 gameType: currRoom.getGameType(),
-                gameStarted: currRoom.gameStarted()
+                gameStarted: currRoom.gameStarted(),
               };
               cb(JSON.stringify(joinRoomObj));
             } else {

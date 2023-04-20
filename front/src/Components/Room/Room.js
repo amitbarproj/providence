@@ -108,6 +108,7 @@ const Room = (props) => {
               const newPlayers = msg;
               setPlayers(newPlayers.players);
             });
+            
             socket.on(SOCKET_ENUMS.YOU_ARE_NEW_ADMIN, (msg) => {
               setIsAdmin(true);
             });
@@ -170,7 +171,7 @@ const Room = (props) => {
         </h1>
         <p>{message}</p>
         {renderPlayers}
-        {isAdmin && (
+        {isAdmin && !gameStarted &&  (
           <Button variant="primary" onClick={() => startGame()}>
             Strat Game
           </Button>

@@ -12,6 +12,7 @@ export class User {
         this.username = username;
         this.admin = isAdmin;
         this.points = 0;
+        this.isConnected = true;
     }
 
     public isAdmin = (): boolean  => {
@@ -40,6 +41,10 @@ export class User {
 
       public Connected = (): boolean  => {
         return this.isConnected;
+      }
+
+      public setConnected = (newConnected: boolean)  => {
+        return this.isConnected = newConnected;
       }
 }
 
