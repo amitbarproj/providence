@@ -183,11 +183,11 @@ export class Main {
         } else if (currRoom.gameStarted()) {
           ans.description = `Game in room ${startRoomBody.roomId} already started`;
         } else {
-          SocketServer.sendRoomMessage(
-            currRoom.getRoomId(),
-            SOCKET_ENUMS.START_GAME,
-            `Game in room ${startRoomBody.roomId} started right now`
-          );
+          // SocketServer.sendRoomMessage(
+          //   currRoom.getRoomId(),
+          //   SOCKET_ENUMS.START_GAME,
+          //   `Game in room ${startRoomBody.roomId} started right now`
+          // );
           currRoom.startGame();
           ans.description = `Game in room ${startRoomBody.roomId} started right now`;
           ans.success = true;

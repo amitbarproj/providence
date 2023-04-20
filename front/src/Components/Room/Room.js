@@ -88,29 +88,20 @@ const Room = (props) => {
         "join_room",
         { roomId: id, username: usernamee },
         (message) => {
-          if (message !== "ERROR") {
+          if (message !== SOCKET_ENUMS.ERROR) {
             console.log(`666666666666666`);
             console.log(message);
             const socketObj = JSON.parse(message);
-            //   const joinRoomObj:SOCKET_JOIN_ROOM_OBJ = {
-            //     players: currRoom.getPlayersSocketData(),
-            //     youAdmin: currPlayer.isAdmin(),
-            //     gameType: currRoom.getGameType()
-            // }
             console.log(socketObj);
             if (socketObj.youAdmin) {
               setIsAdmin(true);
             }
-            console.log(socketObj.players);
             setPlayers(socketObj.players);
             setGameType(socketObj.gameType);
-            console.log(socketObj.gameStarted);
             setGameStarted(socketObj.gameStarted);
             SetRenderRoom(true);
-
-            socket.on("NEW_PLAYER_JOIN", (msg) => {
+            socket.on(SOCKET_ENUMS.NEW_PLAYER_JOIN, (msg) => {
               const newPlayers = msg;
-              console.log(newPlayers);
               setPlayers(newPlayers.players);
             });
             socket.on(SOCKET_ENUMS.NEW_PLAYER_LEAVE, (msg) => {
@@ -121,7 +112,6 @@ const Room = (props) => {
               setIsAdmin(true);
             });
             socket.on(SOCKET_ENUMS.ADMIN_DISMISS_YOU, (msg) => {
-              console.log(msg);
               localStorage.clear();
               navigate("/");
             });

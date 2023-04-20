@@ -68,7 +68,6 @@ export class SocketServer {
               const newPlayersUsernames = {
                 players: currRoom.getPlayersSocketData(),
               };
-              console.log(`@@@@@@@@@@@@@@@`);
               SocketServer.sendRoomMessage(
                 currRoom.getRoomId(),
                 SOCKET_ENUMS.NEW_PLAYER_JOIN,
@@ -80,25 +79,19 @@ export class SocketServer {
                 gameType: currRoom.getGameType(),
                 gameStarted: currRoom.gameStarted()
               };
-              console.log(`!!!!!!!!!!!!!!!!!!`);
               cb(JSON.stringify(joinRoomObj));
             } else {
               console.log(`Player ${data.username} Not exist`);
-              cb("ERROR");
+              cb(SOCKET_ENUMS.ERROR);
             }
           } else {
-            console.log(`223232444444444444444444444`);
             console.log(`Room: ${data.roomId} Not exist`);
-            cb("ERROR");
+            cb(SOCKET_ENUMS.ERROR);
           }
           //check if room exist , and username
           // Main.getRooms().get(data.roomId).getPlayers().get(data.username).setSocketID(socket.id);
         }
       );
-
-      // socket.on("send_message" , (data) => {
-      //     socket.to(data.room).emit("recieve_message" , data);
-      // });
     });
   };
 

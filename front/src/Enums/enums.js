@@ -5,7 +5,14 @@ const SOCKET_ENUMS = {
   ADMIN_DISMISS_YOU: "ADMIN_DISMISS_YOU",
   START_GAME: "START_GAME",
   GAME_MSG: "GAME_MSG",
+  ERROR: "ERROR"
 };
+
+
+const SOCKET_GAME = {
+  BLA: "BLA"
+}
+
 
 const GAMES = {
   Providence: "Providence",
@@ -22,4 +29,4 @@ const SERVER_URL = {
   host: "10.0.0.8",
   port: "3002",
 };
-module.exports = {SOCKET_ENUMS , GAMES, SERVER_URL, LOCAL_STORAGE};
+module.exports = {SOCKET_ENUMS , GAMES, SERVER_URL, LOCAL_STORAGE, SOCKET_GAME};

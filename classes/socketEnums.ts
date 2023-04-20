@@ -4,5 +4,15 @@ export enum SOCKET_ENUMS {
   NEW_PLAYER_JOIN = "NEW_PLAYER_JOIN",
   ADMIN_DISMISS_YOU = "ADMIN_DISMISS_YOU",
   START_GAME = "START_GAME",
-  GAME_MSG = "GAME_MSG"
+  GAME_MSG = "GAME_MSG",
+  ERROR = "ERROR"
+}
+
+export enum SOCKET_ROOMS_TYPE {
+
+}
+
+
+export enum SOCKET_GAME {
+    BLA = "BLA"
 }

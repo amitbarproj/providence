@@ -1,5 +1,5 @@
 // import e = require("cors");
-import { SOCKET_ENUMS } from "../../../../classes/socketEnums";
+import { SOCKET_ENUMS, SOCKET_GAME } from "../../../../classes/socketEnums";
 import { User } from "./player";
 import { SocketServer } from "./socketServer";
 
@@ -20,7 +20,7 @@ export class Game {
     SocketServer.sendRoomMessage(
         this.roomId,
         SOCKET_ENUMS.START_GAME,
-        "...."
+        `Game in room ${roomId} started right now`
       );
     setInterval(() => {
       this.setNextPlayer();
@@ -36,7 +36,7 @@ export class Game {
     if (this.currentPlayer.value) {
       SocketServer.sendRoomMessage(
         this.roomId,
-        SOCKET_ENUMS.GAME_MSG,
+        SOCKET_GAME.BLA,
         `${this.currentPlayer.value[1].username}`
       );
     } else {

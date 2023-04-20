@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import { GAMES, SOCKET_ENUMS } from "../../Enums/enums";
+import { GAMES, SOCKET_ENUMS, SOCKET_GAME } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 
@@ -13,22 +13,21 @@ const Providence = (props) => {
 
 
     const socket  = props.socket;  
-    if(socket) {
-        console.log(`GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG`);
-    } 
+    const [msg, setMsg] = useState(undefined);
 
     useEffect(() => {
-        socket.on(SOCKET_ENUMS.GAME_MSG, (game_msg) => {
+        socket.on(SOCKET_GAME.BLA, (game_msg) => {
             //SWITCH CASE GAME ENUMS...
-            console.log(`GGGGGGGGGGGGGGGGGGGGGGGGGGG`);
-            console.log(game_msg);
-            console.log(`GGGGGGGGGGGGGGGGGGGGGGGGGGG`);
+            // console.log(`GGGGGGGGGGGGGGGGGGGGGGGGGGG`);
+            // console.log(game_msg);
+            // console.log(`GGGGGGGGGGGGGGGGGGGGGGGGGGG`);
+            setMsg(game_msg);
 
           }); 
       }, []);
  
   return (
-        <h1>Providence Component</h1>
+        <h1>{msg}</h1>
     )
   
 };
