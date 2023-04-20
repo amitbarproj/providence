@@ -3,6 +3,7 @@ import { useState } from "react";
 import Room from "./Components/Room/Room";
 import Home from "./Components/Home/Home";
 import { Route, Routes } from "react-router-dom";
+import PageNotFound from "./Components/PageNotFound/PageNotFound";
 
 function App() {
   const [roomId, setRoomId] = useState("");
@@ -32,23 +33,13 @@ function App() {
             ></Room>
           }
         />
+        <Route
+          path="*"
+          element={
+            <PageNotFound></PageNotFound>
+          }
+        />
       </Routes>
-      {/* {!inRoom && (
-        <Home
-          setGameType={setGameType}
-          setUsername={setUsername}
-          setRoomId={setRoomId}
-          setInRoom={setInRoom}
-        ></Home>
-      )}
-      {inRoom && (
-        <Room
-          setInRoom={setInRoom}
-          roomId={roomId}
-          username={username}
-          game={gameType}
-        ></Room>
-      )} */}
     </div>
   );
 }
