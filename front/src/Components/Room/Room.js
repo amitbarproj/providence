@@ -100,15 +100,15 @@ const Room = (props) => {
             setGameType(socketObj.gameType);
             setGameStarted(socketObj.gameStarted);
             SetRenderRoom(true);
-            socket.on(SOCKET_ENUMS.NEW_PLAYER_JOIN, (msg) => {
+            // socket.on(SOCKET_ENUMS.NEW_PLAYER_JOIN, (msg) => {
+            //   const newPlayers = msg;
+            //   setPlayers(newPlayers.players);
+            // });
+            socket.on(SOCKET_ENUMS.UPDATE_PLAYERS_STATE, (msg) => {
               const newPlayers = msg;
               setPlayers(newPlayers.players);
             });
-            socket.on(SOCKET_ENUMS.NEW_PLAYER_LEAVE, (msg) => {
-              const newPlayers = msg;
-              setPlayers(newPlayers.players);
-            });
-            
+
             socket.on(SOCKET_ENUMS.YOU_ARE_NEW_ADMIN, (msg) => {
               setIsAdmin(true);
             });

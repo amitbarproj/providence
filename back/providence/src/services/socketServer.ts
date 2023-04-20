@@ -40,7 +40,7 @@ export class SocketServer {
               };
               SocketServer.sendRoomMessage(
                 room.getRoomId(),
-                SOCKET_ENUMS.NEW_PLAYER_LEAVE,
+                SOCKET_ENUMS.UPDATE_PLAYERS_STATE,
                 newPlayers
               );
               leaveRoomBody = {
@@ -80,7 +80,7 @@ export class SocketServer {
               };
               SocketServer.sendRoomMessage(
                 currRoom.getRoomId(),
-                SOCKET_ENUMS.NEW_PLAYER_JOIN,
+                SOCKET_ENUMS.UPDATE_PLAYERS_STATE,
                 newPlayersUsernames
               );
               const joinRoomObj: SOCKET_JOIN_ROOM_OBJ = {
@@ -129,7 +129,7 @@ export class SocketServer {
         };
         SocketServer.sendRoomMessage(
           currRoom.getRoomId(),
-          SOCKET_ENUMS.NEW_PLAYER_LEAVE,
+          SOCKET_ENUMS.UPDATE_PLAYERS_STATE,
           newPlayersUsernames
         );
         SocketServer.sendPrivateMessage(
