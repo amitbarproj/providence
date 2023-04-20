@@ -37,7 +37,13 @@ const CreateRoomModal = (props) => {
   };
 
   const selectRender = Object.keys(GAMES).map((item) => {
-    return <option value={item}>{item}</option>;
+      if(item !== GAMES.Providence){
+        return <option disabled value={item}>{item}</option>;
+      }
+      else{
+        return <option value={item}>{item}</option>;
+      }
+  
   });
 
   return (

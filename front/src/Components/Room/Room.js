@@ -6,6 +6,8 @@ import { GAMES, SOCKET_ENUMS } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import Providence from "../Providence/Providence";
+import RoomHeader from "../RoomHeader/RoomHeader";
+import RoomFooter from "../RoomFooter/RoomFooter";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -166,20 +168,22 @@ const Room = (props) => {
   return (
     renderRoom && (
       <div className="Room">
+        <RoomHeader></RoomHeader>
         <h1>
           {username}, Welcome to room number {id}
         </h1>
         <p>{message}</p>
         {renderPlayers}
-        {isAdmin && !gameStarted &&  (
+        {/* {isAdmin && !gameStarted &&  (
           <Button variant="primary" onClick={() => startGame()}>
             Strat Game
           </Button>
         )}
         <Button variant="primary" onClick={() => leaveRoom()}>
           Leave Room
-        </Button>
+        </Button> */}
         <h1>{gameStarted && socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
+        <RoomFooter isAdmin={isAdmin} gameStarted={gameStarted} startGame={startGame} leaveRoom={leaveRoom} ></RoomFooter>
       </div>
     )
   );

@@ -6,6 +6,7 @@ import { GAMES, SOCKET_ENUMS, SOCKET_GAME } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import ProvidencePlayer from "./ProvidencePlayer";
+import ProvidencePlayers from "./ProvidencePlayers";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -29,13 +30,13 @@ const Providence = (props) => {
     console.log(players);
   }, [players]);
 
-  const renderList = players.map((item, index) => (
-    <ProvidencePlayer
-     player= {item}
-    ></ProvidencePlayer>
-  ));
+//   const renderList = players.map((item, index) => (
+//     <ProvidencePlayer
+//      player= {item}
+//     ></ProvidencePlayer>
+//   ));
 
-  return <div className="">{renderList}</div>;;
+  return <ProvidencePlayers players={players}></ProvidencePlayers>;;
 };
 
 export default Providence;
