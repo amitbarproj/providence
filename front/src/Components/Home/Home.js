@@ -72,7 +72,6 @@ const Home = (props) => {
       console.log(localObj.roomId);
       setRoomId(localObj.roomId);
       setUsername(localObj.username);
-      // setGameType(gameType);
       navigate(`/room/${localObj.roomId}`);
     } else {
       getAllRooms();
@@ -157,7 +156,7 @@ const Home = (props) => {
               <TextField
                 id="outlined-sdfdfd"
                 label="Room ID"
-                variant="outlined"
+                variant="standard"
                 required
                 inputRef={newRoomId}
               />
@@ -204,7 +203,7 @@ const Home = (props) => {
                   <TextField
                     id="outlined-sdfdfd"
                     label="Description"
-                    variant="outlined"
+                    variant="standard"
                     inputRef={newDescription}
                   />
                 </div>
@@ -223,13 +222,19 @@ const Home = (props) => {
                     id="outlined-password-input"
                     label="Room Password"
                     type="password"
+                    // variant="standard"
                     autoComplete="current-password"
                     inputRef={newSecret}
                   />
                 </div>
               </Collapse>
               <br />
-              <TextField label="Username" inputRef={newUsername} />
+              <TextField
+                // variant="standard"
+                required
+                label="Username"
+                inputRef={newUsername}
+              />
               <Collapse
                 in={createRoomError !== ""}
                 timeout="auto"
