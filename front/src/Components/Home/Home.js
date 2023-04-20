@@ -17,6 +17,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import { TransitionProps } from '@mui/material/transitions';
 
 // import Button from "react-bootstrap/Button";
 import { BsFillLockFill } from "react-icons/bs";
@@ -127,6 +128,15 @@ const Home = (props) => {
     }
   };
 
+  // const Transition = React.forwardRef(function Transition(
+  //   props: TransitionProps & {
+  //     children: React.ReactElement<any, any>;
+  //   },
+  //   ref: React.Ref<unknown>,
+  // ) {
+  //   return <Slide direction="up" ref={ref} {...props} />;
+  // });
+
   return (
     <>
       <CardsRoom
@@ -140,7 +150,10 @@ const Home = (props) => {
           Create Room <AiOutlinePlus />
         </button>
       </div>
-      <Dialog open={openDialog} onClose={handleClose}>
+      <Dialog
+        open={openDialog}
+        onClose={handleClose}
+      >
         <DialogTitle>Create Room</DialogTitle>
         <DialogContent>
           <Divider />
