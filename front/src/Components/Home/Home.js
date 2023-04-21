@@ -1,7 +1,10 @@
 import { LOCAL_STORAGE, SERVER_URL } from "../../Enums/enums";
 import axios from "axios";
-import { useState, useEffect, useRef } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
+import { useState, useEffect, useRef, forwardRef } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import { styled } from "@mui/material/styles";
+import Fab from "@mui/material/Fab";
+
 import CardsRoom from "../CardsRoom/CardsRoom";
 import { useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
@@ -17,6 +20,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import Snackbar from "@mui/material/Snackbar";
+
 import { TransitionProps } from "@mui/material/transitions";
 import HttpsIcon from "@mui/icons-material/Https";
 // import Button from "react-bootstrap/Button";
@@ -44,6 +49,16 @@ const Home = (props) => {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [newMaxPlayers, setNewMaxPlayers] = useState(9);
+
+  const StyledFab = styled(Fab)({
+    position: "fixed",
+    zIndex: 1,
+    bottom: 20,
+    right: 20,
+    margin: "0 auto",
+  });
+
+
 
   const handleClickOpen = () => {
     setOpenDialog(true);
@@ -75,6 +90,7 @@ const Home = (props) => {
     }
   }, []);
 
+
   const createRoom = async () => {
     const dataToSend = {
       roomId: newRoomId.current.value,
@@ -92,7 +108,6 @@ const Home = (props) => {
     console.log(data);
 
     if (data.success) {
-      setModalShow(false);
       setRoomId(dataToSend.roomId);
       setUsername(dataToSend.username);
       setGameType(dataToSend.game);
@@ -106,7 +121,9 @@ const Home = (props) => {
         LOCAL_STORAGE.UserInfo,
         JSON.stringify(localStorageObj)
       );
-      navigate(`/room/${dataToSend.roomId}`);
+      setTimeout(() => {
+        navigate(`/room/${dataToSend.roomId}`);
+      }, 3000);
     } else {
       setCreateRoomError(data.description);
       console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
@@ -124,15 +141,6 @@ const Home = (props) => {
     }
   };
 
-  // const Transition = React.forwardRef(function Transition(
-  //   props: TransitionProps & {
-  //     children: React.ReactElement<any, any>;
-  //   },
-  //   ref: React.Ref<unknown>,
-  // ) {
-  //   return <Slide direction="up" ref={ref} {...props} />;
-  // });
-
   return (
     <>
       <CardsRoom
@@ -141,11 +149,10 @@ const Home = (props) => {
         setUsername={setUsername}
       ></CardsRoom>
 
-      <div className="d-grid gap-2">
-        <button className="create-room-button" onClick={handleClickOpen}>
-          Create Room <AiOutlinePlus />
-        </button>
-      </div>
+
+      <StyledFab color="info" onClick={handleClickOpen} aria-label="add">
+        <AddIcon />
+      </StyledFab>
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Create Room</DialogTitle>
         <DialogContent>
@@ -226,11 +233,12 @@ const Home = (props) => {
                 <div id="example-collapse-text">
                   <TextField
                     id="outlined-password-input"
-                    label="Room Password"
+                    label="Password"
                     type="password"
                     // variant="standard"
                     autoComplete="current-password"
                     inputRef={newSecret}
+                    helperText="Enter Room Password"
                   />
                 </div>
               </Collapse>
@@ -269,6 +277,7 @@ const Home = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+
     </>
   );
 };

@@ -174,14 +174,6 @@ const Room = (props) => {
         </h1>
         <p>{message}</p>
         {renderPlayers}
-        {/* {isAdmin && !gameStarted &&  (
-          <Button variant="primary" onClick={() => startGame()}>
-            Strat Game
-          </Button>
-        )}
-        <Button variant="primary" onClick={() => leaveRoom()}>
-          Leave Room
-        </Button> */}
         <h1>{gameStarted && socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
         <RoomFooter isAdmin={isAdmin} gameStarted={gameStarted} startGame={startGame} leaveRoom={leaveRoom} ></RoomFooter>
       </div>

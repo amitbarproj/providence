@@ -13,7 +13,9 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 import axios from "axios";
+// import Card from "react-bootstrap/Card";
 import Card from "react-bootstrap/Card";
+
 // import Button from "react-bootstrap/Button";
 // import { BsFillLockFill } from "react-icons/bs";
 import HttpsIcon from "@mui/icons-material/Https";
@@ -95,7 +97,8 @@ const CardRoom = (props) => {
       </Card.Body>
       <Button
         disabled={gameStarted || numOfPlayers >= maxPlayers}
-        variant="primary"
+        variant="contained"
+        color={(gameStarted || numOfPlayers >= maxPlayers) ? "inherit" : "primary"}
         onClick={handleClickOpen}
       >
         {gameStarted
