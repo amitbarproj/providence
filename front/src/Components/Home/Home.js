@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, forwardRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { styled } from "@mui/material/styles";
 import Fab from "@mui/material/Fab";
+import Tooltip from "@mui/material/Tooltip";
 
 import CardsRoom from "../CardsRoom/CardsRoom";
 import { useNavigate } from "react-router-dom";
@@ -58,8 +59,6 @@ const Home = (props) => {
     margin: "0 auto",
   });
 
-
-
   const handleClickOpen = () => {
     setOpenDialog(true);
   };
@@ -89,7 +88,6 @@ const Home = (props) => {
       getAllRooms();
     }
   }, []);
-
 
   const createRoom = async () => {
     const dataToSend = {
@@ -148,11 +146,12 @@ const Home = (props) => {
         setRoomId={setRoomId}
         setUsername={setUsername}
       ></CardsRoom>
+      <Tooltip title="Create new room">
+        <StyledFab color="info" onClick={handleClickOpen} aria-label="add">
+          <AddIcon />
+        </StyledFab>
+      </Tooltip>
 
-
-      <StyledFab color="info" onClick={handleClickOpen} aria-label="add">
-        <AddIcon />
-      </StyledFab>
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Create Room</DialogTitle>
         <DialogContent>
@@ -277,7 +276,6 @@ const Home = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-
     </>
   );
 };
