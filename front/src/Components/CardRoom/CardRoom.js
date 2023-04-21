@@ -2,14 +2,16 @@ import { useState } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { BsFillLockFill } from "react-icons/bs";
+// import { BsFillLockFill } from "react-icons/bs";
+import HttpsIcon from "@mui/icons-material/Https";
+import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
+
 import JoinRoomModal from "../JoinRoomModal/JoinRoomModal";
 import "./CardRoom.css";
 import { LOCAL_STORAGE, SERVER_URL } from "../../Enums/enums";
 import { useNavigate } from "react-router-dom";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
-
 
 const CardRoom = (props) => {
   const roomId = props.roomId;
@@ -26,7 +28,6 @@ const CardRoom = (props) => {
   const [joinRoomError, setJoinRoomError] = useState("");
 
   const navigate = useNavigate();
-
 
   const joinRoom = async (dataToSendd) => {
     const dataToSend = {
@@ -47,8 +48,11 @@ const CardRoom = (props) => {
       const localStorageObj = {
         username: dataToSendd.username,
         roomId: roomId,
-      }
-      localStorage.setItem(LOCAL_STORAGE.UserInfo, JSON.stringify(localStorageObj));
+      };
+      localStorage.setItem(
+        LOCAL_STORAGE.UserInfo,
+        JSON.stringify(localStorageObj)
+      );
       navigate(`/room/${roomId}`);
     } else {
       setJoinRoomError(data.description);
@@ -64,10 +68,18 @@ const CardRoom = (props) => {
           Players: {numOfPlayers}/{maxPlayers}
         </Card.Subtitle>
         <Card.Text>{description}</Card.Text>
-        {auth && <BsFillLockFill />}
+        {auth ? <HttpsIcon /> : <NoEncryptionGmailerrorredIcon />}
       </Card.Body>
-      <Button disabled={gameStarted || numOfPlayers >= maxPlayers} variant="primary" onClick={() => setModalShow(true)}>
-        {gameStarted? "Game Started" : (numOfPlayers >= maxPlayers? "Full Room" : "Join Room")}
+      <Button
+        disabled={gameStarted || numOfPlayers >= maxPlayers}
+        variant="primary"
+        onClick={() => setModalShow(true)}
+      >
+        {gameStarted
+          ? "Game Started"
+          : numOfPlayers >= maxPlayers
+          ? "Full Room"
+          : "Join Room"}
       </Button>
       <JoinRoomModal
         show={modalShow}

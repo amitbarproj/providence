@@ -27,7 +27,7 @@ const LOCAL_STORAGE = {
 
 const SERVER_URL = {
   protocol: "http",
-  host: "10.0.0.8",
+  host: "192.168.1.181",
   port: "3002",
 };
 module.exports = {SOCKET_ENUMS , GAMES, SERVER_URL, LOCAL_STORAGE, SOCKET_GAME};

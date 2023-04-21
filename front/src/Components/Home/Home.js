@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import { FormControlLabel } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
-
+import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -17,10 +17,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { TransitionProps } from '@mui/material/transitions';
-
+import { TransitionProps } from "@mui/material/transitions";
+import HttpsIcon from "@mui/icons-material/Https";
 // import Button from "react-bootstrap/Button";
-import { BsFillLockFill } from "react-icons/bs";
 // import "./CreateRoomModal.css";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -150,10 +149,7 @@ const Home = (props) => {
           Create Room <AiOutlinePlus />
         </button>
       </div>
-      <Dialog
-        open={openDialog}
-        onClose={handleClose}
-      >
+      <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Create Room</DialogTitle>
         <DialogContent>
           <Divider />
@@ -226,7 +222,7 @@ const Home = (props) => {
                 control={
                   <Switch checked={open} onChange={() => setOpen(!open)} />
                 }
-                label={open ? <BsFillLockFill /> : "Add Password"}
+                label={open ? <HttpsIcon /> : <NoEncryptionGmailerrorredIcon />}
                 labelPlacement="end"
               />
               <Collapse in={open} timeout="auto" unmountOnExit>
