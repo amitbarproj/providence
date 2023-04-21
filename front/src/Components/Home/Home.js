@@ -237,7 +237,9 @@ const Home = (props) => {
                   />
                 </div>
               </Collapse>
-              <br />
+              {/* <br /> */}
+              <Divider />
+
               <TextField
                 // variant="standard"
                 required
@@ -262,8 +264,12 @@ const Home = (props) => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={createRoom}>Create</Button>
+          <Button variant="outlined" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="contained" onClick={createRoom}>
+            Create
+          </Button>
         </DialogActions>
       </Dialog>
     </>
