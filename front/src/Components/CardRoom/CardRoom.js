@@ -85,6 +85,7 @@ const CardRoom = (props) => {
   };
 
   return (
+    <>
     <Card>
       <Card.Header>Room ID: {roomId}</Card.Header>
       <Card.Body>
@@ -161,6 +162,42 @@ const CardRoom = (props) => {
         </DialogActions>
       </Dialog>
     </Card>
+
+
+
+
+
+      {/* <Card sx={{ maxWidth: 345 }}>
+      <CardHeader
+       
+        title={gameType}
+        subheader="September 14, 2016"
+      />
+      <CardContent>
+      
+        <Typography gutterBottom variant="h5" component="div">
+          {username}
+          Players: {numOfPlayers}/{maxPlayers}
+
+        </Typography>
+      </CardContent>
+      <CardActions>
+      <Button
+        disabled={gameStarted || numOfPlayers >= maxPlayers}
+        variant="contained"
+        color={(gameStarted || numOfPlayers >= maxPlayers) ? "inherit" : "primary"}
+        onClick={handleClickOpen}
+      >
+        {gameStarted
+          ? "Game Started"
+          : numOfPlayers >= maxPlayers
+          ? "Full Room"
+          : "Join Room"}
+      </Button>
+      </CardActions>
+    </Card> */}
+    </>
+    
   );
 };
 
