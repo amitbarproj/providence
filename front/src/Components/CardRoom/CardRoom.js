@@ -19,7 +19,6 @@ import Card from "react-bootstrap/Card";
 import HttpsIcon from "@mui/icons-material/Https";
 import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
 
-import JoinRoomModal from "../JoinRoomModal/JoinRoomModal";
 import "./CardRoom.css";
 import { LOCAL_STORAGE, SERVER_URL } from "../../Enums/enums";
 import { useNavigate } from "react-router-dom";
