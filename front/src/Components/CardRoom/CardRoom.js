@@ -1,7 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import Divider from "@mui/material/Divider";
+import Collapse from "@mui/material/Collapse";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 // import { BsFillLockFill } from "react-icons/bs";
 import HttpsIcon from "@mui/icons-material/Https";
 import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
@@ -24,16 +37,28 @@ const CardRoom = (props) => {
   const setRoomId = props.setRoomId;
   const setUsername = props.setUsername;
 
+  const newSecret = useRef();
+  const newUsername = useRef();
+
+  const [openDialog, setOpenDialog] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [joinRoomError, setJoinRoomError] = useState("");
 
   const navigate = useNavigate();
 
-  const joinRoom = async (dataToSendd) => {
+  const handleClickOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const joinRoom = async () => {
     const dataToSend = {
       roomId: roomId,
-      username: dataToSendd.username,
-      secret: dataToSendd.secret,
+      username: newUsername.current.value,
+      secret: auth ? newSecret.current.value : undefined,
     };
     console.log(dataToSend);
     const response = await axios.post(`${serverURL}/joinRoom`, dataToSend);
@@ -41,12 +66,11 @@ const CardRoom = (props) => {
     console.log(data);
 
     if (data.success) {
-      setModalShow(false);
       setRoomId(roomId);
-      setUsername(dataToSendd.username);
+      setUsername(dataToSend.username);
       localStorage.clear();
       const localStorageObj = {
-        username: dataToSendd.username,
+        username: dataToSend.username,
         roomId: roomId,
       };
       localStorage.setItem(
@@ -73,7 +97,7 @@ const CardRoom = (props) => {
       <Button
         disabled={gameStarted || numOfPlayers >= maxPlayers}
         variant="primary"
-        onClick={() => setModalShow(true)}
+        onClick={handleClickOpen}
       >
         {gameStarted
           ? "Game Started"
@@ -81,14 +105,59 @@ const CardRoom = (props) => {
           ? "Full Room"
           : "Join Room"}
       </Button>
-      <JoinRoomModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        joinRoomCallback={joinRoom}
-        roomId={roomId}
-        auth={auth}
-        joinRoomError={joinRoomError}
-      />
+
+      <Dialog open={openDialog} onClose={handleClose}>
+        <DialogTitle>Join Room</DialogTitle>
+        <DialogContent>
+          <Divider />
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: ["100%"] },
+            }}
+            Validate
+            autoComplete="off"
+          >
+            <FormControl sx={{ mt: 1 }}>
+              <TextField
+                // variant="standard"
+                required
+                label="Username"
+                inputRef={newUsername}
+              />
+              {auth && (
+                <>
+                  <TextField
+                    // variant="standard"
+                    required
+                    label="Room Password"
+                    inputRef={newSecret}
+                  />
+                </>
+              )}
+
+              <Collapse in={joinRoomError !== ""} timeout="auto" unmountOnExit>
+                <br />
+                <FormLabel
+                  sx={{
+                    color: "#d32f2f",
+                  }}
+                >
+                  {joinRoomError}
+                </FormLabel>
+              </Collapse>
+            </FormControl>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="contained" onClick={joinRoom}>
+            Join
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };
