@@ -119,9 +119,8 @@ const Home = (props) => {
         LOCAL_STORAGE.UserInfo,
         JSON.stringify(localStorageObj)
       );
-      setTimeout(() => {
-        navigate(`/room/${dataToSend.roomId}`);
-      }, 3000);
+      navigate(`/room/${dataToSend.roomId}`);
+
     } else {
       setCreateRoomError(data.description);
       console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
