@@ -33,7 +33,7 @@ import Switch from "@mui/material/Switch";
 // import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
-
+import "./Home.css"
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const Home = (props) => {
@@ -139,14 +139,14 @@ const Home = (props) => {
   };
 
   return (
-    <>
+    <div className="home">
       <CardsRoom
         allRooms={allRooms}
         setRoomId={setRoomId}
         setUsername={setUsername}
       ></CardsRoom>
       <Tooltip title="Create new room">
-        <StyledFab color="info" onClick={handleClickOpen} aria-label="add">
+        <StyledFab className="fab" color="primary" onClick={handleClickOpen} aria-label="add">
           <AddIcon />
         </StyledFab>
       </Tooltip>
@@ -275,7 +275,7 @@ const Home = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 

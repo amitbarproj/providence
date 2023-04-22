@@ -9,6 +9,7 @@ import Providence from "../Providence/Providence";
 import RoomHeader from "../RoomHeader/RoomHeader";
 import RoomFooter from "../RoomFooter/RoomFooter";
 
+
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const Room = (props) => {
