@@ -18,10 +18,6 @@ const Providence = (props) => {
 
   useEffect(() => {
     socket.on(SOCKET_GAME.BLA, (game_msg) => {
-      //SWITCH CASE GAME ENUMS...
-      // console.log(`GGGGGGGGGGGGGGGGGGGGGGGGGGG`);
-      // console.log(game_msg);
-      // console.log(`GGGGGGGGGGGGGGGGGGGGGGGGGGG`);
       setMsg(game_msg);
     });
   }, []);
@@ -29,12 +25,6 @@ const Providence = (props) => {
   useEffect(() => {
     console.log(players);
   }, [players]);
-
-//   const renderList = players.map((item, index) => (
-//     <ProvidencePlayer
-//      player= {item}
-//     ></ProvidencePlayer>
-//   ));
 
   return <ProvidencePlayers players={players}></ProvidencePlayers>;;
 };

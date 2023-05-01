@@ -35,7 +35,7 @@ const ProvidencePlayer = (props) => {
       <CardHeader
         avatar={
             <Badge badgeContent="" color={ isConnected ? "success" : "error"}>
-            <Avatar sx={{ bgcolor: "#7295b8" , width: 56, height: 56 }}>
+            <Avatar src={`${serverURL}/img/2.png`} sx={{ bgcolor: "#7295b8" , width: 56, height: 56 }}>
                 {/* <BsFillEmojiSmileFill></BsFillEmojiSmileFill> */}
             </Avatar>
           </Badge>

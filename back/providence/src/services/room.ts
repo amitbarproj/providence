@@ -110,7 +110,8 @@ export class Room {
                 username: player.getUserName(),
                 isAdmin: player.isAdmin(),
                 points: player.getPoints(),
-                isConnected: player.Connected()
+                isConnected: player.Connected(),
+                imgURL: player.getImgURL()
             });
         });
         return ans;

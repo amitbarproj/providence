@@ -150,9 +150,9 @@ const Home = (props) => {
           <AddIcon />
         </StyledFab>
       </Tooltip>
-      <img src="http://localhost:3002/2.png"/>
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Create Room</DialogTitle>
+        
         <DialogContent>
           <Divider />
           <Box

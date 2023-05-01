@@ -7,6 +7,7 @@ export class User {
     private isConnected: boolean;
     private socketId: string;
     private points: number;
+    private imgURL: string = "2.png"
 
     constructor(username: string, isAdmin: boolean) {
         this.username = username;
@@ -46,5 +47,9 @@ export class User {
       public setConnected = (newConnected: boolean)  => {
         return this.isConnected = newConnected;
       }
+
+      public getImgURL = (): string  => {
+        return this.imgURL;
+     }
 }
 
