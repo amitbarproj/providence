@@ -47,14 +47,10 @@ const RoomFooter = (props) => {
           </DialogContentText>
         </DialogContent>
           <DialogActions>
-          <Grid container spacing={2}>
 
-            <Grid xs={6}>
             <Button variant="outlined" onClick={handleClose}>
               Cancel
             </Button>
-            </Grid>
-            <Grid xs={6}>
             <Button
               color="primary"
               variant="contained"
@@ -63,10 +59,8 @@ const RoomFooter = (props) => {
             >
               Leave
             </Button>
-            </Grid>
            
            
-        </Grid>
           </DialogActions>
       </Dialog>
     </div>
