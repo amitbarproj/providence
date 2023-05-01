@@ -7,14 +7,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import Providence from "../Providence/Providence";
 import RoomHeader from "../RoomHeader/RoomHeader";
-import RoomFooter from "../RoomFooter/RoomFooter";
+import Fab from "@mui/material/Fab";
+import { styled } from "@mui/material/styles";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
+// import RoomFooter from "../RoomFooter/RoomFooter";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const Room = (props) => {
-  const [message, setMessage] = useState("");
-
   const [isAdmin, setIsAdmin] = useState(false);
   const [players, setPlayers] = useState([]);
   const [gameType, setGameType] = useState(undefined);
@@ -81,7 +82,7 @@ const Room = (props) => {
   const connectToRoom = (usernamee) => {
     //const socket = io.connect(serverURL);
     const socket = io.connect(serverURL);
-    setSocket(socket)
+    setSocket(socket);
     console.log(`444444444444444444444`);
     socket.on("connect", () => {
       console.log(`555555555555555555`);
@@ -122,7 +123,6 @@ const Room = (props) => {
             socket.on(SOCKET_ENUMS.START_GAME, (msg) => {
               setGameStarted(true);
             });
-          
           } else {
             localStorage.clear();
             navigate("/");
@@ -164,19 +164,32 @@ const Room = (props) => {
     }
   };
 
-  const renderPlayers = players.map((item, index) => <h3>{item.username}</h3>);
-  console.log(players);
+  const StyledFab = styled(Fab)({
+    position: "fixed",
+    zIndex: 1,
+    bottom: 20,
+    right: 20,
+    margin: "0 auto",
+    backgroundColor: `#ffc400`,
+  });
+
   return (
     renderRoom && (
       <div className="Room">
-        <RoomHeader></RoomHeader>
-        <h1>
-          {username}, Welcome to room number {id}
-        </h1>
-        <p>{message}</p>
-        {renderPlayers}
-        <h1>{gameStarted && socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
-        <RoomFooter isAdmin={isAdmin} gameStarted={gameStarted} startGame={startGame} leaveRoom={leaveRoom} ></RoomFooter>
+        <RoomHeader id={id} leaveRoom={leaveRoom}></RoomHeader>
+        <h1>{socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
+        {isAdmin && !gameStarted && (
+          <StyledFab
+            onClick={() => {
+              startGame();
+            }}
+            variant="extended"
+          >
+            <PlayArrowIcon />
+            Start Game
+          </StyledFab>
+        )}
+        {/* <RoomFooter isAdmin={isAdmin} gameStarted={gameStarted} startGame={startGame} ></RoomFooter> */}
       </div>
     )
   );

@@ -6,14 +6,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import { Avatar, Badge } from "@mui/material";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import { CardHeader } from '@mui/material';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardHeader } from "@mui/material";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -31,28 +30,45 @@ const ProvidencePlayer = (props) => {
 
   return (
     <div>
-      <Card sx={{  }}>
-      <CardHeader
-        avatar={
-            <Badge badgeContent="" color={ isConnected ? "success" : "error"}>
-            <Avatar src={`${img}`} sx={{ bgcolor: "#7295b8" , width: 56, height: 56 }}>
-            </Avatar>
-          </Badge>
-        }
-  
-        title={username}
-        subheader="September 14, 2016"
-      />
-      <CardContent>
+      <Card sx={{}}>
+        <CardHeader
+          avatar={
+            <Badge
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              // variant="dot"
+              overlap="circular" badgeContent=" "
+              color={isConnected ? "success" : "error"}
+            >
+              <Avatar
+                src={`${img}`}
+                sx={{ bgcolor: "#7295b8", width: 70, height: 70 }}
+              ></Avatar>
+            </Badge>
+          }
+          title={
+            <Typography gutterBottom variant="h5" component="div">
+              {username}
+            </Typography>
+          }
+          subheader={
+            <Typography gutterBottom variant="h5" component="div">
+              {points}
+            </Typography>
+          }
+        />
+        {/* <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {points}
         </Typography>
-      </CardContent>
-      {/* <CardActions>
+      </CardContent> */}
+        {/* <CardActions>
         <Button size="small">Share</Button>
         <Button size="small">Learn More</Button>
       </CardActions> */}
-    </Card>
+      </Card>
     </div>
   );
 };

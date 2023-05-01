@@ -31,7 +31,7 @@ const RoomFooter = (props) => {
           Strat Game
         </Button>
       )}
-      <Button variant="contained" onClick={handleClickOpen}>
+      {/* <Button variant="contained" onClick={handleClickOpen}>
         Leave Room
       </Button>
       <Dialog
@@ -62,7 +62,7 @@ const RoomFooter = (props) => {
            
            
           </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };
