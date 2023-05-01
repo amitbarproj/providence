@@ -80,7 +80,6 @@ const Room = (props) => {
   }, []);
 
   const connectToRoom = (usernamee) => {
-    //const socket = io.connect(serverURL);
     const socket = io.connect(serverURL);
     setSocket(socket);
     console.log(`444444444444444444444`);

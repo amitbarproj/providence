@@ -27,7 +27,7 @@ const ProvidencePlayer = (props) => {
   const points = props.player.points;
   const isAdmin = props.player.isAdmin;
   const img = props.player.imgURL;
-  const isMyTurn = false;
+  const isMyTurn = props.player.myTurn;
 
   return (
     <div>
@@ -39,7 +39,6 @@ const ProvidencePlayer = (props) => {
                 vertical: "top",
                 horizontal: "left",
               }}
-              // variant="dot"
               overlap="circular" badgeContent=" "
               color={isConnected ? "success" : "error"}
             >

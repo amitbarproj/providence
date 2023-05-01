@@ -112,7 +112,8 @@ export class Room {
                 isAdmin: player.isAdmin(),
                 points: player.getPoints(),
                 isConnected: player.Connected(),
-                imgURL: player.getImgURL()
+                imgURL: player.getImgURL(),
+                myTurn: player.getMyTurn()
             });
         });
         return ans;

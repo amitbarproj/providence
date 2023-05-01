@@ -66,7 +66,8 @@ export type PLAYER_SOCKET_DATA = {
     isAdmin: boolean,
     points: number,
     isConnected: boolean,
-    imgURL: string
+    imgURL: string,
+    myTurn: boolean
 }
 
 
