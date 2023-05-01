@@ -1,4 +1,9 @@
 import { Socket } from "socket.io";
+import { AvatarGenerator } from 'random-avatar-generator';
+ 
+const generator = new AvatarGenerator();
+ 
+// Simply get a random avatar
 
 export class User {
     
@@ -7,7 +12,8 @@ export class User {
     private isConnected: boolean;
     private socketId: string;
     private points: number;
-    private imgURL: string = "2.png"
+    private imgURL: string = generator.generateRandomAvatar();
+
 
     constructor(username: string, isAdmin: boolean) {
         this.username = username;

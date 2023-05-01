@@ -27,6 +27,7 @@ const ProvidencePlayer = (props) => {
   const username = props.player.username;
   const points = props.player.points;
   const isAdmin = props.player.isAdmin;
+  const img = props.player.imgURL;
 
   return (
     <div>
@@ -35,7 +36,7 @@ const ProvidencePlayer = (props) => {
       <CardHeader
         avatar={
             <Badge badgeContent="" color={ isConnected ? "success" : "error"}>
-            <Avatar src={`${serverURL}/img/2.png`} sx={{ bgcolor: "#7295b8" , width: 56, height: 56 }}>
+            <Avatar src={`${img}`} sx={{ bgcolor: "#7295b8" , width: 56, height: 56 }}>
                 {/* <BsFillEmojiSmileFill></BsFillEmojiSmileFill> */}
             </Avatar>
           </Badge>
