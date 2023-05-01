@@ -145,14 +145,11 @@ const Home = (props) => {
         setRoomId={setRoomId}
         setUsername={setUsername}
       ></CardsRoom>
-      <Tooltip title="Create new room">
-        <StyledFab className="fab" color="primary" onClick={handleClickOpen} aria-label="add">
+        <StyledFab className="fab" color="info" onClick={handleClickOpen} aria-label="add">
           <AddIcon />
         </StyledFab>
-      </Tooltip>
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Create Room</DialogTitle>
-        
         <DialogContent>
           <Divider />
           <Box

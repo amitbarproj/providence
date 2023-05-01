@@ -31,39 +31,27 @@ const ProvidencePlayer = (props) => {
 
   return (
     <div>
-      
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{  }}>
       <CardHeader
         avatar={
             <Badge badgeContent="" color={ isConnected ? "success" : "error"}>
             <Avatar src={`${img}`} sx={{ bgcolor: "#7295b8" , width: 56, height: 56 }}>
-                {/* <BsFillEmojiSmileFill></BsFillEmojiSmileFill> */}
             </Avatar>
           </Badge>
         }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
+  
         title={username}
         subheader="September 14, 2016"
       />
-      {/* <CardMedia
-        sx={{ height: 140 }}
-        image="/static/images/cards/contemplative-reptile.jpg"
-        title="green iguana"
-      /> */}
       <CardContent>
-      
         <Typography gutterBottom variant="h5" component="div">
-          {username}
+          {points}
         </Typography>
       </CardContent>
-      <CardActions>
+      {/* <CardActions>
         <Button size="small">Share</Button>
         <Button size="small">Learn More</Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
     </div>
   );

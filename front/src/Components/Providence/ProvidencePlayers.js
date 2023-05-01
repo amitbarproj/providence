@@ -1,14 +1,14 @@
 import ProvidencePlayer from "./ProvidencePlayer";
-import "./ProvidencePlayers"
+import "./ProvidencePlayers.css"
 
 const ProvidencePlayers = (props) => {
   const renderList = props.players.map((item, index) => (
     <ProvidencePlayer
-      className="card"
+      className="player-card"
       player={item}
     ></ProvidencePlayer>
   ));
-  return <div className="cards">{renderList}</div>;
+  return <div className="players-cards">{renderList}</div>;
 };
 
 export default ProvidencePlayers;

@@ -1,45 +1,49 @@
-.cards {
+.players-cards {
     /* margin: 10px auto; */
     display: grid;
-    /* gap: 1rem; */
+    gap: 1rem;
+    margin: 1rem;
+
   }
   
-  .card {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+  .player-card {
+    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
       rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
       rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    margin: 0.6rem !;
+    border-radius: 20px !important; */
     margin: 0.6rem;
-    border-radius: 20px !important;
+
   }
   
 
   
   @media (min-width: 0px) {
-      .cards {
+      .players-cards {
         grid-template-columns: repeat(1, 1fr);
       }
     }
   
   @media (min-width: 310px) {
-    .cards {
+    .players-cards {
       grid-template-columns: repeat(2, 1fr);
     }
   }
   
   @media (min-width: 550px) {
-      .cards {
+      .players-cards {
         grid-template-columns: repeat(3, 1fr);
       }
     }
   
   @media (min-width: 700px) {
-    .cards {
+    .players-cards {
       grid-template-columns: repeat(4, 1fr);
     }
   }
   
   @media (min-width: 900px) {
-      .cards {
+      .players-cards {
         grid-template-columns: repeat(5, 1fr);
       }
     }
