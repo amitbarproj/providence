@@ -11,7 +11,7 @@ const SOCKET_ENUMS = {
 
 
 const SOCKET_GAME = {
-  BLA: "BLA"
+  NEW_PLAYER_TURN: "NEW_PLAYER_TURN"
 }
 
 

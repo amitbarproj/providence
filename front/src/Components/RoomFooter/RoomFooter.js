@@ -31,38 +31,6 @@ const RoomFooter = (props) => {
           Strat Game
         </Button>
       )}
-      {/* <Button variant="contained" onClick={handleClickOpen}>
-        Leave Room
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Leave Room"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure?
-          </DialogContentText>
-        </DialogContent>
-          <DialogActions>
-
-            <Button variant="outlined" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={leaveRoom}
-              autoFocus
-            >
-              Leave
-            </Button>
-           
-           
-          </DialogActions>
-      </Dialog> */}
     </div>
   );
 };

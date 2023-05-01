@@ -15,5 +15,5 @@ export enum SOCKET_ROOMS_TYPE {
 
 
 export enum SOCKET_GAME {
-    BLA = "BLA"
+    NEW_PLAYER_TURN = "NEW_PLAYER_TURN"
 }

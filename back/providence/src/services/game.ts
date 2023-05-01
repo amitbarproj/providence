@@ -24,6 +24,7 @@ export class Game {
       );
     setInterval(() => {
       this.setNextPlayer();
+    
     }, 3000);
   }
 
@@ -36,7 +37,7 @@ export class Game {
     if (this.currentPlayer.value) {
       SocketServer.sendRoomMessage(
         this.roomId,
-        SOCKET_GAME.BLA,
+        SOCKET_GAME.NEW_PLAYER_TURN,
         `${this.currentPlayer.value[1].username}`
       );
     } else {

@@ -27,10 +27,11 @@ const ProvidencePlayer = (props) => {
   const points = props.player.points;
   const isAdmin = props.player.isAdmin;
   const img = props.player.imgURL;
+  const isMyTurn = false;
 
   return (
     <div>
-      <Card sx={{}}>
+      <Card raised={isMyTurn? true : false} sx={{}}>
         <CardHeader
           avatar={
             <Badge

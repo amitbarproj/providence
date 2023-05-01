@@ -17,7 +17,7 @@ const Providence = (props) => {
   // const [players, setPlayers] = useState(props.players);
 
   useEffect(() => {
-    socket.on(SOCKET_GAME.BLA, (game_msg) => {
+    socket.on(SOCKET_GAME.NEW_PLAYER_TURN, (game_msg) => {
       setMsg(game_msg);
     });
   }, []);
@@ -26,7 +26,7 @@ const Providence = (props) => {
     console.log(players);
   }, [players]);
 
-  return <ProvidencePlayers players={players}></ProvidencePlayers>;;
+  return <ProvidencePlayers players={players}></ProvidencePlayers>;
 };
 
 export default Providence;
