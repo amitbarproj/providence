@@ -164,7 +164,7 @@ export class Providence implements Game {
         });
         setTimeout(() => {
           this.startNewRound();
-        }, 2000);
+        }, 3000);
       }
     }, 1000);
   };
