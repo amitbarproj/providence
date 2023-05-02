@@ -13,12 +13,14 @@ const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port
 const Providence = (props) => {
   const socket = props.socket;
   const players = props.players;
+  const setPlayers = props.setPlayers;
+  const myUsername = props.username;
   const [msg, setMsg] = useState(undefined);
-  // const [players, setPlayers] = useState(props.players);
 
   useEffect(() => {
     socket.on(SOCKET_GAME.NEW_PLAYER_TURN, (game_msg) => {
-      setMsg(game_msg);
+      const newPlayers = game_msg;
+      setPlayers(newPlayers.players);
     });
   }, []);
 
@@ -26,7 +28,7 @@ const Providence = (props) => {
     console.log(players);
   }, [players]);
 
-  return <ProvidencePlayers players={players}></ProvidencePlayers>;
+  return <ProvidencePlayers myUsername={myUsername} players={players}></ProvidencePlayers>;
 };
 
 export default Providence;

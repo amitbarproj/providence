@@ -41,7 +41,7 @@ export class Game {
       this.currentPlayer.value[1].setMyTurn(true);
       SocketServer.sendRoomMessage(
         this.roomId,
-        SOCKET_ENUMS.UPDATE_PLAYERS_STATE,
+        SOCKET_GAME.NEW_PLAYER_TURN,
         {
           players: this.getNewPlayersStateSocket(),
         }

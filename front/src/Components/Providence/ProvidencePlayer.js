@@ -28,10 +28,15 @@ const ProvidencePlayer = (props) => {
   const isAdmin = props.player.isAdmin;
   const img = props.player.imgURL;
   const isMyTurn = props.player.myTurn;
+  const myUsername = props.myUsername;
+  const isMe = props.isMe;
 
   return (
     <div>
-      <Card raised={isMyTurn? true : false} sx={{}}>
+      <Card
+        raised={isMyTurn ? true : false}
+        sx={{ backgroundColor: isMe ? "#fff9c4" : "" }}
+      >
         <CardHeader
           avatar={
             <Badge
@@ -39,12 +44,13 @@ const ProvidencePlayer = (props) => {
                 vertical: "top",
                 horizontal: "left",
               }}
-              overlap="circular" badgeContent=" "
+              overlap="circular"
+              badgeContent=" "
               color={isConnected ? "success" : "error"}
             >
               <Avatar
                 src={`${img}`}
-                sx={{ bgcolor: "#7295b8", width: 70, height: 70 }}
+                sx={{ bgcolor: "", width: 70, height: 70 }}
               ></Avatar>
             </Badge>
           }
