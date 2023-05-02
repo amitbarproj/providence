@@ -30,14 +30,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-
-
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const ProvidencePlayer = (props) => {
   const [open, setOpen] = useState(false);
 
   const mainWord = useRef();
+  const yourWord = useRef();
 
   const player = props.player;
   const playerGameData = props.player.gameData;
@@ -48,7 +47,7 @@ const ProvidencePlayer = (props) => {
   const gameStarted = props.gameStarted;
   const sendGameMsgToServer = props.sendGameMsgToServer;
   const currPlayerClock = props.currPlayerClock;
-  // const clock = props.clock;
+  const clock = props.clock;
 
   const isMyTurn = playerGameData.myTurn;
 
@@ -64,11 +63,16 @@ const ProvidencePlayer = (props) => {
   useEffect(() => {
     console.log(currPlayerClock);
     if (currPlayerClock === 0 && isMyTurn && isMe) {
-      //sendMainWordToServer();
       setOpen(false);
-
-    } 
+    }
   }, [currPlayerClock]);
+
+  useEffect(() => {
+    console.log();
+    if (clock === 2) {
+      sendYourWordToServer();
+    }
+  }, [clock]);
 
   const points = playerGameData.points;
 
@@ -77,8 +81,18 @@ const ProvidencePlayer = (props) => {
 
   const sendMainWordToServer = () => {
     setOpen(false);
-    const mainWordToSend = mainWord.current ?  mainWord.current.value : "";
+    const mainWordToSend = mainWord.current ? mainWord.current.value : "";
     sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, mainWordToSend);
+  };
+
+  const sendYourWordToServer = () => {
+    const yourWordToSend = yourWord.current
+      ? yourWord.current.value
+      : "TEST@@@@";
+    sendGameMsgToServer(
+      PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD,
+      yourWordToSend
+    );
   };
 
   return (

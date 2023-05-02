@@ -58,7 +58,7 @@ const Providence = (props) => {
         sendGameMsgToServer={sendGameMsgToServer}
         gameStarted={gameStarted}
         currPlayerClock={currPlayerClock}
-        // clock={clock}
+        clock={clock}
       ></ProvidencePlayers>
     </>
   );
