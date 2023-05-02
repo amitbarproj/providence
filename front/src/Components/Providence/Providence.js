@@ -19,6 +19,8 @@ const Providence = (props) => {
   const gameStarted = props.gameStarted;
   const [msg, setMsg] = useState(undefined);
   const [clock, setClock] = useState("");
+  const [currPlayerClock, setCurrPlayerClock] = useState("");
+
 
   useEffect(() => {
     socket.on(SOCKET_GAME.NEW_PLAYER_TURN, (game_msg) => {
@@ -27,7 +29,6 @@ const Providence = (props) => {
     });
     socket.on(SOCKET_GAME.UPDATE_CLOCK, (game_msg) => {
       const newTime = game_msg;
-      console.log(newTime);
       setClock(newTime);
     });
   }, []);
@@ -36,12 +37,11 @@ const Providence = (props) => {
     console.log(players);
   }, [players]);
 
-  const sendGameMsgToServer = (msg) => {
+  const sendGameMsgToServer = (type , msg) => {
     socket.emit(
       "game_msg",
-      { roomId: roomId, username: myUsername, data: msg },
+      { roomId: roomId, username: myUsername, data: {type: type ,content: msg} },
       (message) => {
-        
       }
     );
   }
@@ -53,6 +53,8 @@ const Providence = (props) => {
         players={players}
         sendGameMsgToServer={sendGameMsgToServer}
         gameStarted={gameStarted}
+        currPlayerClock={currPlayerClock}
+        clock={clock}
       ></ProvidencePlayers>
     </>
   );

@@ -26,6 +26,7 @@ export class User {
         this.gameData = { 
           myTurn: false,
           points: 0,
+          currWord: undefined
         };
     }
   }

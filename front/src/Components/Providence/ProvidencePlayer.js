@@ -2,12 +2,19 @@ import io from "socket.io-client";
 import axios from "axios";
 import * as React from "react";
 
-import { useEffect, useState } from "react";
-import { GAMES, SOCKET_ENUMS, SOCKET_GAME } from "../../Enums/enums";
+import { useEffect, useState, useRef } from "react";
+import {
+  GAMES,
+  PROVIDENCE_SOCKET_GAME,
+  SOCKET_ENUMS,
+  SOCKET_GAME,
+} from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import { Avatar, Badge } from "@mui/material";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
+import TextField from "@mui/material/TextField";
+
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -17,13 +24,18 @@ import Typography from "@mui/material/Typography";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import Button from "@mui/material/Button";
 import Popover from "@mui/material/Popover";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const ProvidencePlayer = (props) => {
-  useEffect(() => {
-    console.log(player);
-  }, []);
+  const [open, setOpen] = useState(false);
+
+  const mainWord = useRef();
 
   const player = props.player;
   const playerGameData = props.player.gameData;
@@ -33,17 +45,29 @@ const ProvidencePlayer = (props) => {
   const img = props.player.imgURL;
   const gameStarted = props.gameStarted;
   const sendGameMsgToServer = props.sendGameMsgToServer;
-
-  // export type PROVIDENCE_PLAYER_DATA = {
-  //   myTurn: boolean;
-  //   points: number;
-  // };
+  const currPlayerClock = props.currPlayerClock;
+  const clock = props.clock;
 
   const isMyTurn = playerGameData.myTurn;
+
+  useEffect(() => {
+    console.log(isMyTurn);
+    if (isMyTurn && isMe) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [isMyTurn]);
   const points = playerGameData.points;
 
   const myUsername = props.myUsername;
   const isMe = props.isMe;
+
+  const sendMainWordToServer = () => {
+    setOpen(false);
+    const mainWordToSend = mainWord.current.value;
+    sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, mainWordToSend);
+  };
 
   return (
     <div>
@@ -73,25 +97,57 @@ const ProvidencePlayer = (props) => {
           }
           title={<Typography>{username}</Typography>}
           subheader={
-            <>
-              <Typography variant="h6">{points}</Typography>
-            </>
+            gameStarted && (
+              <>
+                <Typography variant="h6">{points}</Typography>
+              </>
+            )
           }
         />
 
-        {/* <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {points}
-        </Typography>
-      </CardContent> */}
-        {/* <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions> */}
-        {gameStarted && (
-          <Button onClick={() => sendGameMsgToServer("HELLO!")}>send!</Button>
-        )}
+        {/* {gameStarted && isMe && (
+          <Button
+            onClick={() =>
+              sendGameMsgToServer(
+                PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD,
+                "HELLO!"
+              )
+            }
+          >
+            send!
+          </Button>
+        )} */}
       </Card>
+
+      <Dialog
+        open={open}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Enter a word"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {clock}
+          </DialogContentText>
+          <TextField
+            id="outlined-sdfdfd"
+            label="Word"
+            variant="standard"
+            required
+            inputRef={mainWord}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={sendMainWordToServer}
+            autoFocus
+          >
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

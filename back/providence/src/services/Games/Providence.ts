@@ -1,6 +1,6 @@
 // import e = require("cors");
 
-import { SOCKET_ENUMS, SOCKET_GAME } from "../../../../../classes/socketEnums";
+import { PROVIDENCE_SOCKET_GAME, SOCKET_ENUMS, SOCKET_GAME } from "../../../../../classes/socketEnums";
 import {
   PLAYER_SOCKET_DATA,
   PROVIDENCE_PLAYER_DATA,
@@ -93,8 +93,14 @@ export class Providence implements Game {
     }, 1000);
   };
 
-  public socketFromUsers = (msg: { roomId: string; username: string, data: any }) => {
-    console.log(msg);
+  public socketFromUsers = (msg: { username: string, data: {type: string, content: any} }) => {
+    // console.log(msg);
+    if(msg.data.type ===  PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD) {
+        console.log(msg.username , msg.data.content);
+    }
+    else if(msg.data.type ===  PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD) {
+        console.log(msg.username , msg.data.content);
+    }
   };
 }
 

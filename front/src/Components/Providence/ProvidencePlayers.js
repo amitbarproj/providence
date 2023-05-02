@@ -11,6 +11,8 @@ const ProvidencePlayers = (props) => {
         sendGameMsgToServer={props.sendGameMsgToServer}
         isMe={item.username === props.myUsername? true : false}
         gameStarted={props.gameStarted}
+        currPlayerClock={props.currPlayerClock}
+        clock={props.clock}
       ></ProvidencePlayer>
     );
   });

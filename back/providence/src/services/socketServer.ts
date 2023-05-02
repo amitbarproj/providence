@@ -109,7 +109,7 @@ export class SocketServer {
           console.log(msg);
           if (Main.getRooms().has(msg.roomId)) {
             const currRoom = Main.getRooms().get(msg.roomId);
-            currRoom.getGame().socketFromUsers(msg);
+            currRoom.getGame().socketFromUsers({username: msg.username , data:msg.data });
         
           } else {
             console.log(`Room: ${msg.roomId} Not exist`);
@@ -131,7 +131,7 @@ export class SocketServer {
   };
 
   private sendRoomMessage = (roomId: string, subject: string, message: any) => {
-    console.log(subject, message);
+    // console.log(subject, message);
     this.ioServer.to(roomId).emit(subject, message);
   };
 

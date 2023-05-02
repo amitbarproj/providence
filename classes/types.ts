@@ -70,6 +70,8 @@ export type PLAYER_SOCKET_DATA<T> = {
 export type PROVIDENCE_PLAYER_DATA = {
   myTurn: boolean;
   points: number;
+  currWord: undefined
+
 };
 
 export type POKER_PLAYER_DATA = {
