@@ -27,9 +27,13 @@ const Providence = (props) => {
       const newPlayers = game_msg;
       setPlayers(newPlayers.players);
     });
-    socket.on(SOCKET_GAME.UPDATE_CLOCK, (game_msg) => {
+    socket.on(SOCKET_GAME.UPDATE_ALL_CLOCK, (game_msg) => {
       const newTime = game_msg;
       setClock(newTime);
+    });
+    socket.on(SOCKET_GAME.UPDATE_PLAYER_CLOCK, (game_msg) => {
+      const newTime = game_msg;
+      setCurrPlayerClock(newTime);
     });
   }, []);
 
@@ -54,7 +58,7 @@ const Providence = (props) => {
         sendGameMsgToServer={sendGameMsgToServer}
         gameStarted={gameStarted}
         currPlayerClock={currPlayerClock}
-        clock={clock}
+        // clock={clock}
       ></ProvidencePlayers>
     </>
   );

@@ -48,7 +48,7 @@ const ProvidencePlayer = (props) => {
   const gameStarted = props.gameStarted;
   const sendGameMsgToServer = props.sendGameMsgToServer;
   const currPlayerClock = props.currPlayerClock;
-  const clock = props.clock;
+  // const clock = props.clock;
 
   const isMyTurn = playerGameData.myTurn;
 
@@ -62,11 +62,13 @@ const ProvidencePlayer = (props) => {
   }, [isMyTurn]);
 
   useEffect(() => {
-    console.log(clock);
-    if (clock === 0 && isMyTurn && isMe) {
-      sendMainWordToServer();
+    console.log(currPlayerClock);
+    if (currPlayerClock === 0 && isMyTurn && isMe) {
+      //sendMainWordToServer();
+      setOpen(false);
+
     } 
-  }, [clock]);
+  }, [currPlayerClock]);
 
   const points = playerGameData.points;
 
@@ -137,7 +139,7 @@ const ProvidencePlayer = (props) => {
         <DialogTitle id="alert-dialog-title">{"Enter a word"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {clock}
+            {currPlayerClock}
           </DialogContentText>
           <TextField
             id="outlined-sdfdfd"

@@ -21,6 +21,9 @@ export class Providence implements Game {
   private myIterator = undefined;
   private currentPlayer = undefined;
   private currPlayerInterval = undefined;
+  private allPlayersInterval = undefined;
+  private currWord = undefined;
+
 
   constructor(players: Map<string, User>, roomId: string, minPlayers: number) {
     this.players = players;
@@ -41,6 +44,8 @@ export class Providence implements Game {
 
   private startNewRound = () => {
     clearInterval(this.currPlayerInterval);
+    clearInterval(this.allPlayersInterval);
+    this.currWord = undefined;
     this.setNextPlayer();
     this.startCurrPlayerClock();
   };
@@ -63,6 +68,7 @@ export class Providence implements Game {
       });
     } else {
       clearInterval(this.currPlayerInterval);
+      clearInterval(this.allPlayersInterval);
     }
   };
 
@@ -81,14 +87,49 @@ export class Providence implements Game {
   };
 
   private startCurrPlayerClock = () => {
-    let counter = 10;
+    clearInterval(this.allPlayersInterval);
+    let counter = 5;
     this.currPlayerInterval = setInterval(() => {
       SocketServer.sendRoomMessage(
         this.roomId,
-        SOCKET_GAME.UPDATE_CLOCK,
+        SOCKET_GAME.UPDATE_PLAYER_CLOCK,
         counter
       );
       counter -= 1;
+      if(counter < 0) {
+        this.currWord = "BLAAAAA";
+        clearInterval(this.currPlayerInterval)
+        SocketServer.sendRoomMessage(
+          this.roomId,
+          SOCKET_GAME.UPDATE_PLAYER_CLOCK,
+          ""
+        );
+       this.startAllPlayersClock();
+      }
+    }, 1000);
+  };
+
+  private startAllPlayersClock = () => {
+    console.log(this.currWord);
+    clearInterval(this.allPlayersInterval);
+    let counter = 10;
+    this.allPlayersInterval = setInterval(() => {
+      SocketServer.sendRoomMessage(
+        this.roomId,
+        SOCKET_GAME.UPDATE_ALL_CLOCK,
+        counter
+      );
+      counter -= 1;
+      if(counter <= 0) {
+        clearInterval(this.allPlayersInterval);
+        SocketServer.sendRoomMessage(
+            this.roomId,
+            SOCKET_GAME.UPDATE_ALL_CLOCK,
+            ""
+          );
+        //caluclate results....
+        this.startNewRound();
+      }
     }, 1000);
   };
 
@@ -100,8 +141,18 @@ export class Providence implements Game {
     if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD) {
       console.log(msg.username, msg.data.content);
     } else if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD) {
-      console.log(msg.username, msg.data.content);
-      this.startNewRound();
+      if(!this.currWord) {
+        this.currWord = msg.data.content;
+        console.log(msg.username, msg.data.content);
+        clearInterval(this.currPlayerInterval)
+        SocketServer.sendRoomMessage(
+          this.roomId,
+          SOCKET_GAME.UPDATE_PLAYER_CLOCK,
+          ""
+        );
+       this.startAllPlayersClock();
+      }  
+   
     }
   };
 }
