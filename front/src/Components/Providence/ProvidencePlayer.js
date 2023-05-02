@@ -1,5 +1,7 @@
 import io from "socket.io-client";
 import axios from "axios";
+import * as React from "react";
+
 import { useEffect, useState } from "react";
 import { GAMES, SOCKET_ENUMS, SOCKET_GAME } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
@@ -11,8 +13,10 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardHeader } from "@mui/material";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import PersonPinIcon from "@mui/icons-material/PersonPin";
+import Button from "@mui/material/Button";
+import Popover from "@mui/material/Popover";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -22,12 +26,21 @@ const ProvidencePlayer = (props) => {
   }, []);
 
   const player = props.player;
+  const playerGameData = props.player.gameData;
   const isConnected = props.player.isConnected;
   const username = props.player.username;
-  const points = props.player.points;
   const isAdmin = props.player.isAdmin;
   const img = props.player.imgURL;
-  const isMyTurn = props.player.myTurn;
+
+
+  // export type PROVIDENCE_PLAYER_DATA = {
+  //   myTurn: boolean;
+  //   points: number;
+  // };
+
+  const isMyTurn = playerGameData.myTurn;
+  const points = playerGameData.points;
+
   const myUsername = props.myUsername;
   const isMe = props.isMe;
 
@@ -35,7 +48,7 @@ const ProvidencePlayer = (props) => {
     <div>
       <Card
         raised={isMyTurn ? true : false}
-        sx={{ backgroundColor: isMe ? "#fff9c4" : "" }}
+        sx={{ backgroundColor: isMyTurn ? "#fff9c4" : "" }}
       >
         <CardHeader
           avatar={
@@ -54,17 +67,14 @@ const ProvidencePlayer = (props) => {
               ></Avatar>
             </Badge>
           }
-          title={
-            <Typography gutterBottom variant="h5" component="div">
-              {username}
-            </Typography>
-          }
+          title={<Typography>{username}</Typography>}
           subheader={
-            <Typography gutterBottom variant="h5" component="div">
-              {points}
-            </Typography>
+            <>
+              <Typography variant="h6">{points}</Typography>
+            </>
           }
         />
+
         {/* <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {points}
