@@ -23,6 +23,7 @@ export class Providence implements Game {
   private currPlayerInterval = undefined;
   private allPlayersInterval = undefined;
   private currWord = undefined;
+  private maxPoints = 3;
 
   constructor(players: Map<string, User>, roomId: string, minPlayers: number) {
     this.players = players;
