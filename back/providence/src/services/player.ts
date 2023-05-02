@@ -1,25 +1,19 @@
 import { Socket } from "socket.io";
 import { AvatarGenerator } from "random-avatar-generator";
 import { GAMES } from "../../../../classes/enums";
-import { PLAYER_DATA } from "../../../../classes/types";
 
 const generator = new AvatarGenerator();
 
 // Simply get a random avatar
 
 export class User {
-  setMyTurn(arg0: boolean) {
-      throw new Error("Method not implemented.");
-  }
   private username: string;
   private admin: boolean;
   private isConnected: boolean;
   private socketId: string;
   private points: number;
   private imgURL: string = generator.generateRandomAvatar();
-  private myTurn: boolean;
-  private gameType: GAMES = undefined;
-  private gameData: PLAYER_DATA = undefined;
+  private gameData: any = undefined;
 
   constructor(username: string, isAdmin: boolean, gameType: GAMES) {
     this.username = username;
@@ -56,10 +50,6 @@ export class User {
     this.socketId = socketId;
   };
 
-  public getPoints = (): number => {
-    return this.points;
-  };
-
   public Connected = (): boolean => {
     return this.isConnected;
   };
@@ -72,15 +62,7 @@ export class User {
     return this.imgURL;
   };
 
-  // public getMyTurn = (): boolean => {
-  //   return this.myTurn;
-  // };
-
-  // public setMyTurn = (newTurn: boolean) => {
-  //   this.myTurn = newTurn;
-  // };
-
-  public getGameData = (): PLAYER_DATA => {
+  public getGameData = (): any => {
     return this.gameData;
   };
 }

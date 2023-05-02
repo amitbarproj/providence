@@ -48,7 +48,7 @@ const ProvidencePlayer = (props) => {
     <div>
       <Card
         raised={isMyTurn ? true : false}
-        sx={{ backgroundColor: isMyTurn ? "#fff9c4" : "" }}
+        sx={{ border: isMyTurn? "#ff5722 dashed 2px" : "" ,backgroundColor: isMe ? "#90caf9": ""}}
       >
         <CardHeader
           avatar={

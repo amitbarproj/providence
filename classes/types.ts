@@ -51,21 +51,21 @@ export type GET_ROOM_RES = {
 };
 
 export type SOCKET_JOIN_ROOM_OBJ = {
-  players: PLAYER_SOCKET_DATA[];
+  players: PLAYER_SOCKET_DATA<any>[];
   youAdmin: boolean;
   gameType: GAMES;
   gameStarted: boolean;
 };
 
-export type PLAYER_SOCKET_DATA = {
+export type PLAYER_SOCKET_DATA<T> = {
   username: string;
   isAdmin: boolean;
   isConnected: boolean;
   imgURL: string;
-  gameData: PLAYER_DATA;
+  gameData: T | any;
 };
 
-export type PLAYER_DATA = any
+// export type PLAYER_DATA = any
 
 export type PROVIDENCE_PLAYER_DATA = {
   myTurn: boolean;

@@ -130,8 +130,8 @@ export class Room {
     return this.gameType;
   };
 
-  public getPlayersSocketData = (): PLAYER_SOCKET_DATA[] => {
-    const ans: PLAYER_SOCKET_DATA[] = [];
+  public getPlayersSocketData = (): PLAYER_SOCKET_DATA<any>[] => {
+    const ans: PLAYER_SOCKET_DATA<any>[] = [];
     this.players.forEach((player) => {
       ans.push({
           username: player.getUserName(),

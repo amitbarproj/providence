@@ -2,7 +2,6 @@
 
 import { SOCKET_ENUMS, SOCKET_GAME } from "../../../../../classes/socketEnums";
 import {
-  PLAYER_DATA,
   PLAYER_SOCKET_DATA,
   PROVIDENCE_PLAYER_DATA,
 } from "../../../../../classes/types";
@@ -57,7 +56,7 @@ export class Providence implements Game {
   };
 
   private getNewPlayersStateSocket = () => {
-    const ans: PLAYER_SOCKET_DATA[] = [];
+    const ans: PLAYER_SOCKET_DATA<PROVIDENCE_PLAYER_DATA>[] = [];
     this.players.forEach((player) => {
       ans.push({
         username: player.getUserName(),
