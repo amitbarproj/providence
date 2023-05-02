@@ -102,6 +102,23 @@ export class SocketServer {
           // Main.getRooms().get(data.roomId).getPlayers().get(data.username).setSocketID(socket.id);
         }
       );
+
+      socket.on(
+        "game_msg",
+        (msg: { roomId: string; username: string, data: any }, cb) => {
+          console.log(msg);
+          if (Main.getRooms().has(msg.roomId)) {
+            const currRoom = Main.getRooms().get(msg.roomId);
+            currRoom.getGame().socketFromUsers(msg);
+        
+          } else {
+            console.log(`Room: ${msg.roomId} Not exist`);
+            cb(SOCKET_ENUMS.ERROR);
+          }
+          //check if room exist , and username
+          // Main.getRooms().get(data.roomId).getPlayers().get(data.username).setSocketID(socket.id);
+        }
+      );
     });
   };
 

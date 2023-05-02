@@ -35,7 +35,7 @@ const Room = (props) => {
     switch (gameType) {
       case GAMES.Providence:
         console.log(socket);
-        return <Providence username={username} players={players} setPlayers={setPlayers} socket={socket}></Providence>;
+        return <Providence gameStarted={gameStarted} roomId={id} username={username} players={players} setPlayers={setPlayers} socket={socket}></Providence>;
       default:
         return <h1>NON GAME</h1>;
     }

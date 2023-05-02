@@ -31,7 +31,8 @@ const ProvidencePlayer = (props) => {
   const username = props.player.username;
   const isAdmin = props.player.isAdmin;
   const img = props.player.imgURL;
-
+  const gameStarted = props.gameStarted;
+  const sendGameMsgToServer = props.sendGameMsgToServer;
 
   // export type PROVIDENCE_PLAYER_DATA = {
   //   myTurn: boolean;
@@ -48,7 +49,10 @@ const ProvidencePlayer = (props) => {
     <div>
       <Card
         raised={isMyTurn ? true : false}
-        sx={{ border: isMyTurn? "#ff5722 dashed 2px" : "" ,backgroundColor: isMe ? "#90caf9": ""}}
+        sx={{
+          border: isMyTurn ? "#ff5722 dashed 2px" : "",
+          backgroundColor: isMe ? "#90caf9" : "",
+        }}
       >
         <CardHeader
           avatar={
@@ -84,6 +88,9 @@ const ProvidencePlayer = (props) => {
         <Button size="small">Share</Button>
         <Button size="small">Learn More</Button>
       </CardActions> */}
+        {gameStarted && (
+          <Button onClick={() => sendGameMsgToServer("HELLO!")}>send!</Button>
+        )}
       </Card>
     </div>
   );

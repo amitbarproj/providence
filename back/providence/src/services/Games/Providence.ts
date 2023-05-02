@@ -16,6 +16,7 @@ export class Providence implements Game {
   private minPlayers: number = undefined;
   private myIterator = undefined;
   private currentPlayer = undefined;
+  private currPlayerInterval = undefined;
 
   constructor(players: Map<string, User>, roomId: string, minPlayers: number) {
     this.players = players;
@@ -28,10 +29,16 @@ export class Providence implements Game {
       SOCKET_ENUMS.START_GAME,
       `Game Providence in room ${roomId} started right now`
     );
-    setInterval(() => {
-      this.setNextPlayer();
-    }, 3000);
+    this.startNewRound();
+    // setInterval(() => {
+    //   this.setNextPlayer();
+    // }, 3000);
   }
+
+  private startNewRound = () => {
+    this.setNextPlayer();
+    this.startCurrPlayerClock();
+  };
 
   private setNextPlayer = () => {
     this.currentPlayer = this.myIterator.next();
@@ -44,14 +51,13 @@ export class Providence implements Game {
         // player.setMyTurn(false);
         const bla: PROVIDENCE_PLAYER_DATA = player.getGameData();
         bla.myTurn = false;
-        bla.points++;
       });
       this.currentPlayer.value[1].getGameData().myTurn = true;
       SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.NEW_PLAYER_TURN, {
         players: this.getNewPlayersStateSocket(),
       });
     } else {
-      //NO PLAYERS IN GAME
+        clearInterval(this.currPlayerInterval);
     }
   };
 
@@ -68,4 +74,28 @@ export class Providence implements Game {
     });
     return ans;
   };
+
+
+  private startCurrPlayerClock = () => {
+    let counter = 10;
+    this.currPlayerInterval = setInterval(() => {
+      SocketServer.sendRoomMessage(
+        this.roomId,
+        SOCKET_GAME.UPDATE_CLOCK,
+        counter
+      );
+      counter -= 1;
+      if (counter < 0) {
+        console.log("Done");
+        clearInterval(this.currPlayerInterval);
+        this.startNewRound();
+      }
+    }, 1000);
+  };
+
+  public socketFromUsers = (msg: { roomId: string; username: string, data: any }) => {
+    console.log(msg);
+  };
 }
+
+

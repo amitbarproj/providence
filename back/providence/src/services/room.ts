@@ -93,6 +93,9 @@ export class Room {
         throw new Error("Game type not exist");
     }
   };
+  public getGame = (): Game => {
+   return this.game;
+  };
 
   public gameStarted = (): boolean => {
     return this.game ? true : false;

@@ -8,7 +8,9 @@ const ProvidencePlayers = (props) => {
         className="player-card"
         player={item}
         myUsername={props.myUsername}
+        sendGameMsgToServer={props.sendGameMsgToServer}
         isMe={item.username === props.myUsername? true : false}
+        gameStarted={props.gameStarted}
       ></ProvidencePlayer>
     );
   });

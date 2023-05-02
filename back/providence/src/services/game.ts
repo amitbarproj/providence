@@ -1,1 +1,3 @@
-export interface Game {}
+export interface Game {
+     socketFromUsers;
+}
