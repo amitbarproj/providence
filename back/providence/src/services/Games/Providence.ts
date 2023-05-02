@@ -44,6 +44,7 @@ export class Providence implements Game {
   private startNewRound = () => {
     this.players.forEach((player) => {
       player.getGameData().currWord = undefined;
+      player.getGameData().winThisRound = false;
     });
     clearInterval(this.currPlayerInterval);
     clearInterval(this.allPlayersInterval);
@@ -99,6 +100,17 @@ export class Providence implements Game {
     return ans;
   };
 
+  private calculateRound = () => {
+    this.players.forEach((player) => {
+      const playerWord = player.getGameData().currWord;
+      player.getGameData().points++;
+      player.getGameData().winThisRound = true;
+    });
+    SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.NEW_PLAYER_TURN, {
+      players: this.getNewPlayersStateSocket(),
+    });
+  };
+
   private startCurrPlayerClock = () => {
     clearInterval(this.allPlayersInterval);
     let counter = 5;
@@ -133,7 +145,7 @@ export class Providence implements Game {
         counter
       );
       counter -= 1;
-      if (counter <= 0) {
+      if (counter < 0) {
         clearInterval(this.allPlayersInterval);
         SocketServer.sendRoomMessage(
           this.roomId,
@@ -141,11 +153,18 @@ export class Providence implements Game {
           ""
         );
         //caluclate results....
-        console.log(`Main word is ${this.currWord}`)
-        this.players.forEach(player => {
-            console.log(`Username: ${player.getUserName()}, Word: ${player.getGameData().currWord}`);
-        })
-        this.startNewRound();
+        this.calculateRound();
+        console.log(`Main word is ${this.currWord}`);
+        this.players.forEach((player) => {
+          console.log(
+            `Username: ${player.getUserName()}, Word: ${
+              player.getGameData().currWord
+            }`
+          );
+        });
+        setTimeout(() => {
+          this.startNewRound();
+        }, 2000);
       }
     }, 1000);
   };

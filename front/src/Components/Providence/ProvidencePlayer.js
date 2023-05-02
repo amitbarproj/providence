@@ -48,6 +48,8 @@ const ProvidencePlayer = (props) => {
   const sendGameMsgToServer = props.sendGameMsgToServer;
   const currPlayerClock = props.currPlayerClock;
   const clock = props.clock;
+  const winThisRound = player.gameData.winThisRound;
+
 
   const isMyTurn = playerGameData.myTurn;
 
@@ -101,7 +103,7 @@ const ProvidencePlayer = (props) => {
         raised={isMyTurn ? true : false}
         sx={{
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: isMe ? "#90caf9" : "",
+          backgroundColor: winThisRound? "green" : isMe ? "#90caf9" : "",
         }}
       >
         <CardHeader

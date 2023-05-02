@@ -51,7 +51,7 @@ const Providence = (props) => {
   }
   return (
     <>
-      <h1>{clock}</h1>
+      <h1>Time: {clock}</h1>
       <ProvidencePlayers
         myUsername={myUsername}
         players={players}
