@@ -30,6 +30,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
+
+
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const ProvidencePlayer = (props) => {
@@ -58,6 +60,14 @@ const ProvidencePlayer = (props) => {
       setOpen(false);
     }
   }, [isMyTurn]);
+
+  useEffect(() => {
+    console.log(clock);
+    if (clock === 0 && isMyTurn && isMe) {
+      sendMainWordToServer();
+    } 
+  }, [clock]);
+
   const points = playerGameData.points;
 
   const myUsername = props.myUsername;
@@ -65,7 +75,7 @@ const ProvidencePlayer = (props) => {
 
   const sendMainWordToServer = () => {
     setOpen(false);
-    const mainWordToSend = mainWord.current.value;
+    const mainWordToSend = mainWord.current ?  mainWord.current.value : "";
     sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, mainWordToSend);
   };
 
@@ -142,7 +152,6 @@ const ProvidencePlayer = (props) => {
             color="primary"
             variant="contained"
             onClick={sendMainWordToServer}
-            autoFocus
           >
             Send
           </Button>
