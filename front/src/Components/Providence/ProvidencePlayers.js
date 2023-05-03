@@ -13,6 +13,7 @@ const ProvidencePlayers = (props) => {
         gameStarted={props.gameStarted}
         currPlayerClock={props.currPlayerClock}
         clock={props.clock}
+        // isVoted={props.isVoted}
       ></ProvidencePlayer>
     );
   });

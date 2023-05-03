@@ -106,7 +106,6 @@ export class SocketServer {
       socket.on(
         "game_msg",
         (msg: { roomId: string; username: string, data: any }, cb) => {
-          console.log(msg);
           if (Main.getRooms().has(msg.roomId)) {
             const currRoom = Main.getRooms().get(msg.roomId);
             currRoom.getGame().socketFromUsers({username: msg.username , data:msg.data });

@@ -143,7 +143,9 @@ export class Providence implements Game {
       SocketServer.sendRoomMessage(
         this.roomId,
         SOCKET_GAME.UPDATE_ALL_CLOCK,
-        counter
+        {counter: counter,
+          players: this.getNewPlayersStateSocket(),
+        }
       );
       counter -= 1;
       if (counter < 0) {
@@ -176,8 +178,13 @@ export class Providence implements Game {
   }) => {
     // console.log(msg);
     if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD) {
-      this.players.get(msg.username).getGameData().currWord = msg.data.content;
-      console.log(msg.username, msg.data.content);
+      if(!this.players.get(msg.username).getGameData().currWord){
+        this.players.get(msg.username).getGameData().currWord = msg.data.content;
+        console.log(`${msg.username} VOTEDDDDD ${msg.data.content}`);
+      }
+      else{
+        console.log(`${msg.username} already voted`);
+      }
     } else if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD) {
       if (!this.currWord) {
         this.currWord = msg.data.content;

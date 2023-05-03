@@ -20,6 +20,8 @@ const Providence = (props) => {
   const [msg, setMsg] = useState(undefined);
   const [clock, setClock] = useState("");
   const [currPlayerClock, setCurrPlayerClock] = useState("");
+  // const [isVoted, setIsVoted] = useState(false);
+
 
 
   useEffect(() => {
@@ -28,8 +30,12 @@ const Providence = (props) => {
       setPlayers(newPlayers.players);
     });
     socket.on(SOCKET_GAME.UPDATE_ALL_CLOCK, (game_msg) => {
-      const newTime = game_msg;
+      const newTime = game_msg.counter;
       setClock(newTime);
+      // const socketPlayers = game_msg.players;
+      // if(socketPlayers.get(myUsername).getGameData().currWord){
+      //   setIsVoted(true);
+      // }
     });
     socket.on(SOCKET_GAME.UPDATE_PLAYER_CLOCK, (game_msg) => {
       const newTime = game_msg;
@@ -59,6 +65,7 @@ const Providence = (props) => {
         gameStarted={gameStarted}
         currPlayerClock={currPlayerClock}
         clock={clock}
+        // isVoted={isVoted}
       ></ProvidencePlayers>
     </>
   );

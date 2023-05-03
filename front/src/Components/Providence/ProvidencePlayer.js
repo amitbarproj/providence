@@ -34,6 +34,8 @@ const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port
 
 const ProvidencePlayer = (props) => {
   const [open, setOpen] = useState(false);
+  const [openInputWord, setOpenInputWord] = useState(false);
+
 
   const mainWord = useRef();
   const yourWord = useRef();
@@ -49,7 +51,7 @@ const ProvidencePlayer = (props) => {
   const currPlayerClock = props.currPlayerClock;
   const clock = props.clock;
   const winThisRound = player.gameData.winThisRound;
-
+  // const isVoted = props.isVoted;
 
   const isMyTurn = playerGameData.myTurn;
 
@@ -69,9 +71,21 @@ const ProvidencePlayer = (props) => {
     }
   }, [currPlayerClock]);
 
+  // useEffect(() => {
+  //   console.log();
+  //   if (clock !== "") {
+  //     if (openInputWord === false && !isVoted) {
+  //       setOpenInputWord(true);
+  //     }
+  //   } else {
+  //     if (openInputWord === true) {
+  //       setOpenInputWord(false);
+  //     }
+  //   }
+  // }, [clock]);
+
   useEffect(() => {
-    console.log();
-    if (clock === 2) {
+    if (clock == 2) {
       sendYourWordToServer();
     }
   }, [clock]);
@@ -103,7 +117,7 @@ const ProvidencePlayer = (props) => {
         raised={isMyTurn ? true : false}
         sx={{
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: winThisRound? "green" : isMe ? "#90caf9" : "",
+          backgroundColor: winThisRound ? "green" : isMe ? "#90caf9" : "",
         }}
       >
         <CardHeader
@@ -144,6 +158,18 @@ const ProvidencePlayer = (props) => {
           >
             send!
           </Button>
+        )} */}
+        {/* {openInputWord && isMe && (
+          <>
+            <TextField
+              id="outlined-sdfdfd"
+              label="Word"
+              variant="standard"
+              required
+              inputRef={yourWord}
+            />
+            <Button onClick={() => sendYourWordToServer()}>Send</Button>
+          </>
         )} */}
       </Card>
 
