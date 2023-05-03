@@ -57,12 +57,8 @@ export class Providence implements Game {
     SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_ALL_CLOCK, "");
     this.currWord = undefined;
     this.setNextPlayer();
-    if (this.currentPlayer.value[1].Connected()) {
-      this.startCurrPlayerClock();
-    } else {
-      //  this.startNewRound();
-      this.startCurrPlayerClock();
-    }
+    this.startCurrPlayerClock();
+
   };
 
   private setNextPlayer = () => {
