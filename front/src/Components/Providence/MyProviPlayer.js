@@ -5,6 +5,7 @@ import * as React from "react";
 import { useEffect, useState, useRef } from "react";
 import {
   GAMES,
+  PROVIDENCE_GAME_STATE,
   PROVIDENCE_SOCKET_GAME,
   SOCKET_ENUMS,
   SOCKET_GAME,
@@ -50,18 +51,20 @@ const MyProviPlayer = (props) => {
   const currPlayerClock = props.currPlayerClock;
   const clock = props.clock;
   const winThisRound = player.gameData.winThisRound;
+  const gameState = props.gameState;
+
   // const isVoted = props.isVoted;
 
   const isMyTurn = playerGameData.myTurn;
 
   useEffect(() => {
     console.log(isMyTurn);
-    if (isMyTurn) {
+    if (gameState === PROVIDENCE_GAME_STATE.PLAYER_CLOCK && isMyTurn) {
       setOpen(true);
     } else {
       setOpen(false);
     }
-  }, [isMyTurn]);
+  }, [gameState]);
 
   useEffect(() => {
     console.log(currPlayerClock);

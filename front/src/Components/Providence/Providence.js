@@ -20,12 +20,18 @@ const Providence = (props) => {
   const [msg, setMsg] = useState(undefined);
   const [clock, setClock] = useState("");
   const [currPlayerClock, setCurrPlayerClock] = useState("");
+  const [gameState, setGameState] = useState(undefined);
+
   // const [isVoted, setIsVoted] = useState(false);
 
 
 
   useEffect(() => {
     socket.on(SOCKET_GAME.NEW_PLAYER_TURN, (game_msg) => {
+      const newPlayers = game_msg;
+      setPlayers(newPlayers.players);
+    });
+    socket.on(SOCKET_GAME.UPDATE_PLAYERS, (game_msg) => {
       const newPlayers = game_msg;
       setPlayers(newPlayers.players);
     });
@@ -40,6 +46,11 @@ const Providence = (props) => {
     socket.on(SOCKET_GAME.UPDATE_PLAYER_CLOCK, (game_msg) => {
       const newTime = game_msg;
       setCurrPlayerClock(newTime);
+    });
+
+    socket.on(SOCKET_GAME.UPDATE_GAME_STATE, (game_msg) => {
+      const newState = game_msg;
+      setGameState(newState);
     });
   }, []);
 
@@ -57,6 +68,8 @@ const Providence = (props) => {
   }
   return (
     <>
+          <h1>Game State: {gameState}</h1>
+
       <h1>Time: {clock}</h1>
       <ProvidencePlayers
         myUsername={myUsername}
@@ -65,6 +78,7 @@ const Providence = (props) => {
         gameStarted={gameStarted}
         currPlayerClock={currPlayerClock}
         clock={clock}
+        gameState={gameState}
         // isVoted={isVoted}
       ></ProvidencePlayers>
     </>

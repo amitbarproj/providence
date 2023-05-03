@@ -30,6 +30,8 @@ const ProvidencePlayer = (props) => {
   const winThisRound = player.gameData.winThisRound;
   const isMyTurn = playerGameData.myTurn;
   const points = playerGameData.points;
+  const gameState = props.gameState;
+
 
   return (
     <div>

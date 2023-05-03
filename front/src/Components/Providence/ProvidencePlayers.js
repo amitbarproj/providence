@@ -13,6 +13,7 @@ const ProvidencePlayers = (props) => {
           gameStarted={props.gameStarted}
           currPlayerClock={props.currPlayerClock}
           clock={props.clock}
+          gameState={props.gameState}
         ></MyProviPlayer>
       );
     } else {
@@ -21,6 +22,7 @@ const ProvidencePlayers = (props) => {
           className="player-card"
           player={item}
           gameStarted={props.gameStarted}
+          gameState={props.gameState}
         ></ProvidencePlayer>
       );
     }

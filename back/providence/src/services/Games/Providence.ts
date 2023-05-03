@@ -1,5 +1,6 @@
 // import e = require("cors");
 
+import { PROVIDENCE_GAME_STATE } from "../../../../../classes/enums";
 import {
   PROVIDENCE_SOCKET_GAME,
   SOCKET_ENUMS,
@@ -23,6 +24,7 @@ export class Providence implements Game {
   private currPlayerInterval = undefined;
   private allPlayersInterval = undefined;
   private currWord = undefined;
+  private gameState = undefined;
   private maxPoints = 3;
 
   constructor(players: Map<string, User>, roomId: string, minPlayers: number) {
@@ -98,17 +100,19 @@ export class Providence implements Game {
   };
 
   private calculateRound = () => {
+    this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.CALCULATE_ROUND);
     this.players.forEach((player) => {
       const playerWord = player.getGameData().currWord;
       player.getGameData().points++;
       player.getGameData().winThisRound = true;
     });
-    SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.NEW_PLAYER_TURN, {
+    SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_PLAYERS, {
       players: this.getNewPlayersStateSocket(),
     });
   };
 
   private startCurrPlayerClock = () => {
+    this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.PLAYER_CLOCK);
     clearInterval(this.allPlayersInterval);
     let counter = 5;
     this.currPlayerInterval = setInterval(() => {
@@ -134,6 +138,7 @@ export class Providence implements Game {
   private startAllPlayersClock = () => {
     console.log(this.currWord);
     clearInterval(this.allPlayersInterval);
+    this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.ALL_CLOCK);
     let counter = 10;
     this.allPlayersInterval = setInterval(() => {
       SocketServer.sendRoomMessage(
@@ -166,6 +171,15 @@ export class Providence implements Game {
         }, 3000);
       }
     }, 1000);
+  };
+
+  private updateGameStateAndSendToClients = (newState: PROVIDENCE_GAME_STATE) => {
+      this.gameState = newState;
+      SocketServer.sendRoomMessage(
+        this.roomId,
+        SOCKET_GAME.UPDATE_GAME_STATE,
+        newState
+      );
   };
 
   public socketFromUsers = (msg: {
