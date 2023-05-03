@@ -8,6 +8,7 @@ import {
 } from "../../../../../classes/socketEnums";
 import {
   PLAYER_SOCKET_DATA,
+  PROVIDENCE_GAME_INFO,
   PROVIDENCE_PLAYER_DATA,
 } from "../../../../../classes/types";
 import { Game } from "../game";
@@ -84,6 +85,20 @@ export class Providence implements Game {
       clearInterval(this.allPlayersInterval);
     }
   };
+
+  // public getAllGameInfo = (): PROVIDENCE_GAME_INFO => {
+  //   const ans: PROVIDENCE_GAME_INFO = {players: [] , gameState: this.gameState};
+  //   this.players.forEach((player) => {
+  //     ans.players.push({
+  //       username: player.getUserName(),
+  //       isAdmin: player.isAdmin(),
+  //       isConnected: player.Connected(),
+  //       imgURL: player.getImgURL(),
+  //       gameData: player.getGameData(),
+  //     });
+  //   });
+  //   return ans;
+  // };
 
   private getNewPlayersStateSocket = () => {
     const ans: PLAYER_SOCKET_DATA<PROVIDENCE_PLAYER_DATA>[] = [];
@@ -182,6 +197,10 @@ export class Providence implements Game {
       );
   };
 
+  public getGameState = () => {
+   return this.gameState;
+};
+
   public socketFromUsers = (msg: {
     username: string;
     data: { type: string; content: any };
@@ -208,5 +227,9 @@ export class Providence implements Game {
         this.startAllPlayersClock();
       }
     }
+    // else if (msg.data.type === PROVIDENCE_SOCKET_GAME.GET_GAME_INFO) {
+     
+    // }
+    
   };
 }

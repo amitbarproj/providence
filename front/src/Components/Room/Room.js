@@ -23,6 +23,8 @@ const Room = (props) => {
   const [gameStarted, setGameStarted] = useState(false);
   const [renderRoom, SetRenderRoom] = useState(false);
   const [socket, setSocket] = useState(undefined);
+  // const [gameState, setSocket] = useState(undefined);
+
 
   // let socket;
 

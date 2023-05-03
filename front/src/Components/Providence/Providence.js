@@ -27,6 +27,7 @@ const Providence = (props) => {
 
 
   useEffect(() => {
+    sendGameMsgToServer("GET_GAME_INFO" , "");
     socket.on(SOCKET_GAME.NEW_PLAYER_TURN, (game_msg) => {
       const newPlayers = game_msg;
       setPlayers(newPlayers.players);
@@ -63,6 +64,9 @@ const Providence = (props) => {
       "game_msg",
       { roomId: roomId, username: myUsername, data: {type: type ,content: msg} },
       (message) => {
+        if(type === "GET_GAME_INFO") {
+            setGameState(JSON.parse(message).gameState);
+        }
       }
     );
   }

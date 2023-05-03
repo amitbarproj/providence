@@ -105,11 +105,21 @@ export class SocketServer {
 
       socket.on(
         "game_msg",
-        (msg: { roomId: string; username: string, data: any }, cb) => {
+        (msg: { roomId: string; username: string; data: any }, cb) => {
           if (Main.getRooms().has(msg.roomId)) {
             const currRoom = Main.getRooms().get(msg.roomId);
-            currRoom.getGame().socketFromUsers({username: msg.username , data:msg.data });
-        
+            if (currRoom.getGame()) {
+              currRoom
+                .getGame()
+                .socketFromUsers({ username: msg.username, data: msg.data });
+              if (msg.data.type === "GET_GAME_INFO") {
+                cb(
+                  JSON.stringify({
+                    gameState: currRoom.getGame().getGameState(),
+                  })
+                );
+              }
+            }
           } else {
             console.log(`Room: ${msg.roomId} Not exist`);
             cb(SOCKET_ENUMS.ERROR);

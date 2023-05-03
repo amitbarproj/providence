@@ -1,4 +1,4 @@
-import { GAMES } from "./enums";
+import { GAMES, PROVIDENCE_GAME_STATE } from "./enums";
 
 export type ASYNC_RESPONSE<T = any> = {
   success: boolean;
@@ -57,6 +57,14 @@ export type SOCKET_JOIN_ROOM_OBJ = {
   gameStarted: boolean;
 };
 
+export type PROVIDENCE_GAME_INFO = {
+  players: PLAYER_SOCKET_DATA<any>[];
+  // youAdmin: boolean;
+  // gameStarted: boolean;
+  gameState: PROVIDENCE_GAME_STATE
+
+};
+
 export type PLAYER_SOCKET_DATA<T> = {
   username: string;
   isAdmin: boolean;
@@ -71,7 +79,6 @@ export type PROVIDENCE_PLAYER_DATA = {
   myTurn: boolean;
   points: number;
   currWord: undefined
-
 };
 
 export type POKER_PLAYER_DATA = {
