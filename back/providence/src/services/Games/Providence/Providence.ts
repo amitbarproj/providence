@@ -65,7 +65,6 @@ export class Providence implements Game {
     }
     if (this.currentPlayer.value) {
       this.players.forEach((player) => {
-        // player.setMyTurn(false);
         const bla: PROVIDENCE_PLAYER_DATA = player.getGameData();
         bla.myTurn = false;
       });
@@ -113,7 +112,7 @@ export class Providence implements Game {
         counter
       );
       counter -= 1;
-      if (counter < 0) {
+      if (counter < 0 || !this.currentPlayer.value[1].Connected()) {
         // this.currWord = "BLAAAAA";
         // clearInterval(this.currPlayerInterval);
         // SocketServer.sendRoomMessage(
