@@ -15,6 +15,8 @@ import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import { Avatar, Badge } from "@mui/material";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
 import TextField from "@mui/material/TextField";
+import Collapse from "@mui/material/Collapse";
+import Divider from "@mui/material/Divider";
 
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -31,7 +33,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
+// const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const MyProviPlayer = (props) => {
   const [openCurrPlayerWordDialog, setOpenCurrPlayerWordDialog] =
@@ -53,46 +55,45 @@ const MyProviPlayer = (props) => {
   const allPlayersclock = props.clock;
   const winThisRound = player.gameData.winThisRound;
   const gameState = props.gameState;
-
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
-
-
   const isMyTurn = playerGameData.myTurn;
 
   useEffect(() => {
     console.log(isMyTurn);
-    if (gameState === PROVIDENCE_GAME_STATE.PLAYER_CLOCK && isMyTurn) {
-      setOpenCurrPlayerWordDialog(true);
-    } else {
+    if (gameState !== PROVIDENCE_GAME_STATE.ALL_CLOCK) {
+      setOpenInputWord(false);
+    }
+    if (gameState !== PROVIDENCE_GAME_STATE.PLAYER_CLOCK) {
       setOpenCurrPlayerWordDialog(false);
+    }
+    if (gameState === PROVIDENCE_GAME_STATE.PLAYER_CLOCK) {
+      if (isMyTurn) {
+        setOpenCurrPlayerWordDialog(true);
+      } else {
+        setOpenCurrPlayerWordDialog(false);
+      }
+    } else if (gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK) {
+      if (!isVoted) {
+        setOpenInputWord(true);
+      } else {
+        setOpenInputWord(false);
+      }
     }
   }, [gameState]);
 
-  useEffect(() => {
-    console.log(currPlayerClock);
-    if (currPlayerClock === 0 && isMyTurn) {
-      setOpenCurrPlayerWordDialog(false);
-    }
-  }, [currPlayerClock]);
+  //Check if need this useEffect...... (maybe yes!)
+  // useEffect(() => {
+  //   console.log(currPlayerClock);
+  //   if (currPlayerClock === 0 && isMyTurn) {
+  //     setOpenCurrPlayerWordDialog(false);
+  //   }
+  // }, [currPlayerClock]);
 
   // useEffect(() => {
-  //   console.log();
-  //   if (clock !== "") {
-  //     if (openInputWord === false && !isVoted) {
-  //       setOpenInputWord(true);
-  //     }
-  //   } else {
-  //     if (openInputWord === true) {
-  //       setOpenInputWord(false);
-  //     }
+  //   if (allPlayersclock == 2) {
+  //     sendYourWordToServer();
   //   }
-  // }, [clock]);
-
-  useEffect(() => {
-    if (allPlayersclock == 2) {
-      sendYourWordToServer();
-    }
-  }, [allPlayersclock]);
+  // }, [allPlayersclock]);
 
   const points = playerGameData.points;
 
@@ -110,6 +111,7 @@ const MyProviPlayer = (props) => {
       PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD,
       yourWordToSend
     );
+    setOpenInputWord(false);
   };
 
   return (
@@ -147,6 +149,18 @@ const MyProviPlayer = (props) => {
             )
           }
         />
+        <Collapse in={openInputWord} timeout="auto" unmountOnExit>
+          <Divider />
+          <TextField
+            id="outlined-sdfdfd"
+            label="Description"
+            variant="standard"
+            inputRef={yourWord}
+          />
+          <Button variant="contained" onClick={sendYourWordToServer}>
+            Send
+          </Button>
+        </Collapse>
       </Card>
 
       <Dialog
