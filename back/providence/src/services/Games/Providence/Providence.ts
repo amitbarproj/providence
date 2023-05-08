@@ -99,7 +99,7 @@ export class Providence implements Game {
       player.getGameData().points++;
       player.getGameData().winThisRound = true;
     });
-   this.updatePlayersToUI();
+    this.updatePlayersToUI();
   };
 
   private startCurrPlayerClock = () => {
@@ -114,14 +114,15 @@ export class Providence implements Game {
       );
       counter -= 1;
       if (counter < 0) {
-        this.currWord = "BLAAAAA";
-        clearInterval(this.currPlayerInterval);
-        SocketServer.sendRoomMessage(
-          this.roomId,
-          SOCKET_GAME.UPDATE_PLAYER_CLOCK,
-          ""
-        );
-        this.startAllPlayersClock();
+        // this.currWord = "BLAAAAA";
+        // clearInterval(this.currPlayerInterval);
+        // SocketServer.sendRoomMessage(
+        //   this.roomId,
+        //   SOCKET_GAME.UPDATE_PLAYER_CLOCK,
+        //   ""
+        // );
+        // this.startAllPlayersClock();
+        this.startNewRound();
       }
     }, 1000);
   };
@@ -172,14 +173,14 @@ export class Providence implements Game {
   };
 
   private allPlayersVoted = (): boolean => {
-    // let ans = true;
-    // this.players.forEach((player) => {
-    //   if (!player.getGameData().currWord && player.Connected()) {
-    //     ans = false;
-    //   }
-    // });
-    // return ans;
-    return false;
+    let ans = true;
+    this.players.forEach((player) => {
+      if (!player.getGameData().currWord && player.Connected()) {
+        ans = false;
+      }
+    });
+    return ans;
+    // return false;
   };
 
   public getGameState = () => {
@@ -199,7 +200,7 @@ export class Providence implements Game {
     SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_PLAYERS, {
       players: this.getNewPlayersStateSocket(),
     });
-  }
+  };
 
   public endGame = () => {
     this.clearAllIntervals();
@@ -215,23 +216,27 @@ export class Providence implements Game {
     if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD) {
       if (!this.players.get(msg.username).getGameData().currWord) {
         this.players.get(msg.username).getGameData().currWord =
-          msg.data.content;
-          this.updatePlayersToUI();
+          msg.data.content === "" ? undefined : msg.data.content;
+        this.updatePlayersToUI();
         console.log(`${msg.username} VOTEDDDDD ${msg.data.content}`);
       } else {
         console.log(`${msg.username} already voted`);
       }
     } else if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD) {
       if (!this.currWord) {
-        this.currWord = msg.data.content;
-        console.log(msg.username, msg.data.content);
-        clearInterval(this.currPlayerInterval);
-        SocketServer.sendRoomMessage(
-          this.roomId,
-          SOCKET_GAME.UPDATE_PLAYER_CLOCK,
-          ""
-        );
-        this.startAllPlayersClock();
+        if (msg.data.content === "" || !msg.data.content) {
+          this.startNewRound();
+        } else {
+          this.currWord = msg.data.content;
+          console.log(msg.username, msg.data.content);
+          clearInterval(this.currPlayerInterval);
+          SocketServer.sendRoomMessage(
+            this.roomId,
+            SOCKET_GAME.UPDATE_PLAYER_CLOCK,
+            ""
+          );
+          this.startAllPlayersClock();
+        }
       }
     }
   };

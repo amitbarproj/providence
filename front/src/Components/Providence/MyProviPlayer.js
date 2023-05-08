@@ -79,7 +79,7 @@ const MyProviPlayer = (props) => {
         setOpenInputWord(false);
       }
     }
-  }, [gameState]);
+  }, [gameState, isMyTurn]);
 
   //Check if need this useEffect...... (maybe yes!)
   // useEffect(() => {
@@ -97,9 +97,9 @@ const MyProviPlayer = (props) => {
 
   const points = playerGameData.points;
 
-  const sendMainWordToServer = () => {
+  const sendMainWordToServer = (skip) => {
     setOpenCurrPlayerWordDialog(false);
-    const mainWordToSend = mainWord.current ? mainWord.current.value : "";
+    const mainWordToSend = skip? "" : (mainWord.current ? mainWord.current.value : "");
     sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, mainWordToSend);
   };
 
@@ -153,12 +153,12 @@ const MyProviPlayer = (props) => {
           <Divider />
           <TextField
             id="outlined-sdfdfd"
-            label="Description"
-            variant="standard"
+            label="Enter Word"
             inputRef={yourWord}
+            variant="standard"
           />
           <Button variant="contained" onClick={sendYourWordToServer}>
-            Send
+            Send!
           </Button>
         </Collapse>
       </Card>
@@ -185,7 +185,14 @@ const MyProviPlayer = (props) => {
           <Button
             color="primary"
             variant="contained"
-            onClick={sendMainWordToServer}
+            onClick={() => sendMainWordToServer(true)}
+          >
+            Skip
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => sendMainWordToServer(false)}
           >
             Send
           </Button>
