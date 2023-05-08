@@ -92,12 +92,58 @@ export class Providence implements Game {
   };
 
   private calculateRound = () => {
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+    const helperWordsArr: { word: string; count: number }[] = [];
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.CALCULATE_ROUND);
     this.players.forEach((player) => {
-      const playerWord = player.getGameData().currWord;
-      player.getGameData().points++;
-      player.getGameData().winThisRound = true;
-    });
+      const currPlayerWord = player.getGameData().currWord;
+      let wordExist = false;
+      helperWordsArr.forEach((wordObj) => {
+        if (wordObj.word === currPlayerWord) {
+          wordObj.count++;
+          wordExist = true;
+        }
+      });
+      if (!wordExist) {
+        helperWordsArr.push({ word: currPlayerWord, count: 1 });
+      }})
+      //
+      console.log("helperWordsArr");
+      console.log(helperWordsArr);
+      const bestWords: string[] = [];
+      let maxCounts = -Infinity;
+      helperWordsArr.forEach((word) => {
+        if (word.count > maxCounts) {
+          maxCounts = word.count;
+        }
+      });
+      helperWordsArr.forEach((word) => {
+        if (word.count === maxCounts) {
+          bestWords.push(word.word);
+        }
+      });
+      let numOfWinnersInRound = 0;
+      this.players.forEach((player) => {
+        bestWords.forEach((word) => {
+          if (player.getGameData().currWord === word) {
+            player.getGameData().winThisRound = true;
+          }
+        });
+        console.log(player.getUserName() , player.getGameData().points);
+        if (player.getGameData().winThisRound) {
+          player.getGameData().points++;
+          numOfWinnersInRound++;
+        }
+   
+
+      });
+      console.log(numOfWinnersInRound);
+      if (numOfWinnersInRound === this.players.size) {
+        this.players.forEach((player) => {
+          player.getGameData().points--;
+        });
+      }
+
     this.updatePlayersToUI();
   };
 
@@ -113,14 +159,6 @@ export class Providence implements Game {
       );
       counter -= 1;
       if (counter < 0 || !this.currentPlayer.value[1].Connected()) {
-        // this.currWord = "BLAAAAA";
-        // clearInterval(this.currPlayerInterval);
-        // SocketServer.sendRoomMessage(
-        //   this.roomId,
-        //   SOCKET_GAME.UPDATE_PLAYER_CLOCK,
-        //   ""
-        // );
-        // this.startAllPlayersClock();
         this.startNewRound();
       }
     }, 1000);
@@ -153,9 +191,13 @@ export class Providence implements Game {
             }`
           );
         });
-        setTimeout(() => {
-          this.startNewRound();
-        }, 3000);
+        if (this.isAWinner()) {
+          this.endGame();
+        } else {
+          setTimeout(() => {
+            this.startNewRound();
+          }, 3000);
+        }
       }
     }, 1000);
   };
@@ -171,6 +213,17 @@ export class Providence implements Game {
     );
   };
 
+  private isAWinner = (): boolean => {
+    let ans = false;
+    this.players.forEach((player) => {
+      if (player.getGameData().points >= this.maxPoints) {
+        ans = true;
+        player.getGameData().winner = true;
+      }
+    });
+    return ans;
+  };
+
   private allPlayersVoted = (): boolean => {
     let ans = true;
     this.players.forEach((player) => {
@@ -179,7 +232,6 @@ export class Providence implements Game {
       }
     });
     return ans;
-    // return false;
   };
 
   public getGameState = () => {
@@ -204,6 +256,7 @@ export class Providence implements Game {
   public endGame = () => {
     this.clearAllIntervals();
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.END_OF_GAME);
+    this.updatePlayersToUI();
     //NEED TO ANOUNCMENT THE WINNER!!!! if game not ended
   };
 

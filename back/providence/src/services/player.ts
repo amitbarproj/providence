@@ -27,7 +27,8 @@ export class User {
           myTurn: false,
           points: 0,
           currWord: undefined,
-          winThisRound: false
+          winThisRound: false,
+          winner: false
         };
     }
   }
