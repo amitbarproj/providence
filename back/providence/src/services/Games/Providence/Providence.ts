@@ -1,48 +1,43 @@
-// import e = require("cors");
-
-import { PROVIDENCE_GAME_STATE } from "../../../../../classes/enums";
+import { PROVIDENCE_GAME_STATE } from "../../../../../../classes/enums";
 import {
   PROVIDENCE_SOCKET_GAME,
   SOCKET_ENUMS,
   SOCKET_GAME,
-} from "../../../../../classes/socketEnums";
+} from "../../../../../../classes/socketEnums";
 import {
   PLAYER_SOCKET_DATA,
   PROVIDENCE_GAME_INFO,
   PROVIDENCE_PLAYER_DATA,
-} from "../../../../../classes/types";
-import { Game } from "../game";
-import { User } from "../player";
-import { SocketServer } from "../socketServer";
+} from "../../../../../../classes/types";
+import { Game } from "../../game";
+import { User } from "../../player";
+import { SocketServer } from "../../socketServer";
 
-//Need to do this abstract class
+const providenceConf = require("../../../../../../../../../config/Games/providence.json");
+
 export class Providence implements Game {
   private roomId: string = undefined;
   private players: Map<string, User> = undefined;
-  private minPlayers: number = undefined;
+  private minPlayers: number = providenceConf.minPlayers;
   private myIterator = undefined;
   private currentPlayer = undefined;
   private currPlayerInterval = undefined;
   private allPlayersInterval = undefined;
   private currWord = undefined;
   private gameState = undefined;
-  private maxPoints = 3;
+  private maxPoints = providenceConf.maxPoints;
 
-  constructor(players: Map<string, User>, roomId: string, minPlayers: number) {
+  constructor(players: Map<string, User>, roomId: string) {
     this.players = players;
     this.myIterator = this.players.entries();
     this.currentPlayer = this.myIterator.next();
     this.roomId = roomId;
-    this.minPlayers = minPlayers;
     SocketServer.sendRoomMessage(
       this.roomId,
       SOCKET_ENUMS.START_GAME,
       `Game Providence in room ${roomId} started right now`
     );
     this.startNewRound();
-    // setInterval(() => {
-    //   this.setNextPlayer();
-    // }, 3000);
   }
 
   private startNewRound = () => {
@@ -83,20 +78,6 @@ export class Providence implements Game {
     }
   };
 
-  // public getAllGameInfo = (): PROVIDENCE_GAME_INFO => {
-  //   const ans: PROVIDENCE_GAME_INFO = {players: [] , gameState: this.gameState};
-  //   this.players.forEach((player) => {
-  //     ans.players.push({
-  //       username: player.getUserName(),
-  //       isAdmin: player.isAdmin(),
-  //       isConnected: player.Connected(),
-  //       imgURL: player.getImgURL(),
-  //       gameData: player.getGameData(),
-  //     });
-  //   });
-  //   return ans;
-  // };
-
   private getNewPlayersStateSocket = () => {
     const ans: PLAYER_SOCKET_DATA<PROVIDENCE_PLAYER_DATA>[] = [];
     this.players.forEach((player) => {
@@ -126,7 +107,7 @@ export class Providence implements Game {
   private startCurrPlayerClock = () => {
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.PLAYER_CLOCK);
     clearInterval(this.allPlayersInterval);
-    let counter = 5;
+    let counter = providenceConf.currPlayerClockSec;
     this.currPlayerInterval = setInterval(() => {
       SocketServer.sendRoomMessage(
         this.roomId,
@@ -148,17 +129,16 @@ export class Providence implements Game {
   };
 
   private startAllPlayersClock = () => {
-    console.log(this.currWord);
-    clearInterval(this.allPlayersInterval);
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.ALL_CLOCK);
-    let counter = 10;
+    clearInterval(this.allPlayersInterval);
+    let counter = providenceConf.allPlayersClockSec;
     this.allPlayersInterval = setInterval(() => {
       SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_ALL_CLOCK, {
         counter: counter,
         players: this.getNewPlayersStateSocket(),
       });
       counter -= 1;
-      if (counter < 0) {
+      if (counter < 0 || this.allPlayersVoted()) {
         clearInterval(this.allPlayersInterval);
         SocketServer.sendRoomMessage(
           this.roomId,
@@ -193,17 +173,33 @@ export class Providence implements Game {
     );
   };
 
+  private allPlayersVoted = (): boolean => {
+    let ans = true;
+    this.players.forEach((player) => {
+      if (!player.getGameData().currWord && player.Connected()) {
+        ans = false;
+      }
+    });
+    return ans;
+  };
+
   public getGameState = () => {
     return this.gameState;
   };
 
-  public clearAllIntervals = () => {
+  public getMinPlayers = (): number => {
+    return this.minPlayers;
+  };
+
+  private clearAllIntervals = () => {
     clearInterval(this.currPlayerInterval);
     clearInterval(this.allPlayersInterval);
   };
 
-  public deleteGame = () => {
+  public endGame = () => {
     this.clearAllIntervals();
+    this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.END_OF_GAME);
+    //NEED TO ANOUNCMENT THE WINNER!!!! if game not ended
   };
 
   public socketFromUsers = (msg: {
@@ -232,8 +228,5 @@ export class Providence implements Game {
         this.startAllPlayersClock();
       }
     }
-    // else if (msg.data.type === PROVIDENCE_SOCKET_GAME.GET_GAME_INFO) {
-
-    // }
   };
 }

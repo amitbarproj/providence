@@ -1,5 +1,6 @@
 export interface Game {
      socketFromUsers;
      getGameState;
-     deleteGame;
+     endGame;
+     getMinPlayers;
 }

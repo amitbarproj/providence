@@ -18,7 +18,6 @@ import {
 import { Room } from "./room";
 import { SocketServer } from "./socketServer";
 
-const gameConf = require("../../../../../../../config/gameConf.json");
 
 export class Main {
   private static instance: Main = new Main();
@@ -58,18 +57,11 @@ export class Main {
       if (currRoom.getPlayers().has(leaveRoomBody.username)) {
         await currRoom.leaveRoom(leaveRoomBody);
         if (
-          (currRoom.getNumOfPlayers() < currRoom.getMinPlayers() &&
-            currRoom.gameStarted()) ||
-          currRoom.getNumOfPlayers() === 0
-          //   &&
-          // currRoom.gameStarted()
+          currRoom.gameStarted() &&
+          currRoom.getNumOfPlayers() < currRoom.getGame().getMinPlayers()
         ) {
-          // currRoom.getPlayers().forEach(async (player) => {
-          //   await currRoom.leaveRoom({
-          //     username: player.getUserName(),
-          //     roomId: leaveRoomBody.roomId,
-          //   });
-          // });
+          currRoom.getGame().endGame();
+        } else if (currRoom.getNumOfPlayers() === 0) {
           this.deleteRoom(leaveRoomBody.roomId);
         }
         ans.success = true;
@@ -173,9 +165,7 @@ export class Main {
       const startRoomBody: START_GAME_BODY = req.body;
       if (this.rooms.has(startRoomBody.roomId)) {
         const currRoom: Room = this.rooms.get(startRoomBody.roomId);
-        if (currRoom.getNumOfPlayers() < currRoom.getMinPlayers()) {
-          ans.description = `Room ${startRoomBody.roomId} has less then minimum players requierd`;
-        } else if (currRoom.gameStarted()) {
+        if (currRoom.gameStarted()) {
           ans.description = `Game in room ${startRoomBody.roomId} already started`;
         } else {
           currRoom.startGame();
@@ -186,28 +176,24 @@ export class Main {
       res.send(ans);
     });
 
-    app.post(SERVER_API.startGame, (req, res) => {
-      const ans: ASYNC_RESPONSE<START_GAME_RES> = { success: false };
-      const startRoomBody: START_GAME_BODY = req.body;
-      if (this.rooms.has(startRoomBody.roomId)) {
-        const currRoom: Room = this.rooms.get(startRoomBody.roomId);
-        if (currRoom.getNumOfPlayers() < currRoom.getMinPlayers()) {
-          ans.description = `Room ${startRoomBody.roomId} has less then minimum players requierd`;
-        } else if (currRoom.gameStarted()) {
-          ans.description = `Game in room ${startRoomBody.roomId} already started`;
-        } else {
-          // SocketServer.sendRoomMessage(
-          //   currRoom.getRoomId(),
-          //   SOCKET_ENUMS.START_GAME,
-          //   `Game in room ${startRoomBody.roomId} started right now`
-          // );
-          currRoom.startGame();
-          ans.description = `Game in room ${startRoomBody.roomId} started right now`;
-          ans.success = true;
-        }
-      }
-      res.send(ans);
-    });
+    // app.post(SERVER_API.startGame, (req, res) => {
+    //   const ans: ASYNC_RESPONSE<START_GAME_RES> = { success: false };
+    //   const startRoomBody: START_GAME_BODY = req.body;
+    //   if (this.rooms.has(startRoomBody.roomId)) {
+    //     const currRoom: Room = this.rooms.get(startRoomBody.roomId);
+    //     if (currRoom.getNumOfPlayers() < currRoom.getMinPlayers()) {
+    //       ans.description = `Room ${startRoomBody.roomId} has less then minimum players requierd`;
+    //     } else if (currRoom.gameStarted()) {
+    //       ans.description = `Game in room ${startRoomBody.roomId} already started`;
+    //     } else {
+
+    //       currRoom.startGame();
+    //       ans.description = `Game in room ${startRoomBody.roomId} started right now`;
+    //       ans.success = true;
+    //     }
+    //   }
+    //   res.send(ans);
+    // });
 
     app.post(SERVER_API.checkIfUsernameExistInRoom, (req, res) => {
       const ans: ASYNC_RESPONSE<CHECK_IF_USERNAME_RES> = { success: false };

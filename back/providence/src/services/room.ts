@@ -10,12 +10,11 @@ import {
   SOCKET_JOIN_ROOM_OBJ,
   START_GAME_RES,
 } from "../../../../classes/types";
-import { Providence } from "./Games/Providence";
+import { Providence } from "./Games/Providence/Providence";
 import { Game } from "./game";
 import { User } from "./player";
 import { SocketServer } from "./socketServer";
 
-const gameConf = require("../../../../../../../config/gameConf.json");
 
 export class Room {
   private roomId: string = undefined;
@@ -24,7 +23,6 @@ export class Room {
   private description: string = undefined;
   private players: Map<string, User> = new Map<string, User>();
   private maxPlayers: number = undefined;
-  private minPlayers: number = undefined;
   private gameType: GAMES = undefined;
   private game: Game = undefined;
 
@@ -34,8 +32,7 @@ export class Room {
     this.secret = createRoomBody.secret;
     this.gameType = createRoomBody.game;
     this.description = createRoomBody.description || "";
-    this.maxPlayers = createRoomBody.maxPlayers || gameConf.maxPlayers;
-    this.minPlayers = createRoomBody.minPlayers || gameConf.minPlayers;
+    this.maxPlayers = createRoomBody.maxPlayers;
     this.players.set(
       createRoomBody.username,
       new User(createRoomBody.username, true, this.gameType)
@@ -87,7 +84,7 @@ export class Room {
   public startGame = () => {
     switch (this.gameType) {
       case GAMES.Providence:
-        this.game = new Providence(this.players, this.roomId, this.minPlayers);
+        this.game = new Providence(this.players, this.roomId);
         break;
       default:
         throw new Error("Game type not exist");
@@ -121,10 +118,6 @@ export class Room {
     return this.maxPlayers;
   };
 
-  public getMinPlayers = (): number => {
-    return this.minPlayers;
-  };
-
   public getDescription = (): string => {
     return this.description;
   };
@@ -149,9 +142,8 @@ export class Room {
 
   public deleteRoom = () => {
     if(this.game) {
-      this.game.deleteGame();
+      this.game.endGame();
     }
-    //need to check if delete more things...
   };
 
   private getFirstNonAdminPlayer = (): User => {
