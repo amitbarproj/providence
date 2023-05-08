@@ -99,9 +99,7 @@ export class Providence implements Game {
       player.getGameData().points++;
       player.getGameData().winThisRound = true;
     });
-    SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_PLAYERS, {
-      players: this.getNewPlayersStateSocket(),
-    });
+   this.updatePlayersToUI();
   };
 
   private startCurrPlayerClock = () => {
@@ -174,13 +172,14 @@ export class Providence implements Game {
   };
 
   private allPlayersVoted = (): boolean => {
-    let ans = true;
-    this.players.forEach((player) => {
-      if (!player.getGameData().currWord && player.Connected()) {
-        ans = false;
-      }
-    });
-    return ans;
+    // let ans = true;
+    // this.players.forEach((player) => {
+    //   if (!player.getGameData().currWord && player.Connected()) {
+    //     ans = false;
+    //   }
+    // });
+    // return ans;
+    return false;
   };
 
   public getGameState = () => {
@@ -195,6 +194,12 @@ export class Providence implements Game {
     clearInterval(this.currPlayerInterval);
     clearInterval(this.allPlayersInterval);
   };
+
+  private updatePlayersToUI = () => {
+    SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_PLAYERS, {
+      players: this.getNewPlayersStateSocket(),
+    });
+  }
 
   public endGame = () => {
     this.clearAllIntervals();
@@ -211,6 +216,7 @@ export class Providence implements Game {
       if (!this.players.get(msg.username).getGameData().currWord) {
         this.players.get(msg.username).getGameData().currWord =
           msg.data.content;
+          this.updatePlayersToUI();
         console.log(`${msg.username} VOTEDDDDD ${msg.data.content}`);
       } else {
         console.log(`${msg.username} already voted`);

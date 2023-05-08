@@ -24,10 +24,8 @@ const Providence = (props) => {
 
   // const [isVoted, setIsVoted] = useState(false);
 
-
-
   useEffect(() => {
-    sendGameMsgToServer("GET_GAME_INFO" , "");
+    sendGameMsgToServer("GET_GAME_INFO", "");
     socket.on(SOCKET_GAME.NEW_PLAYER_TURN, (game_msg) => {
       const newPlayers = game_msg;
       setPlayers(newPlayers.players);
@@ -59,21 +57,24 @@ const Providence = (props) => {
     console.log(players);
   }, [players]);
 
-  const sendGameMsgToServer = (type , msg) => {
+  const sendGameMsgToServer = (type, msg) => {
     socket.emit(
       "game_msg",
-      { roomId: roomId, username: myUsername, data: {type: type ,content: msg} },
+      {
+        roomId: roomId,
+        username: myUsername,
+        data: { type: type, content: msg },
+      },
       (message) => {
-        if(type === "GET_GAME_INFO") {
-            setGameState(JSON.parse(message).gameState);
+        if (type === "GET_GAME_INFO") {
+          setGameState(JSON.parse(message).gameState);
         }
       }
     );
-  }
+  };
   return (
     <>
-          <h1>Game State: {gameState}</h1>
-
+      <h1>Game State: {gameState}</h1>
       <h1>Time: {clock}</h1>
       <ProvidencePlayers
         myUsername={myUsername}
@@ -83,7 +84,6 @@ const Providence = (props) => {
         currPlayerClock={currPlayerClock}
         clock={clock}
         gameState={gameState}
-        // isVoted={isVoted}
       ></ProvidencePlayers>
     </>
   );

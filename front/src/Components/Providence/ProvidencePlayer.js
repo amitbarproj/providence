@@ -31,7 +31,7 @@ const ProvidencePlayer = (props) => {
   const isMyTurn = playerGameData.myTurn;
   const points = playerGameData.points;
   const gameState = props.gameState;
-
+  const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
 
   return (
     <div>
@@ -39,7 +39,7 @@ const ProvidencePlayer = (props) => {
         raised={isMyTurn ? true : false}
         sx={{
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: winThisRound ? "green" : "",
+          backgroundColor: winThisRound ? "green" : isVoted ? "red" : "",
         }}
       >
         <CardHeader

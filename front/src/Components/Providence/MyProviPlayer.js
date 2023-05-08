@@ -34,7 +34,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const MyProviPlayer = (props) => {
-  const [open, setOpen] = useState(false);
+  const [openCurrPlayerWordDialog, setOpenCurrPlayerWordDialog] =
+    useState(false);
   const [openInputWord, setOpenInputWord] = useState(false);
 
   const mainWord = useRef();
@@ -49,27 +50,28 @@ const MyProviPlayer = (props) => {
   const gameStarted = props.gameStarted;
   const sendGameMsgToServer = props.sendGameMsgToServer;
   const currPlayerClock = props.currPlayerClock;
-  const clock = props.clock;
+  const allPlayersclock = props.clock;
   const winThisRound = player.gameData.winThisRound;
   const gameState = props.gameState;
 
-  // const isVoted = props.isVoted;
+  const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
+
 
   const isMyTurn = playerGameData.myTurn;
 
   useEffect(() => {
     console.log(isMyTurn);
     if (gameState === PROVIDENCE_GAME_STATE.PLAYER_CLOCK && isMyTurn) {
-      setOpen(true);
+      setOpenCurrPlayerWordDialog(true);
     } else {
-      setOpen(false);
+      setOpenCurrPlayerWordDialog(false);
     }
   }, [gameState]);
 
   useEffect(() => {
     console.log(currPlayerClock);
     if (currPlayerClock === 0 && isMyTurn) {
-      setOpen(false);
+      setOpenCurrPlayerWordDialog(false);
     }
   }, [currPlayerClock]);
 
@@ -87,16 +89,15 @@ const MyProviPlayer = (props) => {
   // }, [clock]);
 
   useEffect(() => {
-    if (clock == 2) {
+    if (allPlayersclock == 2) {
       sendYourWordToServer();
     }
-  }, [clock]);
+  }, [allPlayersclock]);
 
   const points = playerGameData.points;
 
-
   const sendMainWordToServer = () => {
-    setOpen(false);
+    setOpenCurrPlayerWordDialog(false);
     const mainWordToSend = mainWord.current ? mainWord.current.value : "";
     sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, mainWordToSend);
   };
@@ -117,7 +118,7 @@ const MyProviPlayer = (props) => {
         raised={isMyTurn ? true : false}
         sx={{
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: winThisRound ? "green" : "#90caf9",
+          backgroundColor: winThisRound ? "green" : isVoted ? "red" : "#90caf9",
         }}
       >
         <CardHeader
@@ -146,35 +147,10 @@ const MyProviPlayer = (props) => {
             )
           }
         />
-
-        {/* {gameStarted && isMe && (
-          <Button
-            onClick={() =>
-              sendGameMsgToServer(
-                PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD,
-                "HELLO!"
-              )
-            }
-          >
-            send!
-          </Button>
-        )} */}
-        {/* {openInputWord && isMe && (
-          <>
-            <TextField
-              id="outlined-sdfdfd"
-              label="Word"
-              variant="standard"
-              required
-              inputRef={yourWord}
-            />
-            <Button onClick={() => sendYourWordToServer()}>Send</Button>
-          </>
-        )} */}
       </Card>
 
       <Dialog
-        open={open}
+        open={openCurrPlayerWordDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
