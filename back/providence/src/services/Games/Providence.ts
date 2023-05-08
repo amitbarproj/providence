@@ -50,8 +50,7 @@ export class Providence implements Game {
       player.getGameData().currWord = undefined;
       player.getGameData().winThisRound = false;
     });
-    clearInterval(this.currPlayerInterval);
-    clearInterval(this.allPlayersInterval);
+    this.clearAllIntervals();
     SocketServer.sendRoomMessage(
       this.roomId,
       SOCKET_GAME.UPDATE_PLAYER_CLOCK,
@@ -61,7 +60,6 @@ export class Providence implements Game {
     this.currWord = undefined;
     this.setNextPlayer();
     this.startCurrPlayerClock();
-
   };
 
   private setNextPlayer = () => {
@@ -81,8 +79,7 @@ export class Providence implements Game {
         players: this.getNewPlayersStateSocket(),
       });
     } else {
-      clearInterval(this.currPlayerInterval);
-      clearInterval(this.allPlayersInterval);
+      this.clearAllIntervals();
     }
   };
 
@@ -156,13 +153,10 @@ export class Providence implements Game {
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.ALL_CLOCK);
     let counter = 10;
     this.allPlayersInterval = setInterval(() => {
-      SocketServer.sendRoomMessage(
-        this.roomId,
-        SOCKET_GAME.UPDATE_ALL_CLOCK,
-        {counter: counter,
-          players: this.getNewPlayersStateSocket(),
-        }
-      );
+      SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_ALL_CLOCK, {
+        counter: counter,
+        players: this.getNewPlayersStateSocket(),
+      });
       counter -= 1;
       if (counter < 0) {
         clearInterval(this.allPlayersInterval);
@@ -188,18 +182,29 @@ export class Providence implements Game {
     }, 1000);
   };
 
-  private updateGameStateAndSendToClients = (newState: PROVIDENCE_GAME_STATE) => {
-      this.gameState = newState;
-      SocketServer.sendRoomMessage(
-        this.roomId,
-        SOCKET_GAME.UPDATE_GAME_STATE,
-        newState
-      );
+  private updateGameStateAndSendToClients = (
+    newState: PROVIDENCE_GAME_STATE
+  ) => {
+    this.gameState = newState;
+    SocketServer.sendRoomMessage(
+      this.roomId,
+      SOCKET_GAME.UPDATE_GAME_STATE,
+      newState
+    );
   };
 
   public getGameState = () => {
-   return this.gameState;
-};
+    return this.gameState;
+  };
+
+  public clearAllIntervals = () => {
+    clearInterval(this.currPlayerInterval);
+    clearInterval(this.allPlayersInterval);
+  };
+
+  public deleteGame = () => {
+    this.clearAllIntervals();
+  };
 
   public socketFromUsers = (msg: {
     username: string;
@@ -207,11 +212,11 @@ export class Providence implements Game {
   }) => {
     // console.log(msg);
     if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD) {
-      if(!this.players.get(msg.username).getGameData().currWord){
-        this.players.get(msg.username).getGameData().currWord = msg.data.content;
+      if (!this.players.get(msg.username).getGameData().currWord) {
+        this.players.get(msg.username).getGameData().currWord =
+          msg.data.content;
         console.log(`${msg.username} VOTEDDDDD ${msg.data.content}`);
-      }
-      else{
+      } else {
         console.log(`${msg.username} already voted`);
       }
     } else if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD) {
@@ -228,8 +233,7 @@ export class Providence implements Game {
       }
     }
     // else if (msg.data.type === PROVIDENCE_SOCKET_GAME.GET_GAME_INFO) {
-     
+
     // }
-    
   };
 }

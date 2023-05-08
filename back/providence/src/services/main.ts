@@ -35,6 +35,20 @@ export class Main {
     return this.rooms;
   };
 
+  private deleteRoom = (roomId: string) => {
+    if (this.rooms.has(roomId)) {
+      const currRoom: Room = this.rooms.get(roomId);
+      currRoom.getPlayers().forEach(async (player) => {
+        await currRoom.leaveRoom({
+          username: player.getUserName(),
+          roomId: roomId,
+        });
+      });
+      currRoom.deleteRoom();
+      this.rooms.delete(roomId);
+    }
+  };
+
   private leaveRoom = async (
     leaveRoomBody: LEAVE_ROOM_BODY
   ): Promise<ASYNC_RESPONSE<LEAVE_ROOM_RES>> => {
@@ -43,21 +57,20 @@ export class Main {
       const currRoom: Room = this.rooms.get(leaveRoomBody.roomId);
       if (currRoom.getPlayers().has(leaveRoomBody.username)) {
         await currRoom.leaveRoom(leaveRoomBody);
-        if (currRoom.getNumOfPlayers() === 0) {
-          // this.rooms.delete(leaveRoomBody.roomId);
-        }
         if (
-          (currRoom.getNumOfPlayers() < currRoom.getMinPlayers() ||
-            currRoom.getNumOfPlayers() === 0) &&
-          currRoom.gameStarted()
+          (currRoom.getNumOfPlayers() < currRoom.getMinPlayers() &&
+            currRoom.gameStarted()) ||
+          currRoom.getNumOfPlayers() === 0
+          //   &&
+          // currRoom.gameStarted()
         ) {
-          currRoom.getPlayers().forEach(async (player) => {
-            await currRoom.leaveRoom({
-              username: player.getUserName(),
-              roomId: leaveRoomBody.roomId,
-            });
-          });
-          this.rooms.delete(leaveRoomBody.roomId);
+          // currRoom.getPlayers().forEach(async (player) => {
+          //   await currRoom.leaveRoom({
+          //     username: player.getUserName(),
+          //     roomId: leaveRoomBody.roomId,
+          //   });
+          // });
+          this.deleteRoom(leaveRoomBody.roomId);
         }
         ans.success = true;
       } else {

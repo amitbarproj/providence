@@ -147,6 +147,13 @@ export class Room {
     return ans;
   };
 
+  public deleteRoom = () => {
+    if(this.game) {
+      this.game.deleteGame();
+    }
+    //need to check if delete more things...
+  };
+
   private getFirstNonAdminPlayer = (): User => {
     let ans: User = undefined;
     this.players.forEach((player) => {
