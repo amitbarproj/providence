@@ -18,6 +18,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import AlarmIcon from "@mui/icons-material/Alarm";
+import SendIcon from '@mui/icons-material/Send';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 // const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -44,8 +47,8 @@ const MyProviPlayer = (props) => {
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
   const isMyTurn = playerGameData.myTurn;
   const myWord = playerGameData.currWord;
-  const winner =playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
-
+  const winner =
+    playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
 
   useEffect(() => {
     console.log(isMyTurn);
@@ -103,7 +106,13 @@ const MyProviPlayer = (props) => {
         raised={isMyTurn || winner ? true : false}
         sx={{
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: winner? "yellow" : winThisRound ? "green" : isVoted ? "red" : "#90caf9",
+          backgroundColor: winner
+            ? "yellow"
+            : winThisRound
+            ? "green"
+            : isVoted
+            ? "red"
+            : "#90caf9",
         }}
       >
         <CardHeader
@@ -162,7 +171,11 @@ const MyProviPlayer = (props) => {
         <DialogTitle id="alert-dialog-title">{"Enter a word"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {currPlayerClock}
+            <h4 style={{color: "black"}} >
+              <AlarmIcon color="primary" />
+              {" "}
+              {currPlayerClock}
+            </h4>
           </DialogContentText>
           <TextField
             id="outlined-sdfdfd"
@@ -174,13 +187,15 @@ const MyProviPlayer = (props) => {
         </DialogContent>
         <DialogActions>
           <Button
+            endIcon={<SkipNextIcon />}
             color="primary"
-            variant="contained"
+            variant="outlined"
             onClick={() => sendMainWordToServer(true)}
           >
             Skip
           </Button>
           <Button
+          endIcon={<SendIcon />}
             color="primary"
             variant="contained"
             onClick={() => sendMainWordToServer(false)}
