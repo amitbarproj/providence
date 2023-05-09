@@ -44,6 +44,8 @@ const MyProviPlayer = (props) => {
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
   const isMyTurn = playerGameData.myTurn;
   const myWord = playerGameData.currWord;
+  const winner =
+  playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
 
 
   useEffect(() => {
@@ -99,10 +101,10 @@ const MyProviPlayer = (props) => {
   return (
     <div>
       <Card
-        raised={isMyTurn ? true : false}
+        raised={isMyTurn || winner ? true : false}
         sx={{
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: winThisRound ? "green" : isVoted ? "red" : "#90caf9",
+          backgroundColor: winner? "yellow" : winThisRound ? "green" : isVoted ? "red" : "#90caf9",
         }}
       >
         <CardHeader

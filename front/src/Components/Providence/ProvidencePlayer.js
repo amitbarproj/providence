@@ -1,4 +1,3 @@
-
 import * as React from "react";
 
 import { Avatar, Badge } from "@mui/material";
@@ -28,14 +27,22 @@ const ProvidencePlayer = (props) => {
   const gameState = props.gameState;
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
   const myWord = playerGameData.currWord;
+  const winner =
+    playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
 
   return (
     <div>
       <Card
-        raised={isMyTurn ? true : false}
+        raised={isMyTurn || winner ? true : false}
         sx={{
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: winThisRound ? "green" : isVoted ? "red" : "",
+          backgroundColor: winner
+            ? "yellow"
+            : winThisRound
+            ? "green"
+            : isVoted
+            ? "red"
+            : "",
         }}
       >
         <CardHeader
@@ -64,14 +71,13 @@ const ProvidencePlayer = (props) => {
             )
           }
         />
-          <Collapse in={gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND} timeout="auto" unmountOnExit>
+        <Collapse
+          in={gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND}
+          timeout="auto"
+          unmountOnExit
+        >
           <Divider />
-          <TextField
-            id="outlined-sdfdfd"
-            label={myWord}
-            variant="standard"
-          />
-    
+          <TextField id="outlined-sdfdfd" label={myWord} variant="standard" />
         </Collapse>
       </Card>
     </div>

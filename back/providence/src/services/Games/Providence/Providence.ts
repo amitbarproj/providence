@@ -196,11 +196,6 @@ export class Providence implements Game {
     }, 1000);
   };
 
-  // PLAYER_CLOCK = "PLAYER_CLOCK",
-  // ALL_CLOCK = "ALL_CLOCK",
-  // CALCULATE_ROUND = "CALCULATE_ROUND",
-  // END_OF_GAME = "END_OF_GAME"
-
   private updateGameStateAndSendToClients = (
     newState: PROVIDENCE_GAME_STATE
   ) => {
