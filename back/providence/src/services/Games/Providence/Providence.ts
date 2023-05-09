@@ -92,29 +92,27 @@ export class Providence implements Game {
   };
 
   private calculateRound = () => {
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     const helperWordsArr: { word: string; count: number }[] = [];
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.CALCULATE_ROUND);
     this.players.forEach((player) => {
       const currPlayerWord = player.getGameData().currWord;
-      let wordExist = false;
-      helperWordsArr.forEach((wordObj) => {
-        if (wordObj.word === currPlayerWord) {
-          wordObj.count++;
-          wordExist = true;
+      if (currPlayerWord) {
+        let wordExist = false;
+        helperWordsArr.forEach((wordObj) => {
+          if (wordObj.word === currPlayerWord) {
+            wordObj.count++;
+            wordExist = true;
+          }
+        });
+        if (!wordExist) {
+          helperWordsArr.push({ word: currPlayerWord, count: 1 });
         }
-      });
-      if (!wordExist) {
-        helperWordsArr.push({ word: currPlayerWord, count: 1 });
       }
     });
-    //
-    console.log("helperWordsArr");
-    console.log(helperWordsArr);
     const bestWords: string[] = [];
     let maxCounts = -Infinity;
     helperWordsArr.forEach((word) => {
-      if (word.count > maxCounts) {
+      if (word.count > maxCounts && word.count > 1) {
         maxCounts = word.count;
       }
     });
@@ -130,13 +128,11 @@ export class Providence implements Game {
           player.getGameData().winThisRound = true;
         }
       });
-      console.log(player.getUserName(), player.getGameData().points);
       if (player.getGameData().winThisRound) {
         player.getGameData().points++;
         numOfWinnersInRound++;
       }
     });
-    console.log(numOfWinnersInRound);
     if (numOfWinnersInRound === this.players.size) {
       this.players.forEach((player) => {
         player.getGameData().points--;
