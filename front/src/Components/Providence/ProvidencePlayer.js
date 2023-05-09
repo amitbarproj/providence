@@ -1,15 +1,6 @@
-import io from "socket.io-client";
-import axios from "axios";
+
 import * as React from "react";
 
-import { useEffect, useState, useRef } from "react";
-import {
-  GAMES,
-  PROVIDENCE_SOCKET_GAME,
-  SOCKET_ENUMS,
-  SOCKET_GAME,
-} from "../../Enums/enums";
-import { SERVER_URL } from "../../Enums/enums";
 import { Avatar, Badge } from "@mui/material";
 
 import Card from "@mui/material/Card";
@@ -24,13 +15,13 @@ const ProvidencePlayer = (props) => {
   const playerGameData = props.player.gameData;
   const isConnected = props.player.isConnected;
   const username = props.player.username;
-  const isAdmin = props.player.isAdmin;
+  // const isAdmin = props.player.isAdmin;
   const img = props.player.imgURL;
   const gameStarted = props.gameStarted;
   const winThisRound = player.gameData.winThisRound;
   const isMyTurn = playerGameData.myTurn;
   const points = playerGameData.points;
-  const gameState = props.gameState;
+  // const gameState = props.gameState;
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
 
   return (

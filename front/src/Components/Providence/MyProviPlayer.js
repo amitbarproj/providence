@@ -1,27 +1,15 @@
-import io from "socket.io-client";
-import axios from "axios";
 import * as React from "react";
 
 import { useEffect, useState, useRef } from "react";
 import {
-  GAMES,
   PROVIDENCE_GAME_STATE,
   PROVIDENCE_SOCKET_GAME,
-  SOCKET_ENUMS,
-  SOCKET_GAME,
 } from "../../Enums/enums";
-import { useParams, useNavigate } from "react-router-dom";
-import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import { Avatar, Badge } from "@mui/material";
-import { BsFillEmojiSmileFill } from "react-icons/bs";
 import TextField from "@mui/material/TextField";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
-
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import { CardHeader } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
@@ -81,32 +69,26 @@ const MyProviPlayer = (props) => {
     }
   }, [gameState, isMyTurn]);
 
-  //Check if need this useEffect...... (maybe yes!)
-  // useEffect(() => {
-  //   console.log(currPlayerClock);
-  //   if (currPlayerClock === 0 && isMyTurn) {
-  //     setOpenCurrPlayerWordDialog(false);
-  //   }
-  // }, [currPlayerClock]);
-
-  // useEffect(() => {
-  //   if (allPlayersclock == 2) {
-  //     sendYourWordToServer();
-  //   }
-  // }, [allPlayersclock]);
-
   const points = playerGameData.points;
 
   const sendMainWordToServer = (skip) => {
     setOpenCurrPlayerWordDialog(false);
-    const mainWordToSend = skip? "" : (mainWord.current ? mainWord.current.value : "");
+    const mainWordToSend = skip
+      ? undefined
+      : mainWord.current
+      ? mainWord.current.value
+        ? mainWord.current.value
+        : undefined
+      : undefined;
     sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, mainWordToSend);
   };
 
   const sendYourWordToServer = () => {
     const yourWordToSend = yourWord.current
       ? yourWord.current.value
-      : "TEST@@@@";
+        ? yourWord.current.value
+        : undefined
+      : undefined;
     sendGameMsgToServer(
       PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD,
       yourWordToSend
@@ -157,7 +139,7 @@ const MyProviPlayer = (props) => {
             inputRef={yourWord}
             variant="standard"
           />
-          <Button variant="contained" onClick={sendYourWordToServer}>
+          <Button variant="contained" onClick={() => sendYourWordToServer()}>
             Send!
           </Button>
         </Collapse>

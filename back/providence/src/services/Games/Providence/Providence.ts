@@ -92,7 +92,7 @@ export class Providence implements Game {
   };
 
   private calculateRound = () => {
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     const helperWordsArr: { word: string; count: number }[] = [];
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.CALCULATE_ROUND);
     this.players.forEach((player) => {
@@ -106,43 +106,42 @@ export class Providence implements Game {
       });
       if (!wordExist) {
         helperWordsArr.push({ word: currPlayerWord, count: 1 });
-      }})
-      //
-      console.log("helperWordsArr");
-      console.log(helperWordsArr);
-      const bestWords: string[] = [];
-      let maxCounts = -Infinity;
-      helperWordsArr.forEach((word) => {
-        if (word.count > maxCounts) {
-          maxCounts = word.count;
-        }
-      });
-      helperWordsArr.forEach((word) => {
-        if (word.count === maxCounts) {
-          bestWords.push(word.word);
-        }
-      });
-      let numOfWinnersInRound = 0;
-      this.players.forEach((player) => {
-        bestWords.forEach((word) => {
-          if (player.getGameData().currWord === word) {
-            player.getGameData().winThisRound = true;
-          }
-        });
-        console.log(player.getUserName() , player.getGameData().points);
-        if (player.getGameData().winThisRound) {
-          player.getGameData().points++;
-          numOfWinnersInRound++;
-        }
-   
-
-      });
-      console.log(numOfWinnersInRound);
-      if (numOfWinnersInRound === this.players.size) {
-        this.players.forEach((player) => {
-          player.getGameData().points--;
-        });
       }
+    });
+    //
+    console.log("helperWordsArr");
+    console.log(helperWordsArr);
+    const bestWords: string[] = [];
+    let maxCounts = -Infinity;
+    helperWordsArr.forEach((word) => {
+      if (word.count > maxCounts) {
+        maxCounts = word.count;
+      }
+    });
+    helperWordsArr.forEach((word) => {
+      if (word.count === maxCounts) {
+        bestWords.push(word.word);
+      }
+    });
+    let numOfWinnersInRound = 0;
+    this.players.forEach((player) => {
+      bestWords.forEach((word) => {
+        if (player.getGameData().currWord === word) {
+          player.getGameData().winThisRound = true;
+        }
+      });
+      console.log(player.getUserName(), player.getGameData().points);
+      if (player.getGameData().winThisRound) {
+        player.getGameData().points++;
+        numOfWinnersInRound++;
+      }
+    });
+    console.log(numOfWinnersInRound);
+    if (numOfWinnersInRound === this.players.size) {
+      this.players.forEach((player) => {
+        player.getGameData().points--;
+      });
+    }
 
     this.updatePlayersToUI();
   };
@@ -268,7 +267,9 @@ export class Providence implements Game {
     if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD) {
       if (!this.players.get(msg.username).getGameData().currWord) {
         this.players.get(msg.username).getGameData().currWord =
-          msg.data.content === "" ? undefined : msg.data.content;
+          msg.data.content === "" || !msg.data.content
+            ? undefined
+            : msg.data.content;
         this.updatePlayersToUI();
         console.log(`${msg.username} VOTEDDDDD ${msg.data.content}`);
       } else {
