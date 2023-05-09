@@ -12,9 +12,7 @@ import Divider from "@mui/material/Divider";
 import Card from "@mui/material/Card";
 import { CardHeader } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import PersonPinIcon from "@mui/icons-material/PersonPin";
 import Button from "@mui/material/Button";
-import Popover from "@mui/material/Popover";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -45,6 +43,8 @@ const MyProviPlayer = (props) => {
   const gameState = props.gameState;
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
   const isMyTurn = playerGameData.myTurn;
+  const myWord = playerGameData.currWord;
+
 
   useEffect(() => {
     console.log(isMyTurn);
@@ -142,6 +142,14 @@ const MyProviPlayer = (props) => {
           <Button variant="contained" onClick={() => sendYourWordToServer()}>
             Send!
           </Button>
+        </Collapse>
+        <Collapse
+          in={gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND}
+          timeout="auto"
+          unmountOnExit
+        >
+          <Divider />
+          <TextField id="outlined-sdfdfd" label={myWord} variant="standard" />
         </Collapse>
       </Card>
 

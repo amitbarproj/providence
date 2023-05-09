@@ -41,7 +41,6 @@ const Providence = (props) => {
         case PROVIDENCE_GAME_STATE.PLAYER_CLOCK:
           break;
         case PROVIDENCE_GAME_STATE.ALL_CLOCK:
-          console.log(game_msg.data.currWord);
           setCurrWord(game_msg.data.currWord);
           break;
         case PROVIDENCE_GAME_STATE.CALCULATE_ROUND:
@@ -52,9 +51,6 @@ const Providence = (props) => {
       setGameState(newState);
     });
   }, []);
-  useEffect(() => {
-    console.log(players);
-  }, [players]);
 
   const sendGameMsgToServer = (type, msg) => {
     socket.emit(
@@ -67,6 +63,7 @@ const Providence = (props) => {
       (message) => {
         if (type === "GET_GAME_INFO") {
           const gameInfo = JSON.parse(message).gameState;
+
           setGameState(gameInfo.gameState);
           setCurrWord(gameInfo.currWord);
 

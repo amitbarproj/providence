@@ -4,9 +4,13 @@ import * as React from "react";
 import { Avatar, Badge } from "@mui/material";
 
 import Card from "@mui/material/Card";
+import Collapse from "@mui/material/Collapse";
+import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
 
 import { CardHeader } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { PROVIDENCE_GAME_STATE } from "../../Enums/enums";
 
 // const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -21,8 +25,9 @@ const ProvidencePlayer = (props) => {
   const winThisRound = player.gameData.winThisRound;
   const isMyTurn = playerGameData.myTurn;
   const points = playerGameData.points;
-  // const gameState = props.gameState;
+  const gameState = props.gameState;
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
+  const myWord = playerGameData.currWord;
 
   return (
     <div>
@@ -59,6 +64,15 @@ const ProvidencePlayer = (props) => {
             )
           }
         />
+          <Collapse in={gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND} timeout="auto" unmountOnExit>
+          <Divider />
+          <TextField
+            id="outlined-sdfdfd"
+            label={myWord}
+            variant="standard"
+          />
+    
+        </Collapse>
       </Card>
     </div>
   );
