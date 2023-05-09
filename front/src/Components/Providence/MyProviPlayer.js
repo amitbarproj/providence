@@ -44,8 +44,7 @@ const MyProviPlayer = (props) => {
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
   const isMyTurn = playerGameData.myTurn;
   const myWord = playerGameData.currWord;
-  const winner =
-  playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
+  const winner =playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
 
 
   useEffect(() => {
