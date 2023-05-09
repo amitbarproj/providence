@@ -189,7 +189,7 @@ const MyProviPlayer = (props) => {
           <Button
             endIcon={<SkipNextIcon />}
             color="primary"
-            variant="outlined"
+            variant="outlineda"
             onClick={() => sendMainWordToServer(true)}
           >
             Skip
