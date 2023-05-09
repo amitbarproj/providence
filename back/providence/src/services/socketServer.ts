@@ -115,7 +115,7 @@ export class SocketServer {
               if (msg.data.type === "GET_GAME_INFO") {
                 cb(
                   JSON.stringify({
-                    gameState: currRoom.getGame().getGameState(),
+                    gameState: currRoom.getGame().getGameState()
                   })
                 );
               }

@@ -138,7 +138,6 @@ export class Providence implements Game {
         player.getGameData().points--;
       });
     }
-
     this.updatePlayersToUI();
   };
 
@@ -197,15 +196,31 @@ export class Providence implements Game {
     }, 1000);
   };
 
+  // PLAYER_CLOCK = "PLAYER_CLOCK",
+  // ALL_CLOCK = "ALL_CLOCK",
+  // CALCULATE_ROUND = "CALCULATE_ROUND",
+  // END_OF_GAME = "END_OF_GAME"
+
   private updateGameStateAndSendToClients = (
     newState: PROVIDENCE_GAME_STATE
   ) => {
     this.gameState = newState;
-    SocketServer.sendRoomMessage(
-      this.roomId,
-      SOCKET_GAME.UPDATE_GAME_STATE,
-      newState
-    );
+    let data = undefined;
+    switch (newState) {
+      case PROVIDENCE_GAME_STATE.PLAYER_CLOCK:
+        break;
+      case PROVIDENCE_GAME_STATE.ALL_CLOCK:
+        data = { currWord: this.currWord };
+        break;
+      case PROVIDENCE_GAME_STATE.CALCULATE_ROUND:
+        break;
+      case PROVIDENCE_GAME_STATE.END_OF_GAME:
+        break;
+    }
+    SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_GAME_STATE, {
+      newState: newState,
+      data: data,
+    });
   };
 
   private isAWinner = (): boolean => {
@@ -230,7 +245,10 @@ export class Providence implements Game {
   };
 
   public getGameState = () => {
-    return this.gameState;
+    return {
+      gameState: this.gameState,
+      currWord: this.currWord,
+    };
   };
 
   public getMinPlayers = (): number => {
