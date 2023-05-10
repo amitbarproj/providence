@@ -63,7 +63,7 @@ const ProvidencePlayer = (props) => {
             </Box>
           }
           subheader={
-            <Box mt={0} sx={{ flexDirection: "column" }}>
+            <Box sx={{ flexDirection: "column" }}>
               {gameStarted && (
                 <>
                   <Typography variant="h6">{points}</Typography>
@@ -78,7 +78,7 @@ const ProvidencePlayer = (props) => {
                       isVoted ? (
                         <DoneIcon color="success" />
                       ) : (
-                        <LinearProgress />
+                        <LinearProgress sx={{marginTop: 1}} />
                       )
                     ) : gameState === PROVIDENCE_GAME_STATE.END_OF_GAME ? (
                       winner ? (
