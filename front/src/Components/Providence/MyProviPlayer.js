@@ -185,10 +185,9 @@ const MyProviPlayer = (props) => {
                   placeholder="Enter Word"
                   size="small"
                 />
-                <Divider variant="inset" />
-                <Divider variant="inset" />
-                <Divider variant="inset" />
-                <Divider variant="inset" />
+                {/* <Divider variant="inset" />
+                <Divider variant="inset" /> */}
+        
 
                 <Fab
                   disabled={!yourWord}
@@ -196,6 +195,7 @@ const MyProviPlayer = (props) => {
                   onClick={() => sendYourWordToServer()}
                   size="medium"
                   variant="extended"
+                  sx={{marginBottom:-0.85 ,marginTop: 1}}
                 >
                   <SendIcon sx={{ mr: 1 }} />
                   Send
