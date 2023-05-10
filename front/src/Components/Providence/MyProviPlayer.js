@@ -148,7 +148,7 @@ const MyProviPlayer = (props) => {
                         myWord ? (
                           myWord
                         ) : (
-                          <ClearIcon />
+                          <ClearIcon color="error" />
                         )
                       ) : gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
                         isVoted ? (
