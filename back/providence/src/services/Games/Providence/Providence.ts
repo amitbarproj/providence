@@ -50,7 +50,7 @@ export class Providence implements Game {
       `Game Providence in room ${this.roomId} started right now`
     );
     this.startNewRound();
-  }
+  };
 
   private startNewRound = () => {
     this.players.forEach((player) => {
@@ -259,7 +259,7 @@ export class Providence implements Game {
   };
 
   public getGameInfo = () => {
-   return this.gameInfo;
+    return this.gameInfo;
   };
 
   public getMinPlayers = (): number => {
@@ -296,7 +296,9 @@ export class Providence implements Game {
     if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD) {
       if (!this.players.get(msg.username).getGameData().currWord) {
         this.players.get(msg.username).getGameData().currWord =
-          msg.data.content === "" || !msg.data.content
+          msg.data.content === "" ||
+          !msg.data.content ||
+          msg.data.content.length > providenceConf.playerWordMaxLength
             ? undefined
             : msg.data.content;
         this.updatePlayersToUI();
@@ -306,7 +308,11 @@ export class Providence implements Game {
       }
     } else if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD) {
       if (!this.currWord) {
-        if (msg.data.content === "" || !msg.data.content) {
+        if (
+          msg.data.content === "" ||
+          !msg.data.content ||
+          msg.data.content.length > providenceConf.mainWordMaxLength
+        ) {
           this.startNewRound();
         } else {
           this.currWord = msg.data.content;
