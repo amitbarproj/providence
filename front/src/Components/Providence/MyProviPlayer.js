@@ -154,7 +154,7 @@ const MyProviPlayer = (props) => {
                         isVoted ? (
                           <DoneIcon color="success" />
                         ) : (
-                          <LinearProgress />
+                          <LinearProgress sx={{ marginTop: 1 }} />
                         )
                       ) : gameState === PROVIDENCE_GAME_STATE.END_OF_GAME ? (
                         winner ? (
