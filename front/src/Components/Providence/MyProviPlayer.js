@@ -84,22 +84,12 @@ const MyProviPlayer = (props) => {
 
   const sendMainWordToServer = (skip) => {
     setOpenCurrPlayerWordDialog(false);
-    const mainWordToSend = skip
-      ? undefined
-      : mainWord.current
-      ? mainWord.current.value
-        ? mainWord.current.value
-        : undefined
-      : undefined;
-    sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, mainWord);
+    const toServer = skip? undefined : mainWord;
+    sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, toServer);
   };
 
   const sendYourWordToServer = () => {
-    const yourWordToSend = yourWord.current
-      ? yourWord.current.value
-        ? yourWord.current.value
-        : undefined
-      : undefined;
+   
     sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD, yourWord);
     setOpenInputWord(false);
   };
