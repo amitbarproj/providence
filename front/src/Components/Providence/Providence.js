@@ -67,14 +67,17 @@ const Providence = (props) => {
 
           setGameState(gameInfo.gameState);
           setCurrWord(gameInfo.currWord);
-
         }
       }
     );
   };
   return (
     <>
-      <GameHeader currWord={currWord} gameState={gameState} clock={clock}></GameHeader>
+      <GameHeader
+        currWord={currWord}
+        gameState={gameState}
+        clock={clock}
+      ></GameHeader>
       <ProvidencePlayers
         myUsername={myUsername}
         players={players}

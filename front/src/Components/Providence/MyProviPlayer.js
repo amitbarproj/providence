@@ -118,54 +118,51 @@ const MyProviPlayer = (props) => {
         }}
       >
         {!openInputWord && (
-            <CardHeader
-              avatar={
-                <Box mt={0} sx={{ flexDirection: "column" }}>
-                  <Badge
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                    overlap="circular"
-                    badgeContent={username}
-                    color={isConnected ? "success" : "error"}
-                  >
-                    <Avatar
-                      src={img}
-                      sx={{ bgcolor: "", width: "4.5rem", height: "4.5rem" }}
-                    ></Avatar>
-                  </Badge>
-                </Box>
-              }
-              subheader={
-                <Box mt={0} sx={{ flexDirection: "column" }}>
-                  {gameStarted && (
-                    <>
-                      <Typography variant="h6">
-                        {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
-                          myWord ? (
-                            myWord
-                          ) : (
-                            <ClearIcon />
-                          )
+          <CardHeader
+            avatar={
+              <Box mt={0} sx={{ flexDirection: "column" }}>
+                <Badge
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  overlap="circular"
+                  badgeContent={username}
+                  color={isConnected ? "success" : "error"}
+                >
+                  <Avatar
+                    src={img}
+                    sx={{ bgcolor: "", width: "4.5rem", height: "4.5rem" }}
+                  ></Avatar>
+                </Badge>
+              </Box>
+            }
+            subheader={
+              <Box mt={0} sx={{ flexDirection: "column" }}>
+                {gameStarted && (
+                  <>
+                    <Typography variant="h6">
+                      {points}
+                      {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
+                        myWord ? (
+                          myWord
                         ) : (
-                          points
-                        )}
-                      </Typography>
-                      <Typography>
-                        {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
-                          isVoted ? (
-                            <DoneIcon color="success" />
-                          ) : (
-                            <LinearProgress />
-                          )
-                        ) : undefined}
-                      </Typography>
-                    </>
-                  )}
-                </Box>
-              }
-            />
+                          <ClearIcon />
+                        )
+                      ) : undefined}
+                    </Typography>
+                    <Typography>
+                      {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
+                        isVoted ? (
+                          <DoneIcon color="success" />
+                        ) : undefined
+                      ) : undefined}
+                    </Typography>
+                  </>
+                )}
+              </Box>
+            }
+          />
         )}
 
         {openInputWord && (

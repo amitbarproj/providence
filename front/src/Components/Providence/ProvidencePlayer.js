@@ -43,7 +43,7 @@ const ProvidencePlayer = (props) => {
         }}
       >
         <CardHeader
-           avatar={
+          avatar={
             <Box mt={0} sx={{ flexDirection: "column" }}>
               <Badge
                 anchorOrigin={{
@@ -63,31 +63,31 @@ const ProvidencePlayer = (props) => {
           }
           subheader={
             <Box mt={0} sx={{ flexDirection: "column" }}>
-            {gameStarted && (
-              <>
-                <Typography variant="h6">
-                  {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
-                    myWord ? (
-                      myWord
-                    ) : (
-                      <ClearIcon />
-                    )
-                  ) : (
-                    points
-                  )}
-                </Typography>
-                <Typography>
-                  {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
-                    isVoted ? (
-                      <DoneIcon color="success" />
-                    ) : (
-                      <LinearProgress />
-                    )
-                  ) : undefined}
-                </Typography>
-              </>
-            )}
-          </Box>
+              {gameStarted && (
+                <>
+                  <Typography variant="h6">
+                    {points}
+
+                    {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
+                      myWord ? (
+                        myWord
+                      ) : (
+                        <ClearIcon />
+                      )
+                    ) : undefined}
+                  </Typography>
+                  <Typography>
+                    {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
+                      isVoted ? (
+                        <DoneIcon color="success" />
+                      ) : (
+                        <LinearProgress />
+                      )
+                    ) : undefined}
+                  </Typography>
+                </>
+              )}
+            </Box>
           }
         />
       </Card>
