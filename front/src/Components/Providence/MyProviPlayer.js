@@ -18,9 +18,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import AlarmIcon from "@mui/icons-material/Alarm";
+// import AlarmIcon from "@mui/icons-material/Alarm";
 import SendIcon from "@mui/icons-material/Send";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
+import ClearIcon from "@mui/icons-material/Clear";
+import DoneIcon from "@mui/icons-material/Done";
+import CircularProgress from "@mui/material/CircularProgress";
+import AlarmIcon from "@mui/icons-material/Alarm";
+import Fab from "@mui/material/Fab";
 
 // const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -110,57 +115,76 @@ const MyProviPlayer = (props) => {
             ? "yellow"
             : winThisRound
             ? "green"
-            : isVoted
-            ? "red"
             : "#90caf9",
         }}
       >
-        <CardHeader
-          avatar={
-            <Badge
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              overlap="circular"
-              badgeContent=" "
-              color={isConnected ? "success" : "error"}
-            >
-              <Avatar
-                src={`${img}`}
-                sx={{ bgcolor: "", width: 70, height: 70 }}
-              ></Avatar>
-            </Badge>
-          }
-          title={<Typography>{username}</Typography>}
-          subheader={
-            gameStarted && (
-              <>
-                <Typography variant="h6">{points}</Typography>
-              </>
-            )
-          }
-        />
-        <Collapse in={openInputWord} timeout="auto" unmountOnExit>
-          <Divider />
-          <TextField
-            id="outlined-sdfdfd"
-            label="Enter Word"
-            inputRef={yourWord}
-            variant="standard"
+        {!openInputWord && (
+          <CardHeader
+            avatar={
+              <Badge
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                overlap="circular"
+                badgeContent=" "
+                color={isConnected ? "success" : "error"}
+              >
+                <Avatar
+                  src={`${img}`}
+                  sx={{ bgcolor: "", width: 70, height: 70 }}
+                ></Avatar>
+              </Badge>
+            }
+            title={<Typography>{username}</Typography>}
+            subheader={
+              gameStarted && (
+                <>
+                  <Typography variant="h6">
+                    {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
+                      myWord ? (
+                        myWord
+                      ) : (
+                        <ClearIcon />
+                      )
+                    ) : (
+                      points
+                    )}
+                    {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
+                      isVoted ? (
+                        <DoneIcon />
+                      ) : (
+                        <CircularProgress size="1.5rem" color="inherit" />
+                      )
+                    ) : undefined}
+                  </Typography>
+                </>
+              )
+            }
           />
-          <Button variant="contained" onClick={() => sendYourWordToServer()}>
-            Send!
-          </Button>
-        </Collapse>
-        <Collapse
-          in={gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND}
-          timeout="auto"
-          unmountOnExit
-        >
-          <Divider />
-          <TextField id="outlined-sdfdfd" label={myWord} variant="standard" />
-        </Collapse>
+        )}
+
+        {openInputWord && (
+          <CardHeader
+            subheader={
+              <>
+                <TextField
+                  label="Enter word"
+                  size="small"
+                  inputRef={yourWord}
+                />
+                <Divider />
+                <Fab
+                  color="primary"
+                  size="small"
+                  onClick={() => sendYourWordToServer()}
+                >
+                  <SendIcon />
+                </Fab>
+              </>
+            }
+          />
+        )}
       </Card>
       <Dialog
         open={openCurrPlayerWordDialog}

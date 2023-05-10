@@ -3,13 +3,14 @@ import * as React from "react";
 import { Avatar, Badge } from "@mui/material";
 
 import Card from "@mui/material/Card";
-import Collapse from "@mui/material/Collapse";
-import Divider from "@mui/material/Divider";
-import TextField from "@mui/material/TextField";
 
+import ClearIcon from "@mui/icons-material/Clear";
 import { CardHeader } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { PROVIDENCE_GAME_STATE } from "../../Enums/enums";
+import DoneIcon from "@mui/icons-material/Done";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 // const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -36,13 +37,7 @@ const ProvidencePlayer = (props) => {
         raised={isMyTurn || winner ? true : false}
         sx={{
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: winner
-            ? "yellow"
-            : winThisRound
-            ? "green"
-            : isVoted
-            ? "red"
-            : "",
+          backgroundColor: winner ? "yellow" : winThisRound ? "green" : "",
         }}
       >
         <CardHeader
@@ -66,19 +61,30 @@ const ProvidencePlayer = (props) => {
           subheader={
             gameStarted && (
               <>
-                <Typography variant="h6">{points}</Typography>
+                <Typography variant="h6">
+                  {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
+                    myWord ? (
+                      myWord
+                    ) : (
+                      <ClearIcon />
+                    )
+                  ) : (
+                    points
+                  )}
+                  {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
+                    isVoted ? (
+                      <DoneIcon />
+                    ) : (
+                      <CircularProgress size="1.5rem" color="inherit" />
+
+                    )
+                  ) : undefined}
+                </Typography>
               </>
             )
           }
         />
-        <Collapse
-          in={gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND}
-          timeout="auto"
-          unmountOnExit
-        >
-          <Divider />
-          <TextField id="outlined-sdfdfd" label={myWord} variant="standard" />
-        </Collapse>
+      
       </Card>
     </div>
   );

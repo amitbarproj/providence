@@ -7,13 +7,13 @@ const GameHeader = (props) => {
   const currWord = props.currWord;
   return (
     <div className="providence-header">
-      <h1>
-        {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ?  currWord  : ""}
-      </h1>
-      <h1>
-        <AlarmIcon />
-        {props.clock}
-      </h1>
+      {currWord && (gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK || gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ) && (
+        <h1>
+          <AlarmIcon />
+          {props.clock}
+          {currWord}
+        </h1>
+      )}
     </div>
   );
 };

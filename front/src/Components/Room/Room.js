@@ -38,6 +38,7 @@ const Room = (props) => {
         return <h1>NON GAME</h1>;
     }
   };
+  
   useEffect(() => {
     console.log(props.username);
     if (!props || (props && props.username === "")) {
