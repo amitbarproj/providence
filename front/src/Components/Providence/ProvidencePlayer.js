@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { Avatar, Badge } from "@mui/material";
+import Box from "@mui/material/Box";
 
 import Card from "@mui/material/Card";
 
@@ -9,7 +10,8 @@ import { CardHeader } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { PROVIDENCE_GAME_STATE } from "../../Enums/enums";
 import DoneIcon from "@mui/icons-material/Done";
-import LinearProgress from '@mui/material/LinearProgress';
+import CardContent from "@mui/material/CardContent";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const ProvidencePlayer = (props) => {
   const player = props.player;
@@ -35,6 +37,7 @@ const ProvidencePlayer = (props) => {
       <Card
         raised={isMyTurn || winner ? true : false}
         sx={{
+          height: "6.5rem",
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
           backgroundColor: winner ? "yellow" : winThisRound ? "green" : "",
         }}
@@ -52,13 +55,14 @@ const ProvidencePlayer = (props) => {
             >
               <Avatar
                 src={`${img}`}
-                sx={{ bgcolor: "", width: 70, height: 70 }}
+                sx={{ bgcolor: "", width: "4.5rem", height: "4.5rem" }}
               ></Avatar>
             </Badge>
           }
-          title={<Typography>{username}</Typography>}
           subheader={
-            gameStarted && (
+            <Box mt={0} sx={{ flexDirection: "column" }}>
+            <Typography>{username}</Typography>
+            {gameStarted && (
               <>
                 <Typography variant="h6">
                   {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
@@ -70,22 +74,21 @@ const ProvidencePlayer = (props) => {
                   ) : (
                     points
                   )}
+                </Typography>
+                <Typography>
                   {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
                     isVoted ? (
                       <DoneIcon color="success" />
                     ) : (
-                      // <CircularProgress size="1.5rem" color="inherit" />
                       <LinearProgress />
-
-
                     )
                   ) : undefined}
                 </Typography>
               </>
-            )
+            )}
+          </Box>
           }
         />
-      
       </Card>
     </div>
   );

@@ -14,6 +14,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import InfoIcon from "@mui/icons-material/Info";
 import { useEffect, useRef, useState } from "react";
 import Popover from "@mui/material/Popover";
+import WavingHandIcon from '@mui/icons-material/WavingHand';
 
 const RoomHeader = (props) => {
   const leaveRoom = props.leaveRoom;
@@ -89,6 +90,7 @@ const RoomHeader = (props) => {
             variant="contained"
             onClick={leaveRoom}
             autoFocus
+            endIcon={<WavingHandIcon/>}
           >
             Leave
           </Button>
@@ -113,26 +115,3 @@ const RoomHeader = (props) => {
 
 export default RoomHeader;
 
-// export default function ButtonAppBar() {
-//   return (
-//     <Box sx={{ flexGrow: 1 }}>
-//       <AppBar position="static">
-//         <Toolbar>
-//           <IconButton
-//             size="large"
-//             edge="start"
-//             color="inherit"
-//             aria-label="menu"
-//             sx={{ mr: 2 }}
-//           >
-//             <MenuIcon />
-//           </IconButton>
-//           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-//             News
-//           </Typography>
-//           <Button color="inherit">Login</Button>
-//         </Toolbar>
-//       </AppBar>
-//     </Box>
-//   );
-// }

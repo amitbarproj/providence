@@ -25,7 +25,6 @@ const Room = (props) => {
   const [renderRoom, SetRenderRoom] = useState(false);
   const [socket, setSocket] = useState(undefined);
 
-
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -33,12 +32,21 @@ const Room = (props) => {
     switch (gameType) {
       case GAMES.Providence:
         console.log(socket);
-        return <Providence gameStarted={gameStarted} roomId={id} username={username} players={players} setPlayers={setPlayers} socket={socket}></Providence>;
+        return (
+          <Providence
+            gameStarted={gameStarted}
+            roomId={id}
+            username={username}
+            players={players}
+            setPlayers={setPlayers}
+            socket={socket}
+          ></Providence>
+        );
       default:
         return <h1>NON GAME</h1>;
     }
   };
-  
+
   useEffect(() => {
     console.log(props.username);
     if (!props || (props && props.username === "")) {
@@ -175,7 +183,12 @@ const Room = (props) => {
   return (
     renderRoom && (
       <div className="Room">
-        <RoomHeader gameInfo={gameInfo} gameType={gameType} roomId={id} leaveRoom={leaveRoom}></RoomHeader>
+        <RoomHeader
+          gameInfo={gameInfo}
+          gameType={gameType}
+          roomId={id}
+          leaveRoom={leaveRoom}
+        ></RoomHeader>
         <h1>{socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
         {isAdmin && !gameStarted && (
           <StyledFab
