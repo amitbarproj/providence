@@ -21,6 +21,7 @@ const ProvidencePlayers = (props) => {
         <ProvidencePlayer
           className="player-card"
           player={item}
+          clock={props.clock}
           gameStarted={props.gameStarted}
           gameState={props.gameState}
         ></ProvidencePlayer>

@@ -14,8 +14,8 @@ const Providence = (props) => {
   const gameStarted = props.gameStarted;
   const gameInfo = props.gameInfo;
   const [currWord, setCurrWord] = useState(undefined);
-  const [clock, setClock] = useState("");
-  const [currPlayerClock, setCurrPlayerClock] = useState("");
+  const [clock, setClock] = useState(undefined);
+  const [currPlayerClock, setCurrPlayerClock] = useState(undefined);
   const [gameState, setGameState] = useState(undefined);
 
   useEffect(() => {

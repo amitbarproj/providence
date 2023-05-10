@@ -11,8 +11,11 @@ import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
 import Card from "@mui/material/Card";
 import { CardHeader } from "@mui/material";
+import Input from "@mui/material/Input";
+
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -33,9 +36,11 @@ const MyProviPlayer = (props) => {
   const [openCurrPlayerWordDialog, setOpenCurrPlayerWordDialog] =
     useState(false);
   const [openInputWord, setOpenInputWord] = useState(false);
+  const [yourWord, setYourWord] = useState(undefined);
+  const [mainWord, setMainWord] = useState(undefined);
 
-  const mainWord = useRef();
-  const yourWord = useRef();
+  // const mainWord = useRef();
+  // const yourWord = useRef();
 
   const player = props.player;
   const playerGameData = props.player.gameData;
@@ -65,12 +70,14 @@ const MyProviPlayer = (props) => {
     }
     if (gameState === PROVIDENCE_GAME_STATE.PLAYER_CLOCK) {
       if (isMyTurn) {
+        setMainWord(undefined);
         setOpenCurrPlayerWordDialog(true);
       } else {
         setOpenCurrPlayerWordDialog(false);
       }
     } else if (gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK) {
       if (!isVoted) {
+        setYourWord(undefined);
         setOpenInputWord(true);
       } else {
         setOpenInputWord(false);
@@ -89,7 +96,7 @@ const MyProviPlayer = (props) => {
         ? mainWord.current.value
         : undefined
       : undefined;
-    sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, mainWordToSend);
+    sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_MAIN_WORD, mainWord);
   };
 
   const sendYourWordToServer = () => {
@@ -98,10 +105,7 @@ const MyProviPlayer = (props) => {
         ? yourWord.current.value
         : undefined
       : undefined;
-    sendGameMsgToServer(
-      PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD,
-      yourWordToSend
-    );
+    sendGameMsgToServer(PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD, yourWord);
     setOpenInputWord(false);
   };
 
@@ -152,10 +156,8 @@ const MyProviPlayer = (props) => {
                     )}
                     {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
                       isVoted ? (
-                        <DoneIcon />
-                      ) : (
-                        <CircularProgress size="1.5rem" color="inherit" />
-                      )
+                        <DoneIcon color="success" />
+                      ) : undefined
                     ) : undefined}
                   </Typography>
                 </>
@@ -168,18 +170,35 @@ const MyProviPlayer = (props) => {
           <CardHeader
             subheader={
               <>
-                <TextField
-                  label="Enter word"
+                {/* <Box sx={{ m: 0, position: "relative" }}> */}
+                {/* <TextField
+                    label="Enter word"
+                    variant="outlined"
+                    size="small"
+                    inputRef={yourWord}
+                    margin="dense"
+                    fullWidth 
+                  /> */}
+                <Input
+                  value={yourWord}
+                  onChange={(e) => setYourWord(e.target.value)}
+                  placeholder="Enter Word"
                   size="small"
-                  inputRef={yourWord}
                 />
-                <Divider />
+                <Divider variant="inset" />
+                <Divider variant="inset" />
+                <Divider variant="inset" />
+                <Divider variant="inset" />
+
                 <Fab
+                  disabled={!yourWord}
                   color="primary"
-                  size="small"
                   onClick={() => sendYourWordToServer()}
+                  size="medium"
+                  variant="extended"
                 >
-                  <SendIcon />
+                  <SendIcon sx={{ mr: 1 }} />
+                  Send
                 </Fab>
               </>
             }
@@ -203,7 +222,9 @@ const MyProviPlayer = (props) => {
             label="Word"
             variant="standard"
             required
-            inputRef={mainWord}
+            value={mainWord}
+            onChange={(e) => setMainWord(e.target.value)}
+            // inputRef={mainWord}
           />
         </DialogContent>
         <DialogActions>
@@ -216,6 +237,7 @@ const MyProviPlayer = (props) => {
             Skip
           </Button>
           <Button
+            disabled={!mainWord}
             endIcon={<SendIcon />}
             color="primary"
             variant="contained"

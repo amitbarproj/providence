@@ -9,10 +9,7 @@ import { CardHeader } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { PROVIDENCE_GAME_STATE } from "../../Enums/enums";
 import DoneIcon from "@mui/icons-material/Done";
-import CircularProgress from '@mui/material/CircularProgress';
-
-
-// const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
+import LinearProgress from '@mui/material/LinearProgress';
 
 const ProvidencePlayer = (props) => {
   const player = props.player;
@@ -28,6 +25,8 @@ const ProvidencePlayer = (props) => {
   const gameState = props.gameState;
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
   const myWord = playerGameData.currWord;
+  const allPlayersclock = props.clock;
+
   const winner =
     playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
 
@@ -73,9 +72,11 @@ const ProvidencePlayer = (props) => {
                   )}
                   {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
                     isVoted ? (
-                      <DoneIcon />
+                      <DoneIcon color="success" />
                     ) : (
-                      <CircularProgress size="1.5rem" color="inherit" />
+                      // <CircularProgress size="1.5rem" color="inherit" />
+                      <LinearProgress />
+
 
                     )
                   ) : undefined}
