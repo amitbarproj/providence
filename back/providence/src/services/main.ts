@@ -18,7 +18,6 @@ import {
 import { Room } from "./room";
 import { SocketServer } from "./socketServer";
 
-
 export class Main {
   private static instance: Main = new Main();
   private rooms: Map<string, Room> = new Map<string, Room>();
@@ -83,8 +82,14 @@ export class Main {
         ans.description = `Please enter Room ID`;
       } else if (createRoomBody.game === GAMES.Error) {
         ans.description = `Please select a Game`;
+      } else if (createRoomBody.roomId.length > 15) {
+        ans.description = `Room ID must be maximum 15 letters`;
+      }else if (createRoomBody.description && createRoomBody.description.length > 50) {
+        ans.description = `Room description must be maximum 50 letters`;
       } else if (createRoomBody.username === "") {
         ans.description = `Please enter Username`;
+      } else if (createRoomBody.username.length > 10) {
+        ans.description = `Username must be maximum 10 letters`;
       } else if (!this.rooms.has(createRoomBody.roomId)) {
         this.rooms.set(createRoomBody.roomId, new Room(createRoomBody));
         ans.success = true;
@@ -108,6 +113,8 @@ export class Main {
           ans.description = `Game in room ${joinRoomBody.roomId} already started`;
         } else if (currRoom.getPlayers().has(joinRoomBody.username)) {
           ans.description = `${joinRoomBody.username} already exist in Room ${joinRoomBody.roomId}`;
+        } else if (joinRoomBody.username.length > 10) {
+          ans.description = `Username must be maximum 10 letters`;
         } else if (
           currRoom.needAuth() &&
           currRoom.getSecret() !== joinRoomBody.secret

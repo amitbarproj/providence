@@ -118,7 +118,6 @@ const MyProviPlayer = (props) => {
         }}
       >
         {!openInputWord && (
-          <>
             <CardHeader
               avatar={
                 <Box mt={0} sx={{ flexDirection: "column" }}>
@@ -128,7 +127,7 @@ const MyProviPlayer = (props) => {
                       horizontal: "left",
                     }}
                     overlap="circular"
-                    badgeContent=" "
+                    badgeContent={username}
                     color={isConnected ? "success" : "error"}
                   >
                     <Avatar
@@ -140,7 +139,6 @@ const MyProviPlayer = (props) => {
               }
               subheader={
                 <Box mt={0} sx={{ flexDirection: "column" }}>
-                  <Typography>{username}</Typography>
                   {gameStarted && (
                     <>
                       <Typography variant="h6">
@@ -168,7 +166,6 @@ const MyProviPlayer = (props) => {
                 </Box>
               }
             />
-          </>
         )}
 
         {openInputWord && (

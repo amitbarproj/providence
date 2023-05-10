@@ -43,25 +43,26 @@ const ProvidencePlayer = (props) => {
         }}
       >
         <CardHeader
-          avatar={
-            <Badge
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              overlap="circular"
-              badgeContent=" "
-              color={isConnected ? "success" : "error"}
-            >
-              <Avatar
-                src={`${img}`}
-                sx={{ bgcolor: "", width: "4.5rem", height: "4.5rem" }}
-              ></Avatar>
-            </Badge>
+           avatar={
+            <Box mt={0} sx={{ flexDirection: "column" }}>
+              <Badge
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                overlap="circular"
+                badgeContent={username}
+                color={isConnected ? "success" : "error"}
+              >
+                <Avatar
+                  src={img}
+                  sx={{ bgcolor: "", width: "4.5rem", height: "4.5rem" }}
+                ></Avatar>
+              </Badge>
+            </Box>
           }
           subheader={
             <Box mt={0} sx={{ flexDirection: "column" }}>
-            <Typography>{username}</Typography>
             {gameStarted && (
               <>
                 <Typography variant="h6">
