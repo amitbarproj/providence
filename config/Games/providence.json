@@ -1,8 +1,8 @@
 {
   "maxPlayers": 10,
   "minPlayers": 0,
-  "maxPoints": 5,
+  "maxPoints": 1,
   "allPlayersClockSec": 120,
   "currPlayerClockSec": 5,
-  "gameInfo": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  "gameInfo": "In each round, a player selects a word to use as the starting word. Each player, including the player who selected the starting word, must come up with a word that they believe the majority of the other players will also come up with when prompted with the same starting word. Once all guesses have been recorded, the answers are revealed to see which guess was the most common among all players. The player who made the most common guess earns a point, and the next player in the order selects the starting word for the next round. The player with the most points at the end of all rounds is the winner.."
 }

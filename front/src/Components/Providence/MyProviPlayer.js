@@ -28,6 +28,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import AlarmIcon from "@mui/icons-material/Alarm";
 import Fab from "@mui/material/Fab";
 import LinearProgress from "@mui/material/LinearProgress";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const MyProviPlayer = (props) => {
   const [openCurrPlayerWordDialog, setOpenCurrPlayerWordDialog] =
@@ -111,7 +112,7 @@ const MyProviPlayer = (props) => {
           height: "6.5rem",
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
           backgroundColor: winner
-            ? "yellow"
+            ? "#FFD700"
             : winThisRound
             ? "green"
             : "#90caf9",
@@ -137,7 +138,6 @@ const MyProviPlayer = (props) => {
                 </Badge>
               </Box>
             }
-        
             subheader={
               <Box mt={0} sx={{ flexDirection: "column" }}>
                 {gameStarted && (
@@ -156,6 +156,10 @@ const MyProviPlayer = (props) => {
                         ) : (
                           <LinearProgress />
                         )
+                      ) : gameState === PROVIDENCE_GAME_STATE.END_OF_GAME ? (
+                        winner ? (
+                          <EmojiEventsIcon />
+                        ) : undefined
                       ) : undefined}
                     </Typography>
                   </>
