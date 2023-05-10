@@ -19,8 +19,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AlarmIcon from "@mui/icons-material/Alarm";
-import SendIcon from '@mui/icons-material/Send';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SendIcon from "@mui/icons-material/Send";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
 
 // const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -162,7 +162,6 @@ const MyProviPlayer = (props) => {
           <TextField id="outlined-sdfdfd" label={myWord} variant="standard" />
         </Collapse>
       </Card>
-
       <Dialog
         open={openCurrPlayerWordDialog}
         aria-labelledby="alert-dialog-title"
@@ -171,10 +170,8 @@ const MyProviPlayer = (props) => {
         <DialogTitle id="alert-dialog-title">{"Enter a word"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <h4 style={{color: "black"}} >
-              <AlarmIcon color="primary" />
-              {" "}
-              {currPlayerClock}
+            <h4 style={{ color: "black" }}>
+              <AlarmIcon color="primary" /> {currPlayerClock}
             </h4>
           </DialogContentText>
           <TextField
@@ -195,7 +192,7 @@ const MyProviPlayer = (props) => {
             Skip
           </Button>
           <Button
-          endIcon={<SendIcon />}
+            endIcon={<SendIcon />}
             color="primary"
             variant="contained"
             onClick={() => sendMainWordToServer(false)}

@@ -11,10 +11,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import InfoIcon from "@mui/icons-material/Info";
 import { useEffect, useRef, useState } from "react";
 
 const RoomHeader = (props) => {
   const leaveRoom = props.leaveRoom;
+  const roomId = props.roomId;
+  const gameInfo = props.gameInfo;
 
   const [open, setOpen] = useState(false);
 
@@ -32,16 +35,17 @@ const RoomHeader = (props) => {
         <AppBar position="static">
           <Toolbar>
             <IconButton
+              onClick={() => console.log("df")}
               size="large"
               edge="start"
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
             >
-              <MenuIcon />
+              <InfoIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Room {props.id}
+              Room {roomId}
             </Typography>
             <Button onClick={handleClickOpen} color="inherit">
               Leave

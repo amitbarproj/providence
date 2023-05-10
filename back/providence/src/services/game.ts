@@ -3,4 +3,7 @@ export interface Game {
      getGameState;
      endGame;
      getMinPlayers;
+     startGame;
+     GameStarted;
+     getGameInfo;
 }

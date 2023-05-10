@@ -19,6 +19,7 @@ const Room = (props) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [players, setPlayers] = useState([]);
   const [gameType, setGameType] = useState(undefined);
+  const [gameInfo, setGameInfo] = useState(undefined);
   const [username, setUsername] = useState(undefined);
   const [gameStarted, setGameStarted] = useState(false);
   const [renderRoom, SetRenderRoom] = useState(false);
@@ -98,6 +99,7 @@ const Room = (props) => {
             }
             setPlayers(socketObj.players);
             setGameType(socketObj.gameType);
+            setGameInfo(socketObj.gameInfo);
             setGameStarted(socketObj.gameStarted);
             SetRenderRoom(true);
             // socket.on(SOCKET_ENUMS.NEW_PLAYER_JOIN, (msg) => {
@@ -172,7 +174,7 @@ const Room = (props) => {
   return (
     renderRoom && (
       <div className="Room">
-        <RoomHeader id={id} leaveRoom={leaveRoom}></RoomHeader>
+        <RoomHeader gameInfo={gameInfo} gameType={gameType} roomId={id} leaveRoom={leaveRoom}></RoomHeader>
         <h1>{socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
         {isAdmin && !gameStarted && (
           <StyledFab

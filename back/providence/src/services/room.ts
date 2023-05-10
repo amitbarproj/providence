@@ -1,14 +1,10 @@
 import { GAMES } from "../../../../classes/enums";
 import { SOCKET_ENUMS } from "../../../../classes/socketEnums";
 import {
-  ASYNC_RESPONSE,
   CREATE_ROOM_BODY,
   JOIN_ROOM_BODY,
-  JOIN_ROOM_RES,
   LEAVE_ROOM_BODY,
   PLAYER_SOCKET_DATA,
-  SOCKET_JOIN_ROOM_OBJ,
-  START_GAME_RES,
 } from "../../../../classes/types";
 import { Providence } from "./Games/Providence/Providence";
 import { Game } from "./game";
@@ -37,6 +33,19 @@ export class Room {
       createRoomBody.username,
       new User(createRoomBody.username, true, this.gameType)
     );
+    this.openGame();
+
+   
+  }
+
+  private openGame = () => {
+    switch (this.gameType) {
+      case GAMES.Providence:
+        this.game = new Providence(this.players, this.roomId);
+        break;
+      default:
+        throw new Error("Game type not exist");
+    }
   }
 
   public joinRoom = (joinRoomBody: JOIN_ROOM_BODY) => {
@@ -82,20 +91,21 @@ export class Room {
   };
 
   public startGame = () => {
-    switch (this.gameType) {
-      case GAMES.Providence:
-        this.game = new Providence(this.players, this.roomId);
-        break;
-      default:
-        throw new Error("Game type not exist");
-    }
+    // switch (this.gameType) {
+    //   case GAMES.Providence:
+    //     this.game = new Providence(this.players, this.roomId);
+    //     break;
+    //   default:
+    //     throw new Error("Game type not exist");
+    // }
+    this.game.startGame();
   };
   public getGame = (): Game => {
    return this.game;
   };
 
   public gameStarted = (): boolean => {
-    return this.game ? true : false;
+    return this.game.GameStarted();
   };
 
   public getSecret = (): string => {
@@ -108,6 +118,10 @@ export class Room {
 
   public getNumOfPlayers = (): number => {
     return this.players.size;
+  };
+
+  public getGameInfo = (): string => {
+    return this.game.getGameInfo();
   };
 
   public getRoomId = (): string => {

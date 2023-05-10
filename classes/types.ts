@@ -54,6 +54,7 @@ export type SOCKET_JOIN_ROOM_OBJ = {
   players: PLAYER_SOCKET_DATA<any>[];
   youAdmin: boolean;
   gameType: GAMES;
+  gameInfo: string;
   gameStarted: boolean;
 };
 

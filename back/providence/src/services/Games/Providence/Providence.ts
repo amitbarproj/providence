@@ -26,16 +26,28 @@ export class Providence implements Game {
   private currWord = undefined;
   private gameState = undefined;
   private maxPoints = providenceConf.maxPoints;
+  private isGameStarted = false;
+  private gameInfo = providenceConf.gameInfo || undefined;
 
   constructor(players: Map<string, User>, roomId: string) {
     this.players = players;
     this.myIterator = this.players.entries();
     this.currentPlayer = this.myIterator.next();
     this.roomId = roomId;
+    // SocketServer.sendRoomMessage(
+    //   this.roomId,
+    //   SOCKET_ENUMS.START_GAME,
+    //   `Game Providence in room ${roomId} started right now`
+    // );
+    // this.startNewRound();
+  }
+
+  public startGame = () => {
+    this.isGameStarted = true;
     SocketServer.sendRoomMessage(
       this.roomId,
       SOCKET_ENUMS.START_GAME,
-      `Game Providence in room ${roomId} started right now`
+      `Game Providence in room ${this.roomId} started right now`
     );
     this.startNewRound();
   }
@@ -246,6 +258,10 @@ export class Providence implements Game {
     };
   };
 
+  public getGameInfo = () => {
+   return this.gameInfo;
+  };
+
   public getMinPlayers = (): number => {
     return this.minPlayers;
   };
@@ -266,6 +282,10 @@ export class Providence implements Game {
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.END_OF_GAME);
     this.updatePlayersToUI();
     //NEED TO ANOUNCMENT THE WINNER!!!! if game not ended
+  };
+
+  public GameStarted = (): boolean => {
+    return this.isGameStarted;
   };
 
   public socketFromUsers = (msg: {

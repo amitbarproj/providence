@@ -12,6 +12,7 @@ const Providence = (props) => {
   const myUsername = props.username;
   const roomId = props.roomId;
   const gameStarted = props.gameStarted;
+  const gameInfo = props.gameInfo;
   const [currWord, setCurrWord] = useState(undefined);
   const [clock, setClock] = useState("");
   const [currPlayerClock, setCurrPlayerClock] = useState("");
