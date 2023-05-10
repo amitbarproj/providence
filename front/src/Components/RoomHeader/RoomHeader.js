@@ -13,20 +13,34 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import InfoIcon from "@mui/icons-material/Info";
 import { useEffect, useRef, useState } from "react";
+import Popover from "@mui/material/Popover";
 
 const RoomHeader = (props) => {
   const leaveRoom = props.leaveRoom;
   const roomId = props.roomId;
   const gameInfo = props.gameInfo;
 
-  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const id = open ? "simple-popover" : undefined;
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClosee = () => {
+    setAnchorEl(null);
+  };
+
+  const [openLeaveRoomDialog, setOpenLeaveRoomDialog] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenLeaveRoomDialog(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenLeaveRoomDialog(false);
   };
 
   return (
@@ -35,7 +49,7 @@ const RoomHeader = (props) => {
         <AppBar position="static">
           <Toolbar>
             <IconButton
-              onClick={() => console.log("df")}
+              onClick={handleClick}
               size="large"
               edge="start"
               color="inherit"
@@ -55,7 +69,7 @@ const RoomHeader = (props) => {
       </Box>
 
       <Dialog
-        open={open}
+        open={openLeaveRoomDialog}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -80,6 +94,19 @@ const RoomHeader = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClosee}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <Typography sx={{ p: 2 }}>{gameInfo}</Typography>
+      </Popover>
     </>
   );
 };
