@@ -14,12 +14,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import InfoIcon from "@mui/icons-material/Info";
 import { useEffect, useRef, useState } from "react";
 import Popover from "@mui/material/Popover";
-import WavingHandIcon from '@mui/icons-material/WavingHand';
+import WavingHandIcon from "@mui/icons-material/WavingHand";
+import { Divider } from "@mui/material";
 
 const RoomHeader = (props) => {
   const leaveRoom = props.leaveRoom;
   const roomId = props.roomId;
   const gameInfo = props.gameInfo;
+  const gameType = props.gameType;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -90,7 +92,7 @@ const RoomHeader = (props) => {
             variant="contained"
             onClick={leaveRoom}
             autoFocus
-            endIcon={<WavingHandIcon/>}
+            endIcon={<WavingHandIcon />}
           >
             Leave
           </Button>
@@ -107,6 +109,11 @@ const RoomHeader = (props) => {
           horizontal: "left",
         }}
       >
+        <Typography variant="h6" sx={{ p: 2 }}>
+          {gameType}
+        </Typography>
+        <Divider /> <Divider />
+        <Divider />
         <Typography sx={{ p: 2 }}>{gameInfo}</Typography>
       </Popover>
     </>
@@ -114,4 +121,3 @@ const RoomHeader = (props) => {
 };
 
 export default RoomHeader;
-
