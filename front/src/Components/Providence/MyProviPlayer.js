@@ -123,7 +123,7 @@ const MyProviPlayer = (props) => {
               <Box mt={0} sx={{ flexDirection: "column" }}>
                 <Badge
                   anchorOrigin={{
-                    vertical: "top",
+                    vertical: "bottom",
                     horizontal: "left",
                   }}
                   overlap="circular"
@@ -137,26 +137,25 @@ const MyProviPlayer = (props) => {
                 </Badge>
               </Box>
             }
+        
             subheader={
               <Box mt={0} sx={{ flexDirection: "column" }}>
                 {gameStarted && (
                   <>
-                    <Typography variant="h6">
-                      {points}
-                    <Typography/>
+                    <Typography variant="h6">{points}</Typography>
+                    <Typography>
                       {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
                         myWord ? (
                           myWord
                         ) : (
                           <ClearIcon />
                         )
-                      ) : undefined}
-                    </Typography>
-                    <Typography>
-                      {gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
+                      ) : gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
                         isVoted ? (
                           <DoneIcon color="success" />
-                        ) : undefined
+                        ) : (
+                          <LinearProgress />
+                        )
                       ) : undefined}
                     </Typography>
                   </>
