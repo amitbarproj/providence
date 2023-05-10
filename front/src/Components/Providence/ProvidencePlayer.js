@@ -66,8 +66,8 @@ const ProvidencePlayer = (props) => {
               {gameStarted && (
                 <>
                   <Typography variant="h6">
-                    {points}
-
+                      {points}
+                    <Typography/>
                     {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
                       myWord ? (
                         myWord

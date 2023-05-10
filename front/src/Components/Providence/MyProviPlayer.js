@@ -143,6 +143,7 @@ const MyProviPlayer = (props) => {
                   <>
                     <Typography variant="h6">
                       {points}
+                    <Typography/>
                       {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
                         myWord ? (
                           myWord
