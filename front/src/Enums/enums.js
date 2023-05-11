@@ -6,40 +6,28 @@ const SOCKET_ENUMS = {
   ADMIN_DISMISS_YOU: "ADMIN_DISMISS_YOU",
   START_GAME: "START_GAME",
   GAME_MSG: "GAME_MSG",
-  ERROR: "ERROR"
+  ERROR: "ERROR",
 };
-
 
 const SOCKET_GAME = {
   NEW_PLAYER_TURN: "NEW_PLAYER_TURN",
-  UPDATE_ALL_CLOCK:"UPDATE_ALL_CLOCK",
-  UPDATE_PLAYER_CLOCK:"UPDATE_PLAYER_CLOCK",
+  UPDATE_ALL_CLOCK: "UPDATE_ALL_CLOCK",
+  UPDATE_PLAYER_CLOCK: "UPDATE_PLAYER_CLOCK",
   UPDATE_GAME_STATE: "UPDATE_GAME_STATE",
-  UPDATE_PLAYERS: "UPDATE_PLAYERS"
-
-}
-
-
+  UPDATE_PLAYERS: "UPDATE_PLAYERS",
+};
 
 const PROVIDENCE_GAME_STATE = {
   PLAYER_CLOCK: "PLAYER_CLOCK",
   ALL_CLOCK: "ALL_CLOCK",
   CALCULATE_ROUND: "CALCULATE_ROUND",
-  END_OF_GAME: "END_OF_GAME"
-
-
-}
-
-
+  END_OF_GAME: "END_OF_GAME",
+};
 
 const PROVIDENCE_SOCKET_GAME = {
   SEND_PLAYER_WORD: "SEND_PLAYER_WORD",
   SEND_MAIN_WORD: "SEND_MAIN_WORD",
-
-}
-
-
-
+};
 
 const GAMES = {
   Providence: "Providence",
@@ -62,10 +50,19 @@ const SERVER_URL = {
 };
 
 const PLAYERS_BACKGROUND_COLOR = {
-  Winner: `linear-gradient(45deg, #FFD700, #FFD700)`,
-  WinRound: `linear-gradient(45deg, green, green)`,
-  Me: `linear-gradient(45deg, #5514B4, #FF80FF)`,
-  Regular: `` 
-
-}
-module.exports = {PLAYERS_BACKGROUND_COLOR, SOCKET_ENUMS , GAMES, SERVER_URL, LOCAL_STORAGE, SOCKET_GAME, PROVIDENCE_SOCKET_GAME, PROVIDENCE_GAME_STATE};
+  Winner: `radial-gradient(circle farthest-side, #fceabb, #f8b500)`,
+  WinRound: `linear-gradient(to right, #00b09b, #96c93d)`,
+  // Me: ` linear-gradient( 109.6deg, rgba(156,252,248,1) 11.2%, rgba(110,123,251,1) 91.1% )`,
+  Me: ` linear-gradient( 109.6deg, rgba(156,252,248,1) 11.2%, rgba(110,123,251,1) 91.1% )`,
+  Regular: ``,
+};
+module.exports = {
+  PLAYERS_BACKGROUND_COLOR,
+  SOCKET_ENUMS,
+  GAMES,
+  SERVER_URL,
+  LOCAL_STORAGE,
+  SOCKET_GAME,
+  PROVIDENCE_SOCKET_GAME,
+  PROVIDENCE_GAME_STATE,
+};

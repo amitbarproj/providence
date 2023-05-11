@@ -43,7 +43,7 @@ const ProvidencePlayer = (props) => {
           backgroundImage: winner
             ? PLAYERS_BACKGROUND_COLOR.Winner
             : (winThisRound && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME)
-            ? PLAYERS_BACKGROUND_COLOR.winThisRound
+            ? PLAYERS_BACKGROUND_COLOR.WinRound
             : PLAYERS_BACKGROUND_COLOR.Regular,
         }}
       >

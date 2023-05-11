@@ -103,8 +103,8 @@ const MyProviPlayer = (props) => {
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
           backgroundImage: winner
             ? PLAYERS_BACKGROUND_COLOR.Winner
-            : (winThisRound && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME)
-            ? PLAYERS_BACKGROUND_COLOR.winThisRound
+            : (winThisRound && (gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME))
+            ? PLAYERS_BACKGROUND_COLOR.WinRound
             : PLAYERS_BACKGROUND_COLOR.Me,
         }}
       >
