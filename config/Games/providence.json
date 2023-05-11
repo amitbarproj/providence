@@ -6,5 +6,5 @@
   "currPlayerClockSec": 10,
   "mainWordMaxLength": 15,
   "playerWordMaxLength": 15,
-  "gameInfo": "Try to enter the word you believe most players will choose associated to the main word. Win the round by entering the most common word."
+  "gameInfo": "Try to enter the word you believe most players will choose associated to the main word.\n Win the round by entering the most common word."
 }

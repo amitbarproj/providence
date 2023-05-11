@@ -2,6 +2,7 @@ import { Box, Paper } from "@mui/material";
 import { PROVIDENCE_GAME_STATE } from "../../Enums/enums";
 import "./GameHeader.css";
 import AlarmIcon from "@mui/icons-material/Alarm";
+import Typography from "@mui/material/Typography";
 
 const GameHeader = (props) => {
   const gameState = props.gameState;
@@ -42,9 +43,19 @@ const GameHeader = (props) => {
           </Box>
         );
       default:
-        return <h1>Providence</h1>;
+        return (
+          <Box mt={0} sx={{  height: "10vh" }}>
+            <Typography variant="h6">
+              Welcome
+            </Typography>
+            <Typography variant="subtitle1" >
+              Please wait for all players to join
+            </Typography>
+          </Box>
+        );
     }
   };
+  
 
   return renderSwitch();
 };
