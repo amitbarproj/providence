@@ -2,7 +2,7 @@
   "maxPlayers": 10,
   "minPlayers": 0,
   "maxPoints": 3,
-  "allPlayersClockSec": 15,
+  "allPlayersClockSec": 300,
   "currPlayerClockSec": 10,
   "mainWordMaxLength": 15,
   "playerWordMaxLength": 15,

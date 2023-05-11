@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
-import { GAMES, SOCKET_ENUMS } from "../../Enums/enums";
+import { GAMES, PLAYERS_BACKGROUND_COLOR, SOCKET_ENUMS } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import Providence from "../Providence/Providence";
@@ -177,7 +177,7 @@ const Room = (props) => {
     bottom: 20,
     right: 20,
     margin: "0 auto",
-    backgroundColor: `#ffc400`,
+    backgroundImage: `linear-gradient(to bottom right, #72FFB6, #10D164)`,
   });
 
   return (
@@ -198,7 +198,7 @@ const Room = (props) => {
             variant="extended"
           >
             <PlayArrowIcon />
-            Start Game
+            Start
           </StyledFab>
         )}
         {/* <RoomFooter isAdmin={isAdmin} gameStarted={gameStarted} startGame={startGame} ></RoomFooter> */}
