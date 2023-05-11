@@ -4,6 +4,7 @@ import { SOCKET_GAME } from "../../Enums/enums";
 import ProvidencePlayers from "./ProvidencePlayers";
 import GameHeader from "./GameHeader";
 import { PROVIDENCE_GAME_STATE } from "../../Enums/enums";
+import { Divider } from "@mui/material";
 
 const Providence = (props) => {
   const socket = props.socket;
@@ -78,6 +79,7 @@ const Providence = (props) => {
         gameState={gameState}
         clock={clock}
       ></GameHeader>
+      <Divider />
       <ProvidencePlayers
         myUsername={myUsername}
         players={players}

@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { useEffect, useState, useRef } from "react";
 import {
+  PLAYERS_BACKGROUND_COLOR,
   PROVIDENCE_GAME_STATE,
   PROVIDENCE_SOCKET_GAME,
 } from "../../Enums/enums";
@@ -100,11 +101,11 @@ const MyProviPlayer = (props) => {
         sx={{
           height: "6.5rem",
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: winner
-            ? "#FFD700"
-            : winThisRound
-            ? "green"
-            : "#90caf9",
+          backgroundImage: winner
+            ? PLAYERS_BACKGROUND_COLOR.Winner
+            : (winThisRound && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME)
+            ? PLAYERS_BACKGROUND_COLOR.winThisRound
+            : PLAYERS_BACKGROUND_COLOR.Me,
         }}
       >
         {!openInputWord && (

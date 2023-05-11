@@ -8,7 +8,7 @@ import Card from "@mui/material/Card";
 import ClearIcon from "@mui/icons-material/Clear";
 import { CardHeader } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { PROVIDENCE_GAME_STATE } from "../../Enums/enums";
+import { PLAYERS_BACKGROUND_COLOR, PROVIDENCE_GAME_STATE } from "../../Enums/enums";
 import DoneIcon from "@mui/icons-material/Done";
 import CardContent from "@mui/material/CardContent";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -40,7 +40,11 @@ const ProvidencePlayer = (props) => {
         sx={{
           height: "6.5rem",
           border: isMyTurn ? "#ff5722 dashed 2px" : "",
-          backgroundColor: winner ? "#FFD700" : winThisRound ? "green" : "",
+          backgroundImage: winner
+            ? PLAYERS_BACKGROUND_COLOR.Winner
+            : (winThisRound && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME)
+            ? PLAYERS_BACKGROUND_COLOR.winThisRound
+            : PLAYERS_BACKGROUND_COLOR.Regular,
         }}
       >
         <CardHeader

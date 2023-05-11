@@ -60,4 +60,12 @@ const SERVER_URL = {
 
   port: "3002",
 };
-module.exports = {SOCKET_ENUMS , GAMES, SERVER_URL, LOCAL_STORAGE, SOCKET_GAME, PROVIDENCE_SOCKET_GAME, PROVIDENCE_GAME_STATE};
+
+const PLAYERS_BACKGROUND_COLOR = {
+  Winner: `linear-gradient(45deg, #FFD700, #FFD700)`,
+  WinRound: `linear-gradient(45deg, green, green)`,
+  Me: `linear-gradient(45deg, #5514B4, #FF80FF)`,
+  Regular: `` 
+
+}
+module.exports = {PLAYERS_BACKGROUND_COLOR, SOCKET_ENUMS , GAMES, SERVER_URL, LOCAL_STORAGE, SOCKET_GAME, PROVIDENCE_SOCKET_GAME, PROVIDENCE_GAME_STATE};
