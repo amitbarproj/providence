@@ -51,10 +51,9 @@ const SERVER_URL = {
 
 const PLAYERS_BACKGROUND_COLOR = {
   Winner: `radial-gradient(circle farthest-side, #fceabb, #f8b500)`,
-  WinRound: `linear-gradient(to right, #00b09b, #96c93d)`,
-  // Me: ` linear-gradient( 109.6deg, rgba(156,252,248,1) 11.2%, rgba(110,123,251,1) 91.1% )`,
+  WinRound: `linear-gradient(to bottom right, #72FFB6, #10D164)`,
   Me: ` linear-gradient( 109.6deg, rgba(156,252,248,1) 11.2%, rgba(110,123,251,1) 91.1% )`,
-  Regular: ``,
+  Regular: `linear-gradient(to bottom right, #FDFCFB, #E2D1C3)`,
 };
 module.exports = {
   PLAYERS_BACKGROUND_COLOR,
