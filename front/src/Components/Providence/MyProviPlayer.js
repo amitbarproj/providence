@@ -100,7 +100,7 @@ const MyProviPlayer = (props) => {
         raised={isMyTurn || winner ? true : false}
         sx={{
           height: "6.5rem",
-          border: isMyTurn ? "#ff5722 dashed 2px" : "",
+          border: (isMyTurn && (gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME)) ? "#ff5722 dashed 2px" : "",
           backgroundImage: winner
             ? PLAYERS_BACKGROUND_COLOR.Winner
             : (winThisRound && (gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME))
