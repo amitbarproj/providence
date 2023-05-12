@@ -2,7 +2,11 @@ import io from "socket.io-client";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
-import { GAMES, PLAYERS_BACKGROUND_COLOR, SOCKET_ENUMS } from "../../Enums/enums";
+import {
+  GAMES,
+  PLAYERS_BACKGROUND_COLOR,
+  SOCKET_ENUMS,
+} from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import Providence from "../Providence/Providence";
@@ -106,18 +110,16 @@ const Room = (props) => {
             if (socketObj.youAdmin) {
               setIsAdmin(true);
             }
-            setPlayers(socketObj.players);
+            // const bka = socketObj.players.sort(compareFn);
+            setPlayers(socketObj.players.sort(compareFn));
+            // setPlayers(socketObj.players);
             setGameType(socketObj.gameType);
             setGameInfo(socketObj.gameInfo);
             setGameStarted(socketObj.gameStarted);
             SetRenderRoom(true);
-            // socket.on(SOCKET_ENUMS.NEW_PLAYER_JOIN, (msg) => {
-            //   const newPlayers = msg;
-            //   setPlayers(newPlayers.players);
-            // });
             socket.on(SOCKET_ENUMS.UPDATE_PLAYERS_STATE, (msg) => {
               const newPlayers = msg;
-              setPlayers(newPlayers.players);
+              setPlayers(newPlayers.players.sort(compareFn));
             });
 
             socket.on(SOCKET_ENUMS.YOU_ARE_NEW_ADMIN, (msg) => {
@@ -141,6 +143,20 @@ const Room = (props) => {
       socket.disconnect();
     };
   };
+
+  function compareFn(a, b) {
+    if (a.gameData && b.gameData) {
+      if (a.gameData.points < b.gameData.points) {
+        return 1;
+      }
+      if (a.gameData.points > b.gameData.points) {
+        return -1;
+      }
+      return 0;
+    } else {
+      return 0;
+    }
+  }
 
   const startGame = async () => {
     console.log(id);

@@ -283,7 +283,6 @@ export class Providence implements Game {
     this.clearAllIntervals();
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.END_OF_GAME);
     this.updatePlayersToUI();
-    //NEED TO ANOUNCMENT THE WINNER!!!! if game not ended
   };
 
   public GameStarted = (): boolean => {
@@ -294,7 +293,6 @@ export class Providence implements Game {
     username: string;
     data: { type: string; content: any };
   }) => {
-    // console.log(msg);
     if (msg.data.type === PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD) {
       if (!this.players.get(msg.username).getGameData().currWord) {
         this.players.get(msg.username).getGameData().currWord =

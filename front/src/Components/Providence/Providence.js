@@ -23,11 +23,11 @@ const Providence = (props) => {
     sendGameMsgToServer("GET_GAME_INFO", "");
     socket.on(SOCKET_GAME.NEW_PLAYER_TURN, (game_msg) => {
       const newPlayers = game_msg;
-      setPlayers(newPlayers.players);
+      setPlayers(newPlayers.players.sort(compareFn));
     });
     socket.on(SOCKET_GAME.UPDATE_PLAYERS, (game_msg) => {
       const newPlayers = game_msg;
-      setPlayers(newPlayers.players);
+      setPlayers(newPlayers.players.sort(compareFn));
     });
     socket.on(SOCKET_GAME.UPDATE_ALL_CLOCK, (game_msg) => {
       const newTime = game_msg.counter;
@@ -53,6 +53,20 @@ const Providence = (props) => {
       setGameState(newState);
     });
   }, []);
+
+  function compareFn(a, b) {
+    if (a.gameData && b.gameData) {
+      if (a.gameData.points < b.gameData.points) {
+        return 1;
+      }
+      if (a.gameData.points > b.gameData.points) {
+        return -1;
+      }
+      return 0;
+    } else {
+      return 0;
+    }
+  }
 
   const sendGameMsgToServer = (type, msg) => {
     socket.emit(
