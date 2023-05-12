@@ -1,10 +1,11 @@
 {
   "maxPlayers": 10,
   "minPlayers": 0,
-  "maxPoints": 3,
-  "allPlayersClockSec": 300,
-  "currPlayerClockSec": 10,
+  "maxPoints": 5,
+  "allPlayersClockSec": 15,
+  "currPlayerClockSec": 15,
   "mainWordMaxLength": 15,
   "playerWordMaxLength": 15,
+  "calculateRoundClockSec": 5,
   "gameInfo": "Try to enter the word you believe most players will choose associated to the main word.\n Win the round by entering the most common word."
 }

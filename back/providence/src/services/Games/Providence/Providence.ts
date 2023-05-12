@@ -198,11 +198,13 @@ export class Providence implements Game {
           );
         });
         if (this.isAWinner()) {
-          this.endGame();
+          setTimeout(() => {
+            this.endGame();
+          }, providenceConf.calculateRoundClockSec * 1000);
         } else {
           setTimeout(() => {
             this.startNewRound();
-          }, 3000);
+          }, providenceConf.calculateRoundClockSec * 1000);
         }
       }
     }, 1000);

@@ -44,9 +44,12 @@ const GameHeader = (props) => {
             component="ul"
           >
             <Stack m={"auto"} direction="row" spacing={3}>
-              <Chip size="medium" icon={<AlarmIcon />} label={"data.label"} />
-              <Chip icon={<AlarmIcon />} label={"data.label"} />
-              <Chip icon={<AlarmIcon />} label={"data.label"} />
+              {/* <Chip size="medium" icon={<AlarmIcon />} label={"data.label"} /> */}
+              <Chip icon={<AlarmIcon />} label={props.clock} />
+              {/* <Chip icon={<AlarmIcon />} label={currWord} />
+               */}
+                             <h3>{currWord} </h3>
+
             </Stack>
           </Paper>
           // <Stack direction="row" spacing={5} sx={{height: "10vh"}}>
