@@ -48,8 +48,7 @@ const GameHeader = (props) => {
               <Chip icon={<AlarmIcon />} label={props.clock} />
               {/* <Chip icon={<AlarmIcon />} label={currWord} />
                */}
-                             <h3>{currWord} </h3>
-
+              <h3>{currWord} </h3>
             </Stack>
           </Paper>
           // <Stack direction="row" spacing={5} sx={{height: "10vh"}}>

@@ -302,7 +302,7 @@ export class Providence implements Game {
           !msg.data.content ||
           msg.data.content.length > providenceConf.playerWordMaxLength
             ? undefined
-            : msg.data.content;
+            : msg.data.content.trim();
         this.updatePlayersToUI();
         console.log(`${msg.username} VOTEDDDDD ${msg.data.content}`);
       } else {
