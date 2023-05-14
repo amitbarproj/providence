@@ -8,16 +8,26 @@ import Grid from "@mui/material/Grid";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import FaceIcon from "@mui/icons-material/Face";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import { styled } from "@mui/material/styles";
+import { useState, useEffect } from "react";
 
 const GameHeader = (props) => {
   const gameState = props.gameState;
   const currWord = props.currWord;
+  const gameConfig = props.gameConfig;
+  const maxPoints = gameConfig.maxPoints;
+  const clock = props.clock;
+  const allPlayersClockSec = gameConfig.allPlayersClockSec;
+  const currPlayerClockSec = gameConfig.currPlayerClockSec;
+  const [allPlayersClockVal, setAllPlayersClockVal] = useState(0);
 
-  const ListItem = styled("li")(({ theme }) => ({
-    margin: theme.spacing(1),
-  }));
+  useEffect(() => {
+    setAllPlayersClockVal(Math.min((clock * 100) / allPlayersClockSec, 100));
+
+    return () => {};
+  }, [clock]);
 
   const renderSwitch = () => {
     switch (gameState) {
@@ -25,37 +35,30 @@ const GameHeader = (props) => {
         return (
           <Box mt={0} sx={{ flexDirection: "row", height: "10vh" }}>
             <AlarmIcon />
-            {props.clock}
+            {clock}
             {currWord}
           </Box>
         );
       case PROVIDENCE_GAME_STATE.ALL_CLOCK:
         return (
-          <Paper
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              listStyle: "none",
-              p: 0.5,
-              m: 1,
-              height: "10vh",
-            }}
-            component="ul"
-          >
-            <Stack m={"auto"} direction="row" spacing={3}>
-              {/* <Chip size="medium" icon={<AlarmIcon />} label={"data.label"} /> */}
-              <Chip icon={<AlarmIcon />} label={props.clock} />
-              {/* <Chip icon={<AlarmIcon />} label={currWord} />
-               */}
-              <h3>{currWord} </h3>
-            </Stack>
-          </Paper>
-          // <Stack direction="row" spacing={5} sx={{height: "10vh"}}>
-          //   <Chip icon={<FaceIcon />} label="With Icon" />
-          //   <Chip icon={<FaceIcon />} label="With Icon" variant="outlined" />
-          //   <Chip icon={<FaceIcon />} label="With Icon" variant="outlined" />
-          // </Stack>
+          <>
+            <Paper
+              sx={{
+                height: "10vh",
+              }}
+            >
+              <Stack direction="row" spacing={10}>
+                <Chip icon={<AlarmIcon />} label={clock} />
+                <h3>{currWord} </h3>
+              </Stack>
+              <Stack item xs={1}>
+                <LinearProgress
+                  variant="determinate"
+                  value={allPlayersClockVal}
+                />
+              </Stack>
+            </Paper>
+          </>
         );
       case PROVIDENCE_GAME_STATE.CALCULATE_ROUND:
         return (
@@ -80,7 +83,9 @@ const GameHeader = (props) => {
               Providence
             </Typography>
             <Typography variant="subtitle1" mt={0}>
-              Please wait for all players to join
+              {/* Please wait for all players to join */}
+              A- {allPlayersClockSec}
+              B- {maxPoints}C - {currPlayerClockSec}
             </Typography>
           </Box>
         );

@@ -6,4 +6,5 @@ export interface Game {
      startGame;
      GameStarted;
      getGameInfo;
+     getGameConfig;
 }

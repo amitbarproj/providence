@@ -12,6 +12,7 @@ import { PLAYERS_BACKGROUND_COLOR, PROVIDENCE_GAME_STATE } from "../../Enums/enu
 import DoneIcon from "@mui/icons-material/Done";
 import CardContent from "@mui/material/CardContent";
 import LinearProgress from "@mui/material/LinearProgress";
+
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const ProvidencePlayer = (props) => {
@@ -83,6 +84,7 @@ const ProvidencePlayer = (props) => {
                         <DoneIcon color="success" />
                       ) : (
                         <LinearProgress sx={{ marginTop: 1 }} />
+                        
                       )
                     ) : gameState === PROVIDENCE_GAME_STATE.END_OF_GAME ? (
                       winner ? (

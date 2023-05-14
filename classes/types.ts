@@ -55,6 +55,7 @@ export type SOCKET_JOIN_ROOM_OBJ = {
   youAdmin: boolean;
   gameType: GAMES;
   gameInfo: string;
+  gameConfig: Object;
   gameStarted: boolean;
 };
 

@@ -28,6 +28,9 @@ const Room = (props) => {
   const [gameStarted, setGameStarted] = useState(false);
   const [renderRoom, SetRenderRoom] = useState(false);
   const [socket, setSocket] = useState(undefined);
+  const [gameConfig, setGameConfig] = useState(undefined);
+
+  
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -44,6 +47,7 @@ const Room = (props) => {
             players={players}
             setPlayers={setPlayers}
             socket={socket}
+            gameConfig={gameConfig}
           ></Providence>
         );
       default:
@@ -115,11 +119,12 @@ const Room = (props) => {
             // setPlayers(socketObj.players);
             setGameType(socketObj.gameType);
             setGameInfo(socketObj.gameInfo);
+            setGameConfig(socketObj.gameConfig);
             setGameStarted(socketObj.gameStarted);
             SetRenderRoom(true);
             socket.on(SOCKET_ENUMS.UPDATE_PLAYERS_STATE, (msg) => {
               const newPlayers = msg;
-              setPlayers(newPlayers.players.sort(compareFn));
+              setPlayers(newPlayers.players);
             });
 
             socket.on(SOCKET_ENUMS.YOU_ARE_NEW_ADMIN, (msg) => {

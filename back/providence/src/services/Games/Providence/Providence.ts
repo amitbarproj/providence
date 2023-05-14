@@ -260,6 +260,14 @@ export class Providence implements Game {
     };
   };
 
+  public getGameConfig = () => {
+    return {
+      maxPoints: providenceConf.maxPoints,
+      allPlayersClockSec: providenceConf.allPlayersClockSec,
+      currPlayerClockSec: providenceConf.currPlayerClockSec
+    };
+  };
+
   public getGameInfo = () => {
     return this.gameInfo;
   };

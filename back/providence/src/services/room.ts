@@ -140,6 +140,10 @@ export class Room {
     return this.gameType;
   };
 
+  public getGameConfig = (): Object => {
+    return this.game.getGameConfig();
+  };
+
   public getPlayersSocketData = (): PLAYER_SOCKET_DATA<any>[] => {
     const ans: PLAYER_SOCKET_DATA<any>[] = [];
     this.players.forEach((player) => {

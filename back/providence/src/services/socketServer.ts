@@ -83,12 +83,14 @@ export class SocketServer {
                 SOCKET_ENUMS.UPDATE_PLAYERS_STATE,
                 newPlayersUsernames
               );
+
               const joinRoomObj: SOCKET_JOIN_ROOM_OBJ = {
                 players: currRoom.getPlayersSocketData(),
                 youAdmin: currPlayer.isAdmin(),
                 gameType: currRoom.getGameType(),
                 gameInfo: currRoom.getGameInfo(),
                 gameStarted: currRoom.gameStarted(),
+                gameConfig: currRoom.getGameConfig()
               };
               cb(JSON.stringify(joinRoomObj));
             } else {

@@ -13,7 +13,7 @@ const Providence = (props) => {
   const myUsername = props.username;
   const roomId = props.roomId;
   const gameStarted = props.gameStarted;
-  const gameInfo = props.gameInfo;
+  const gameConfig = props.gameConfig;
   const [currWord, setCurrWord] = useState(undefined);
   const [clock, setClock] = useState(undefined);
   const [currPlayerClock, setCurrPlayerClock] = useState(undefined);
@@ -92,6 +92,7 @@ const Providence = (props) => {
         currWord={currWord}
         gameState={gameState}
         clock={clock}
+        gameConfig={gameConfig}
       ></GameHeader>
       <Divider />
       <ProvidencePlayers
