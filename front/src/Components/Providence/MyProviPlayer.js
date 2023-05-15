@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { useEffect, useState, useRef } from "react";
 import {
@@ -53,6 +54,8 @@ const MyProviPlayer = (props) => {
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
   const isMyTurn = playerGameData.myTurn;
   const myWord = playerGameData.currWord;
+  const gameConfig = props.gameConfig;
+  const maxPoints = gameConfig.maxPoints;
   const winner =
     playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
 
@@ -94,16 +97,31 @@ const MyProviPlayer = (props) => {
     setOpenInputWord(false);
   };
 
+  const theme = createTheme({
+    typography: {
+      subtitle1: {
+        fontSize: 12,
+      },
+      body1: {
+        fontWeight: 500,
+        fontSize: 20,
+      },
+    },
+  });
+
   return (
     <div>
       <Card
         raised={isMyTurn || winner ? true : false}
         sx={{
           height: "6.5rem",
-          border: (isMyTurn && (gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME)) ? "#ff5722 dashed 2px" : "",
+          border:
+            isMyTurn && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME
+              ? "#ff5722 dashed 2px"
+              : "",
           backgroundImage: winner
             ? PLAYERS_BACKGROUND_COLOR.Winner
-            : (winThisRound && (gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME))
+            : winThisRound && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME
             ? PLAYERS_BACKGROUND_COLOR.WinRound
             : PLAYERS_BACKGROUND_COLOR.Me,
         }}
@@ -132,7 +150,20 @@ const MyProviPlayer = (props) => {
               <Box mt={0} sx={{ flexDirection: "column" }}>
                 {gameStarted && (
                   <>
-                    <Typography variant="h6">{points}</Typography>
+                    {/* <Typography variant="h6">
+                      <span>{points}</span>/{maxPoints}
+                    </Typography> */}
+                    <ThemeProvider theme={theme}>
+                      <Typography style={{ display: "inline-block" }}>
+                        {points}
+                      </Typography>
+                      <Typography
+                        style={{ display: "inline-block" }}
+                        variant="subtitle1"
+                      >
+                        /{maxPoints}
+                      </Typography>
+                    </ThemeProvider>
                     <Typography>
                       {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
                         myWord ? (

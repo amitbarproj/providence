@@ -20,55 +20,51 @@ const GameHeader = (props) => {
   const maxPoints = gameConfig.maxPoints;
   const clock = props.clock;
   const allPlayersClockSec = gameConfig.allPlayersClockSec;
-  const currPlayerClockSec = gameConfig.currPlayerClockSec;
   const [allPlayersClockVal, setAllPlayersClockVal] = useState(0);
 
   useEffect(() => {
-    setAllPlayersClockVal(Math.min((clock * 100) / allPlayersClockSec, 100));
-
+    setAllPlayersClockVal((clock * 100) / allPlayersClockSec);
     return () => {};
   }, [clock]);
 
   const renderSwitch = () => {
     switch (gameState) {
       case PROVIDENCE_GAME_STATE.PLAYER_CLOCK:
-        return (
-          <Box mt={0} sx={{ flexDirection: "row", height: "10vh" }}>
-            
-          </Box>
-        );
+        return <Box mt={0} sx={{ flexDirection: "row", height: "4rem" }}></Box>;
       case PROVIDENCE_GAME_STATE.ALL_CLOCK:
         return (
-          <>
-            <Paper
-              sx={{
-                height: "10vh",
-              }}
+          <Paper
+            sx={{
+              height: "4rem",
+            }}
+          >
+            <Stack
+              direction="column"
+              spacing={1}
+              marginLeft={2}
+              marginRight={2}
             >
-              <Stack direction="row" spacing={10}>
-                <Chip icon={<AlarmIcon />} label={clock} />
-                <h3>{currWord} </h3>
-              </Stack>
-              <Stack item xs={1}>
-                <LinearProgress
-                  variant="determinate"
-                  value={allPlayersClockVal}
-                />
-              </Stack>
-            </Paper>
-          </>
+              <Typography variant="h4">{currWord}</Typography>
+              <LinearProgress
+                variant="determinate"
+                value={allPlayersClockVal}
+              />
+            </Stack>
+          </Paper>
         );
       case PROVIDENCE_GAME_STATE.CALCULATE_ROUND:
         return (
-          <Box mt={0} sx={{ flexDirection: "row", height: "10vh" }}>
-            <AlarmIcon />
-            {props.clock}
-            {currWord}
-          </Box>
+          <Paper
+            sx={{
+              height: "4rem",
+            }}
+          >
+            <Typography variant="h4">{currWord}</Typography>
+          </Paper>
         );
       case PROVIDENCE_GAME_STATE.END_OF_GAME:
         return (
-          <Box mt={0} sx={{ flexDirection: "row", height: "10vh" }}>
+          <Box mt={0} sx={{ flexDirection: "row", height: "4rem" }}>
             <AlarmIcon />
             {props.clock}
             {currWord}
@@ -76,14 +72,12 @@ const GameHeader = (props) => {
         );
       default:
         return (
-          <Box mt={0} sx={{ height: "10vh" }}>
+          <Box mt={0} sx={{ height: "4rem" }}>
             <Typography variant="h4" mt={0}>
               Providence
             </Typography>
             <Typography variant="subtitle1" mt={0}>
-              {/* Please wait for all players to join */}
-              A- {allPlayersClockSec}
-              B- {maxPoints}C - {currPlayerClockSec}
+              Please wait for all players to join
             </Typography>
           </Box>
         );

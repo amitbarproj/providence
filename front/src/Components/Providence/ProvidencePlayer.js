@@ -3,6 +3,7 @@ import * as React from "react";
 import { Avatar, Badge } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -38,19 +39,31 @@ const ProvidencePlayer = (props) => {
   // const allPlayersclock = props.clock;
   const currPlayerClock = props.currPlayerClock;
   const currPlayerClockSec = gameConfig.currPlayerClockSec;
+  const maxPoints = gameConfig.maxPoints;
+
   const [allPlayersClockVal, setAllPlayersClockVal] = useState(0);
 
   const winner =
     playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
 
   useEffect(() => {
-    setAllPlayersClockVal(
-      Math.min((currPlayerClock * 100) / currPlayerClockSec, 100)
-    );
+    setAllPlayersClockVal((currPlayerClock * 100) / currPlayerClockSec);
 
     return () => {};
   }, [currPlayerClock]);
 
+
+  const theme = createTheme({
+    typography: {
+      subtitle1: {
+        fontSize: 12,
+      },
+      body1: {
+        fontWeight: 500,
+        fontSize: 20,
+      },
+    },
+  });
   return (
     <div>
       <Card
@@ -91,7 +104,17 @@ const ProvidencePlayer = (props) => {
             <Box sx={{ flexDirection: "column" }}>
               {gameStarted && (
                 <>
-                  <Typography variant="h6">{points}</Typography>
+                  <ThemeProvider theme={theme}>
+                    <Typography style={{ display: "inline-block" }}>
+                      {points}
+                    </Typography>
+                    <Typography
+                      style={{ display: "inline-block" }}
+                      variant="subtitle1"
+                    >
+                      /{maxPoints}
+                    </Typography>
+                  </ThemeProvider>{" "}
                   <Typography>
                     {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
                       myWord ? (
