@@ -23,7 +23,9 @@ const ProvidencePlayers = (props) => {
           player={item}
           clock={props.clock}
           gameStarted={props.gameStarted}
+          currPlayerClock={props.currPlayerClock}
           gameState={props.gameState}
+          gameConfig={props.gameConfig}
         ></ProvidencePlayer>
       );
     }

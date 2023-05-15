@@ -34,9 +34,7 @@ const GameHeader = (props) => {
       case PROVIDENCE_GAME_STATE.PLAYER_CLOCK:
         return (
           <Box mt={0} sx={{ flexDirection: "row", height: "10vh" }}>
-            <AlarmIcon />
-            {clock}
-            {currWord}
+            
           </Box>
         );
       case PROVIDENCE_GAME_STATE.ALL_CLOCK:

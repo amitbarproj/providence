@@ -2,13 +2,18 @@ import * as React from "react";
 
 import { Avatar, Badge } from "@mui/material";
 import Box from "@mui/material/Box";
+import { useState, useEffect } from "react";
 
 import Card from "@mui/material/Card";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import { CardHeader } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { PLAYERS_BACKGROUND_COLOR, PROVIDENCE_GAME_STATE } from "../../Enums/enums";
+import {
+  PLAYERS_BACKGROUND_COLOR,
+  PROVIDENCE_GAME_STATE,
+} from "../../Enums/enums";
 import DoneIcon from "@mui/icons-material/Done";
 import CardContent from "@mui/material/CardContent";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -21,6 +26,7 @@ const ProvidencePlayer = (props) => {
   const isConnected = props.player.isConnected;
   const username = props.player.username;
   // const isAdmin = props.player.isAdmin;
+  const gameConfig = props.gameConfig;
   const img = props.player.imgURL;
   const gameStarted = props.gameStarted;
   const winThisRound = player.gameData.winThisRound;
@@ -29,10 +35,21 @@ const ProvidencePlayer = (props) => {
   const gameState = props.gameState;
   const isVoted = gameStarted ? props.player.gameData.currWord : undefined;
   const myWord = playerGameData.currWord;
-  const allPlayersclock = props.clock;
+  // const allPlayersclock = props.clock;
+  const currPlayerClock = props.currPlayerClock;
+  const currPlayerClockSec = gameConfig.currPlayerClockSec;
+  const [allPlayersClockVal, setAllPlayersClockVal] = useState(0);
 
   const winner =
     playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
+
+  useEffect(() => {
+    setAllPlayersClockVal(
+      Math.min((currPlayerClock * 100) / currPlayerClockSec, 100)
+    );
+
+    return () => {};
+  }, [currPlayerClock]);
 
   return (
     <div>
@@ -40,10 +57,13 @@ const ProvidencePlayer = (props) => {
         raised={isMyTurn || winner ? true : false}
         sx={{
           height: "6.5rem",
-          border: (isMyTurn && (gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME)) ? "#ff5722 dashed 2px" : "",
+          border:
+            isMyTurn && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME
+              ? "#ff5722 dashed 2px"
+              : "",
           backgroundImage: winner
             ? PLAYERS_BACKGROUND_COLOR.Winner
-            : (winThisRound && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME)
+            : winThisRound && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME
             ? PLAYERS_BACKGROUND_COLOR.WinRound
             : PLAYERS_BACKGROUND_COLOR.Regular,
         }}
@@ -84,11 +104,18 @@ const ProvidencePlayer = (props) => {
                         <DoneIcon color="success" />
                       ) : (
                         <LinearProgress sx={{ marginTop: 1 }} />
-                        
                       )
                     ) : gameState === PROVIDENCE_GAME_STATE.END_OF_GAME ? (
                       winner ? (
                         <EmojiEventsIcon />
+                      ) : undefined
+                    ) : gameState === PROVIDENCE_GAME_STATE.PLAYER_CLOCK ? (
+                      isMyTurn ? (
+                        <CircularProgress
+                          variant="determinate"
+                          size={30}
+                          value={allPlayersClockVal}
+                        />
                       ) : undefined
                     ) : undefined}
                   </Typography>
