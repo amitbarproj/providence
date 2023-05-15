@@ -48,6 +48,7 @@ const Room = (props) => {
             setPlayers={setPlayers}
             socket={socket}
             gameConfig={gameConfig}
+            isAdmin={isAdmin}
           ></Providence>
         );
       default:

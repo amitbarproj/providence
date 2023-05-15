@@ -10,7 +10,6 @@ import Stack from "@mui/material/Stack";
 import FaceIcon from "@mui/icons-material/Face";
 import LinearProgress from "@mui/material/LinearProgress";
 
-import { styled } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 
 const GameHeader = (props) => {
@@ -30,7 +29,15 @@ const GameHeader = (props) => {
   const renderSwitch = () => {
     switch (gameState) {
       case PROVIDENCE_GAME_STATE.PLAYER_CLOCK:
-        return <Box mt={0} sx={{ flexDirection: "row", height: "4rem" }}></Box>;
+        return (
+          <Paper
+            sx={{
+              height: "4rem",
+            }}
+          >
+         
+          </Paper>
+        );
       case PROVIDENCE_GAME_STATE.ALL_CLOCK:
         return (
           <Paper
@@ -44,7 +51,9 @@ const GameHeader = (props) => {
               marginLeft={2}
               marginRight={2}
             >
-              <Typography variant="h4">{currWord}</Typography>
+              <Typography variant="h5" fontWeight={600}>
+                {currWord}
+              </Typography>
               <LinearProgress
                 variant="determinate"
                 value={allPlayersClockVal}
@@ -59,7 +68,9 @@ const GameHeader = (props) => {
               height: "4rem",
             }}
           >
-            <Typography variant="h4">{currWord}</Typography>
+            <Typography variant="h5" fontWeight={600}>
+              {currWord}
+            </Typography>
           </Paper>
         );
       case PROVIDENCE_GAME_STATE.END_OF_GAME:
@@ -77,7 +88,7 @@ const GameHeader = (props) => {
               height: "4rem",
             }}
           >
-            <Typography variant="h4" mt={0}>
+            <Typography variant="h5" fontWeight={600} mt={0}>
               Providence
             </Typography>
             <Typography variant="subtitle1" mt={0}>

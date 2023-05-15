@@ -34,12 +34,6 @@ export class Providence implements Game {
     this.myIterator = this.players.entries();
     this.currentPlayer = this.myIterator.next();
     this.roomId = roomId;
-    // SocketServer.sendRoomMessage(
-    //   this.roomId,
-    //   SOCKET_ENUMS.START_GAME,
-    //   `Game Providence in room ${roomId} started right now`
-    // );
-    // this.startNewRound();
   }
 
   public startGame = () => {
@@ -264,7 +258,7 @@ export class Providence implements Game {
     return {
       maxPoints: providenceConf.maxPoints,
       allPlayersClockSec: providenceConf.allPlayersClockSec,
-      currPlayerClockSec: providenceConf.currPlayerClockSec
+      currPlayerClockSec: providenceConf.currPlayerClockSec,
     };
   };
 
@@ -295,6 +289,23 @@ export class Providence implements Game {
 
   public GameStarted = (): boolean => {
     return this.isGameStarted;
+  };
+
+  public startNewGame = () => {
+    this.players.forEach((player) => {
+      player.setGameData({
+        myTurn: false,
+        points: 0,
+        currWord: undefined,
+        winThisRound: false,
+        winner: false,
+      });
+    });
+    this.myIterator = this.players.entries();
+    this.currentPlayer = this.myIterator.next();
+    this.currWord = undefined;
+    this.gameState = undefined;
+    this.startGame();
   };
 
   public socketFromUsers = (msg: {
@@ -334,6 +345,8 @@ export class Providence implements Game {
           this.startAllPlayersClock();
         }
       }
+    } else if (msg.data.type === PROVIDENCE_SOCKET_GAME.START_NEW_GAME) {
+      this.startNewGame();
     }
   };
 }

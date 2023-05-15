@@ -23,12 +23,12 @@ export class User {
     // this.myTurn = false;
     switch (gameType) {
       case GAMES.Providence:
-        this.gameData = { 
+        this.gameData = {
           myTurn: false,
           points: 0,
           currWord: undefined,
           winThisRound: false,
-          winner: false
+          winner: false,
         };
     }
   }
@@ -67,5 +67,8 @@ export class User {
 
   public getGameData = (): any => {
     return this.gameData;
+  };
+  public setGameData = (newGameData) => {
+    this.gameData = newGameData;
   };
 }

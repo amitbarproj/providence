@@ -5,6 +5,9 @@ import ProvidencePlayers from "./ProvidencePlayers";
 import GameHeader from "./GameHeader";
 import { PROVIDENCE_GAME_STATE } from "../../Enums/enums";
 import { Divider } from "@mui/material";
+import Fab from "@mui/material/Fab";
+import { styled } from "@mui/material/styles";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const Providence = (props) => {
   const socket = props.socket;
@@ -14,6 +17,7 @@ const Providence = (props) => {
   const roomId = props.roomId;
   const gameStarted = props.gameStarted;
   const gameConfig = props.gameConfig;
+  const isAdmin = props.isAdmin;
   const [currWord, setCurrWord] = useState(undefined);
   const [clock, setClock] = useState(undefined);
   const [currPlayerClock, setCurrPlayerClock] = useState(undefined);
@@ -54,8 +58,6 @@ const Providence = (props) => {
     });
   }, []);
 
-
-
   const sendGameMsgToServer = (type, msg) => {
     socket.emit(
       "game_msg",
@@ -74,6 +76,15 @@ const Providence = (props) => {
       }
     );
   };
+
+  const StyledFab = styled(Fab)({
+    position: "fixed",
+    zIndex: 1,
+    bottom: 20,
+    right: 20,
+    margin: "0 auto",
+    backgroundImage: `linear-gradient(to bottom right, #72FFB6, #10D164)`,
+  });
   return (
     <>
       <GameHeader
@@ -93,6 +104,17 @@ const Providence = (props) => {
         clock={clock}
         gameState={gameState}
       ></ProvidencePlayers>
+      {isAdmin && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME && (
+        <StyledFab
+          onClick={() => {
+            sendGameMsgToServer("START_NEW_GAME", "");
+          }}
+          variant="extended"
+        >
+          <PlayArrowIcon />
+          New Game
+        </StyledFab>
+      )}
     </>
   );
 };
