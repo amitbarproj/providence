@@ -115,7 +115,7 @@ const ProvidencePlayer = (props) => {
                       /{maxPoints}
                     </Typography>
                   </ThemeProvider>{" "}
-                  <Typography>
+                  <Typography variant="h5">
                     {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
                       myWord ? (
                         myWord

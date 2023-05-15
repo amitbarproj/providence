@@ -114,8 +114,7 @@ const Room = (props) => {
             if (socketObj.youAdmin) {
               setIsAdmin(true);
             }
-            // const bka = socketObj.players.sort(compareFn);
-            setPlayers(socketObj.players.sort(compareFn));
+            setPlayers(socketObj.players);
             // setPlayers(socketObj.players);
             setGameType(socketObj.gameType);
             setGameInfo(socketObj.gameInfo);
@@ -149,19 +148,7 @@ const Room = (props) => {
     };
   };
 
-  function compareFn(a, b) {
-    if (a.gameData && b.gameData) {
-      if (a.gameData.points < b.gameData.points) {
-        return 1;
-      }
-      if (a.gameData.points > b.gameData.points) {
-        return -1;
-      }
-      return 0;
-    } else {
-      return 0;
-    }
-  }
+ 
 
   const startGame = async () => {
     console.log(id);
