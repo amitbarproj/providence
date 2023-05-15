@@ -64,22 +64,26 @@ const GameHeader = (props) => {
         );
       case PROVIDENCE_GAME_STATE.END_OF_GAME:
         return (
-          <Box mt={0} sx={{ flexDirection: "row", height: "4rem" }}>
-            <AlarmIcon />
-            {props.clock}
-            {currWord}
-          </Box>
+          <Paper
+            sx={{
+              height: "4rem",
+            }}
+          ></Paper>
         );
       default:
         return (
-          <Box mt={0} sx={{ height: "4rem" }}>
+          <Paper
+            sx={{
+              height: "4rem",
+            }}
+          >
             <Typography variant="h4" mt={0}>
               Providence
             </Typography>
             <Typography variant="subtitle1" mt={0}>
               Please wait for all players to join
             </Typography>
-          </Box>
+          </Paper>
         );
     }
   };

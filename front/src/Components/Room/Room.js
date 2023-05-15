@@ -115,7 +115,6 @@ const Room = (props) => {
               setIsAdmin(true);
             }
             setPlayers(socketObj.players);
-            // setPlayers(socketObj.players);
             setGameType(socketObj.gameType);
             setGameInfo(socketObj.gameInfo);
             setGameConfig(socketObj.gameConfig);
