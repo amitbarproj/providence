@@ -8,6 +8,9 @@ import { Divider } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import { styled } from "@mui/material/styles";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import * as React from "react";
+import Button from "@mui/material/Button";
 
 const Providence = (props) => {
   const socket = props.socket;
@@ -25,21 +28,33 @@ const Providence = (props) => {
   const [gameState, setGameState] = useState(undefined);
   const [gameStats, setGameStats] = useState([]);
 
+ 
+
+  // const ldfgd = gameStats.map((arr, index) => {
+  //   return <h3>{arr[index].username}</h3>;
+   
+  // });
+
   useEffect(() => {
-    sendGameMsgToServer("GET_GAME_INFO", "");
+    if (gameStarted) {
+      sendGameMsgToServer("GET_GAME_INFO", "");
+    }
     socket.on(SOCKET_GAME.NEW_PLAYER_TURN, (game_msg) => {
       const newPlayers = game_msg;
       setPlayers(newPlayers.players);
     });
     socket.on(SOCKET_GAME.UPDATE_PLAYERS, (game_msg) => {
       const newPlayers = game_msg;
+      console.log(game_msg);
       setPlayers(newPlayers.players);
+
       if (newPlayers.stats) {
         setGameStats(newPlayers.stats);
       }
     });
     socket.on(SOCKET_GAME.UPDATE_ALL_CLOCK, (game_msg) => {
       const newTime = game_msg.counter;
+      console.log("dfgfdg");
       setClock(newTime);
     });
     socket.on(SOCKET_GAME.UPDATE_PLAYER_CLOCK, (game_msg) => {
@@ -63,6 +78,22 @@ const Providence = (props) => {
     });
   }, []);
 
+  const [state, setState] = useState({
+    left: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
   const sendGameMsgToServer = (type, msg) => {
     socket.emit(
       "game_msg",
@@ -76,7 +107,7 @@ const Providence = (props) => {
           const gameInfo = JSON.parse(message).gameState;
           setGameState(gameInfo.gameState);
           setCurrWord(gameInfo.currWord);
-          setGameStats(gameInfo.stats);
+          setGameStats(gameInfo.stats || []);
         }
       }
     );
@@ -120,6 +151,19 @@ const Providence = (props) => {
           New Game
         </StyledFab>
       )}
+      {/* {["left"].map((anchor) => (
+        <React.Fragment key={anchor}>
+          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <SwipeableDrawer
+            anchor={anchor}
+            open={state[anchor]}
+            onClose={toggleDrawer(anchor, false)}
+            onOpen={toggleDrawer(anchor, true)}
+          >
+            {ldfgd}
+          </SwipeableDrawer>
+        </React.Fragment>
+      ))} */}
     </>
   );
 };

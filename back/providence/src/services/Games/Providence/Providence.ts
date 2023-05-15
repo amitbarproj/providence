@@ -142,11 +142,6 @@ export class Providence implements Game {
       bestWords.forEach((word) => {
         if (player.getGameData().currWord === word) {
           player.getGameData().winThisRound = true;
-          objStatsToPush.push({
-            username: player.getUserName(),
-            winThisRound: true,
-            word: word,
-          });
         } else {
           objStatsToPush.push({
             username: player.getUserName(),
@@ -158,6 +153,17 @@ export class Providence implements Game {
       if (player.getGameData().winThisRound) {
         player.getGameData().points++;
         numOfWinnersInRound++;
+        objStatsToPush.push({
+          username: player.getUserName(),
+          winThisRound: true,
+          word: player.getGameData().currWord,
+        });
+      } else {
+        objStatsToPush.push({
+          username: player.getUserName(),
+          winThisRound: false,
+          word: player.getGameData().currWord,
+        });
       }
     });
     if (numOfWinnersInRound === this.players.size) {
@@ -166,7 +172,8 @@ export class Providence implements Game {
       });
     }
     this.gameStats.push(objStatsToPush);
-    this.updatePlayersToUI();
+    console.log(this.gameStats);
+    this.updatePlayersToUI(this.gameStats);
   };
 
   private startCurrPlayerClock = () => {
@@ -273,7 +280,7 @@ export class Providence implements Game {
     return {
       gameState: this.gameState,
       currWord: this.currWord,
-      stats: this.gameStats
+      stats: this.gameStats,
     };
   };
 
