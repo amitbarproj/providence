@@ -5,10 +5,13 @@ import Home from "./Components/Home/Home";
 import { Route, Routes } from "react-router-dom";
 import PageNotFound from "./Components/PageNotFound/PageNotFound";
 
+
+
 function App() {
   const [roomId, setRoomId] = useState("");
   const [username, setUsername] = useState("");
   const [gameType, setGameType] = useState("");
+
 
   return (
     <div className="App">
@@ -29,17 +32,12 @@ function App() {
             <Room
               roomId={roomId}
               username={username}
-              // game={gameType}
             ></Room>
           }
         />
-        <Route
-          path="*"
-          element={
-            <PageNotFound></PageNotFound>
-          }
-        />
+        <Route path="*" element={<PageNotFound></PageNotFound>} />
       </Routes>
+     
     </div>
   );
 }

@@ -14,6 +14,8 @@ import RoomHeader from "../RoomHeader/RoomHeader";
 import Fab from "@mui/material/Fab";
 import { styled } from "@mui/material/styles";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // import RoomFooter from "../RoomFooter/RoomFooter";
 
@@ -29,8 +31,6 @@ const Room = (props) => {
   const [renderRoom, SetRenderRoom] = useState(false);
   const [socket, setSocket] = useState(undefined);
   const [gameConfig, setGameConfig] = useState(undefined);
-
-  
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -148,8 +148,6 @@ const Room = (props) => {
     };
   };
 
- 
-
   const startGame = async () => {
     console.log(id);
     const response = await axios.post(`${serverURL}/startGame`, {
@@ -189,29 +187,38 @@ const Room = (props) => {
   });
 
   return (
-    renderRoom && (
-      <div className="Room">
-        <RoomHeader
-          gameInfo={gameInfo}
-          gameType={gameType}
-          roomId={id}
-          leaveRoom={leaveRoom}
-        ></RoomHeader>
-        <h1>{socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
-        {isAdmin && !gameStarted && (
-          <StyledFab
-            onClick={() => {
-              startGame();
-            }}
-            variant="extended"
-          >
-            <PlayArrowIcon />
-            Start
-          </StyledFab>
-        )}
-        {/* <RoomFooter isAdmin={isAdmin} gameStarted={gameStarted} startGame={startGame} ></RoomFooter> */}
-      </div>
-    )
+    <>
+      {renderRoom && (
+        <div className="Room">
+          <RoomHeader
+            gameInfo={gameInfo}
+            gameType={gameType}
+            roomId={id}
+            leaveRoom={leaveRoom}
+          ></RoomHeader>
+          <h1>{socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
+          {isAdmin && !gameStarted && (
+            <StyledFab
+              onClick={() => {
+                startGame();
+              }}
+              variant="extended"
+            >
+              <PlayArrowIcon />
+              Start
+            </StyledFab>
+          )}
+        </div>
+      )}
+      {!renderRoom && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={!renderRoom}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
+    </>
   );
 };
 
