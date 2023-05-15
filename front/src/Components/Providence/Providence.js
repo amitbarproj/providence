@@ -18,10 +18,12 @@ const Providence = (props) => {
   const gameStarted = props.gameStarted;
   const gameConfig = props.gameConfig;
   const isAdmin = props.isAdmin;
+
   const [currWord, setCurrWord] = useState(undefined);
   const [clock, setClock] = useState(undefined);
   const [currPlayerClock, setCurrPlayerClock] = useState(undefined);
   const [gameState, setGameState] = useState(undefined);
+  const [gameStats, setGameStats] = useState([]);
 
   useEffect(() => {
     sendGameMsgToServer("GET_GAME_INFO", "");
@@ -32,6 +34,9 @@ const Providence = (props) => {
     socket.on(SOCKET_GAME.UPDATE_PLAYERS, (game_msg) => {
       const newPlayers = game_msg;
       setPlayers(newPlayers.players);
+      if (newPlayers.stats) {
+        setGameStats(newPlayers.stats);
+      }
     });
     socket.on(SOCKET_GAME.UPDATE_ALL_CLOCK, (game_msg) => {
       const newTime = game_msg.counter;
@@ -69,9 +74,9 @@ const Providence = (props) => {
       (message) => {
         if (type === "GET_GAME_INFO") {
           const gameInfo = JSON.parse(message).gameState;
-
           setGameState(gameInfo.gameState);
           setCurrWord(gameInfo.currWord);
+          setGameStats(gameInfo.stats);
         }
       }
     );

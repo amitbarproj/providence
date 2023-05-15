@@ -28,6 +28,11 @@ export class Providence implements Game {
   private maxPoints = providenceConf.maxPoints;
   private isGameStarted = false;
   private gameInfo = providenceConf.gameInfo || undefined;
+  private gameStats: {
+    username: string;
+    winThisRound: boolean;
+    word: string;
+  }[][] = [];
 
   constructor(players: Map<string, User>, roomId: string) {
     this.players = players;
@@ -98,6 +103,11 @@ export class Providence implements Game {
   };
 
   private calculateRound = () => {
+    const objStatsToPush: {
+      username: string;
+      winThisRound: boolean;
+      word: string;
+    }[] = [];
     const helperWordsArr: { word: string; count: number }[] = [];
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.CALCULATE_ROUND);
     this.players.forEach((player) => {
@@ -132,6 +142,17 @@ export class Providence implements Game {
       bestWords.forEach((word) => {
         if (player.getGameData().currWord === word) {
           player.getGameData().winThisRound = true;
+          objStatsToPush.push({
+            username: player.getUserName(),
+            winThisRound: true,
+            word: word,
+          });
+        } else {
+          objStatsToPush.push({
+            username: player.getUserName(),
+            winThisRound: false,
+            word: player.getGameData().currWord,
+          });
         }
       });
       if (player.getGameData().winThisRound) {
@@ -144,6 +165,7 @@ export class Providence implements Game {
         player.getGameData().points--;
       });
     }
+    this.gameStats.push(objStatsToPush);
     this.updatePlayersToUI();
   };
 
@@ -251,6 +273,7 @@ export class Providence implements Game {
     return {
       gameState: this.gameState,
       currWord: this.currWord,
+      stats: this.gameStats
     };
   };
 
@@ -275,9 +298,10 @@ export class Providence implements Game {
     clearInterval(this.allPlayersInterval);
   };
 
-  private updatePlayersToUI = () => {
+  private updatePlayersToUI = (stats?) => {
     SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_PLAYERS, {
       players: this.getNewPlayersStateSocket(),
+      stats: stats || undefined,
     });
   };
 
