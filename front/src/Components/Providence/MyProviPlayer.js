@@ -112,13 +112,14 @@ const MyProviPlayer = (props) => {
   return (
     <div>
       <Card
-        raised={isMyTurn || winner ? true : false}
+        raised={isMyTurn || winner || openInputWord ? true : false}
         sx={{
           height: "6.5rem",
-          border:
-            isMyTurn && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME
-              ? "#ff5722 dashed 2px"
-              : "",
+          border: openInputWord
+            ? "#ff6e6e solid 4px"
+            : isMyTurn && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME
+            ? "#ff5722 dashed 2px"
+            : "",
           backgroundImage: winner
             ? PLAYERS_BACKGROUND_COLOR.Winner
             : winThisRound && gameState !== PROVIDENCE_GAME_STATE.END_OF_GAME
