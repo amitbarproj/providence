@@ -55,6 +55,11 @@ const PLAYERS_BACKGROUND_COLOR = {
   Me: ` linear-gradient( 109.6deg, rgba(156,252,248,1) 11.2%, rgba(110,123,251,1) 91.1% )`,
   Regular: `linear-gradient(to bottom right, #FDFCFB, #E2D1C3)`,
 };
+
+const BACKGROUNDS = {
+  GameHeader: `#FAF9F6`
+}
+
 module.exports = {
   PLAYERS_BACKGROUND_COLOR,
   SOCKET_ENUMS,
@@ -64,4 +69,5 @@ module.exports = {
   SOCKET_GAME,
   PROVIDENCE_SOCKET_GAME,
   PROVIDENCE_GAME_STATE,
+  BACKGROUNDS
 };

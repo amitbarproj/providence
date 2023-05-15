@@ -1,13 +1,9 @@
-import { Box, Paper } from "@mui/material";
-import { PROVIDENCE_GAME_STATE } from "../../Enums/enums";
+import { Paper } from "@mui/material";
+import { BACKGROUNDS, PLAYERS_BACKGROUND_COLOR, PROVIDENCE_GAME_STATE } from "../../Enums/enums";
 import "./GameHeader.css";
-import AlarmIcon from "@mui/icons-material/Alarm";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import Grid from "@mui/material/Grid";
-import Chip from "@mui/material/Chip";
+
 import Stack from "@mui/material/Stack";
-import FaceIcon from "@mui/icons-material/Face";
 import LinearProgress from "@mui/material/LinearProgress";
 
 import { useState, useEffect } from "react";
@@ -33,16 +29,17 @@ const GameHeader = (props) => {
           <Paper
             sx={{
               height: "4rem",
+              backgroundColor: BACKGROUNDS.GameHeader
+
             }}
-          >
-         
-          </Paper>
+          ></Paper>
         );
       case PROVIDENCE_GAME_STATE.ALL_CLOCK:
         return (
           <Paper
             sx={{
               height: "4rem",
+              backgroundColor: BACKGROUNDS.GameHeader
             }}
           >
             <Stack
@@ -51,12 +48,13 @@ const GameHeader = (props) => {
               marginLeft={2}
               marginRight={2}
             >
-              <Typography variant="h5" fontWeight={600}>
+              <Typography variant="h5" color="warning" fontWeight={600}>
                 {currWord}
               </Typography>
               <LinearProgress
                 variant="determinate"
                 value={allPlayersClockVal}
+                // color="error"
               />
             </Stack>
           </Paper>
@@ -66,6 +64,8 @@ const GameHeader = (props) => {
           <Paper
             sx={{
               height: "4rem",
+              backgroundColor: BACKGROUNDS.GameHeader
+
             }}
           >
             <Typography variant="h5" fontWeight={600}>
@@ -78,6 +78,8 @@ const GameHeader = (props) => {
           <Paper
             sx={{
               height: "4rem",
+              backgroundColor: BACKGROUNDS.GameHeader
+
             }}
           ></Paper>
         );
@@ -86,6 +88,8 @@ const GameHeader = (props) => {
           <Paper
             sx={{
               height: "4rem",
+              backgroundColor: BACKGROUNDS.GameHeader
+
             }}
           >
             <Typography variant="h5" fontWeight={600} mt={0}>
