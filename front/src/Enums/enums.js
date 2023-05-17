@@ -48,7 +48,7 @@ const SERVER_URL = {
   // host: "10.0.0.8",
   // host: "10.100.102.10",
 
-  port: "3002",
+  port: "80",
 };
 
 const PLAYERS_BACKGROUND_COLOR = {
