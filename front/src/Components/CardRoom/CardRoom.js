@@ -62,7 +62,7 @@ const CardRoom = (props) => {
       secret: auth ? newSecret.current.value : undefined,
     };
     console.log(dataToSend);
-    const response = await axios.post(`${serverURL}/joinRoom`, dataToSend);
+    const response = await axios.post(`/api/joinRoom`, dataToSend);
     const data = response.data;
     console.log(data);
 

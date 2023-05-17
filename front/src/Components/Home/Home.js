@@ -101,7 +101,7 @@ const Home = (props) => {
       minPlayers: undefined,
     };
     console.log(dataToSend);
-    const response = await axios.post(`${serverURL}/createRoom`, dataToSend);
+    const response = await axios.post(`/api/createRoom`, dataToSend);
     const data = response.data;
     console.log(data);
 
@@ -128,7 +128,7 @@ const Home = (props) => {
   };
 
   const getAllRooms = async () => {
-    const response = await axios.get(`${serverURL}/getAllRooms`);
+    const response = await axios.get(`/api/getAllRooms`);
     const data = response.data;
     if (data.success) {
       setAllRooms(data.data);

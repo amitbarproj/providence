@@ -1,6 +1,6 @@
 {
     "Server" : {
-        "host": "16.16.141.239",
+        "host": "localhost",
         "port": 3002,
         "protocol": "http"
     }

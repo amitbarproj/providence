@@ -13,15 +13,21 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join('../../../../public')));
 app.use(express.static(path.join('../../../../build')));
-app.get('*', function (req, res) {
-    res.sendFile('index.html', { root: path.join(__dirname, '../../../../build') });
-});
+// app.get('/bla', function(req, res) {
+//   res.send( {dfg : 'fdg'});
+// });
+// app.get('/*/', function(req, res) {
+//   res.sendFile('index.html', {root: path.join(__dirname, '../../../../build')});
+// });
 const servicesConf = require("../../../../../../config/services.json");
 const port = servicesConf.Server.port;
 const server = servicesConf.Server.protocol === "https" ? https.createServer(app) : http.createServer(app);
 server.listen(port, () => {
     console.log(`Server listening on porr ${port}`);
     initAllServices();
+    app.get('/*/', function (req, res) {
+        res.sendFile('index.html', { root: path.join(__dirname, '../../../../build') });
+    });
 });
 const initAllServices = () => {
     socketServer_1.SocketServer.init(server);
