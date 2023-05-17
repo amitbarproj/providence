@@ -44,11 +44,11 @@ const SERVER_URL = {
   // host: "192.168.1.181"
   // host: "192.168.68.105",
   // host: "13.53.235.207",
-  host: "localhost",
+  // host: "localhost",
   // host: "10.0.0.8",
-  // host: "10.100.102.10",
+  host: "13.50.241.117",
 
-  port: "80",
+  port: "3002",
 };
 
 const PLAYERS_BACKGROUND_COLOR = {
