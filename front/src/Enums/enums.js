@@ -46,7 +46,7 @@ const SERVER_URL = {
   // host: "13.53.235.207",
   // host: "localhost",
   // host: "10.0.0.8",
-  host: "13.50.241.117",
+  host: "16.16.4.65",
 
   port: "3002",
 };
