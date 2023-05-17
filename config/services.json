@@ -2,6 +2,6 @@
     "Server" : {
         "host": "localhost",
         "port": 3002,
-        "protocol": "http"
+        "protocol": "https"
     }
 }
