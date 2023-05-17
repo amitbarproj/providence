@@ -118,7 +118,6 @@ class SocketServer {
             this.ioServer.to(clientID).emit(subject, message);
         };
         this.sendRoomMessage = (roomId, subject, message) => {
-            // console.log(subject, message);
             this.ioServer.to(roomId).emit(subject, message);
         };
         this.leaveClient = (roomId, socketId) => __awaiter(this, void 0, void 0, function* () {

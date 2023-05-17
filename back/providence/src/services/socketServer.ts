@@ -142,7 +142,6 @@ export class SocketServer {
   };
 
   private sendRoomMessage = (roomId: string, subject: string, message: any) => {
-    // console.log(subject, message);
     this.ioServer.to(roomId).emit(subject, message);
   };
 

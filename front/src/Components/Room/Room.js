@@ -17,7 +17,6 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-// import RoomFooter from "../RoomFooter/RoomFooter";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -96,7 +95,9 @@ const Room = (props) => {
   }, []);
 
   const connectToRoom = (usernamee) => {
-    const socket = io.connect(serverURL);
+    const socket = io.connect(
+      
+    );
     setSocket(socket);
     console.log(`444444444444444444444`);
     socket.on("connect", () => {

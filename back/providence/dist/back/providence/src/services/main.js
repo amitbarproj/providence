@@ -176,23 +176,6 @@ class Main {
                 }
                 res.send(ans);
             });
-            // app.post(SERVER_API.startGame, (req, res) => {
-            //   const ans: ASYNC_RESPONSE<START_GAME_RES> = { success: false };
-            //   const startRoomBody: START_GAME_BODY = req.body;
-            //   if (this.rooms.has(startRoomBody.roomId)) {
-            //     const currRoom: Room = this.rooms.get(startRoomBody.roomId);
-            //     if (currRoom.getNumOfPlayers() < currRoom.getMinPlayers()) {
-            //       ans.description = `Room ${startRoomBody.roomId} has less then minimum players requierd`;
-            //     } else if (currRoom.gameStarted()) {
-            //       ans.description = `Game in room ${startRoomBody.roomId} already started`;
-            //     } else {
-            //       currRoom.startGame();
-            //       ans.description = `Game in room ${startRoomBody.roomId} started right now`;
-            //       ans.success = true;
-            //     }
-            //   }
-            //   res.send(ans);
-            // });
             app.post(api_enums_1.SERVER_API.checkIfUsernameExistInRoom, (req, res) => {
                 const ans = { success: false };
                 const checkUsername = req.body;
