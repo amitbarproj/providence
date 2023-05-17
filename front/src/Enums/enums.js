@@ -40,7 +40,7 @@ const LOCAL_STORAGE = {
 };
 
 const SERVER_URL = {
-  protocol: "https",
+  protocol: "http",
   // host: "192.168.1.181"
   // host: "192.168.68.105",
   host: "16.16.141.239",
