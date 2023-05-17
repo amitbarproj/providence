@@ -43,7 +43,7 @@ const SERVER_URL = {
   protocol: "https",
   // host: "192.168.1.181"
   // host: "192.168.68.105",
-  host: "localhost",
+  host: "16.16.141.239",
   // host: "10.100.102.10",
 
   port: "3002",
