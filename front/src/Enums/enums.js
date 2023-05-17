@@ -43,8 +43,8 @@ const SERVER_URL = {
   protocol: "http",
   // host: "192.168.1.181"
   // host: "192.168.68.105",
-  // host: "16.16.141.239",
-  host: "localhost",
+  host: "16.16.141.239",
+  // host: "localhost",
   // host: "10.0.0.8",
   // host: "10.100.102.10",
 
