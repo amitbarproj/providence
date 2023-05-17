@@ -64,7 +64,7 @@ const Room = (props) => {
       console.log(`1111111111111111`);
       async function checkIfUsernameExistInRoom() {
         const response = await axios.post(
-          `/api/checkIfUsernameExistInRoom`,
+          `${serverURL}/api/checkIfUsernameExistInRoom`,
           {
             username: usernamee,
             roomId: id,
@@ -150,7 +150,7 @@ const Room = (props) => {
 
   const startGame = async () => {
     console.log(id);
-    const response = await axios.post(`/api/startGame`, {
+    const response = await axios.post(`${serverURL}/api/startGame`, {
       roomId: id,
     });
     const data = response.data;
@@ -163,7 +163,7 @@ const Room = (props) => {
 
   const leaveRoom = async () => {
     console.log(id);
-    const response = await axios.post(`/api/leaveRoom`, {
+    const response = await axios.post(`${serverURL}/api/leaveRoom`, {
       roomId: id,
       username: username,
     });
