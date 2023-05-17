@@ -233,6 +233,7 @@ class Providence {
         this.getGameConfig = () => {
             return {
                 maxPoints: providenceConf.maxPoints,
+                minPlayers: providenceConf.minPlayers,
                 allPlayersClockSec: providenceConf.allPlayersClockSec,
                 currPlayerClockSec: providenceConf.currPlayerClockSec,
             };

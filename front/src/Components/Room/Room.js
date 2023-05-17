@@ -17,7 +17,6 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
 const Room = (props) => {
@@ -37,7 +36,6 @@ const Room = (props) => {
   const renderSwitch = () => {
     switch (gameType) {
       case GAMES.Providence:
-        console.log(socket);
         return (
           <Providence
             gameStarted={gameStarted}
@@ -95,9 +93,7 @@ const Room = (props) => {
   }, []);
 
   const connectToRoom = (usernamee) => {
-    const socket = io.connect(
-      
-    );
+    const socket = io.connect();
     setSocket(socket);
     console.log(`444444444444444444444`);
     socket.on("connect", () => {
@@ -150,7 +146,6 @@ const Room = (props) => {
   };
 
   const startGame = async () => {
-    console.log(id);
     const response = await axios.post(`${serverURL}/api/startGame`, {
       roomId: id,
     });
@@ -200,6 +195,7 @@ const Room = (props) => {
           <h1>{socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
           {isAdmin && !gameStarted && (
             <StyledFab
+              disabled={this.players.length < gameConfig.minPlayers}
               onClick={() => {
                 startGame();
               }}

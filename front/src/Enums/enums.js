@@ -1,7 +1,5 @@
 const SOCKET_ENUMS = {
   YOU_ARE_NEW_ADMIN: "YOU_ARE_NEW_ADMIN",
-  // NEW_PLAYER_LEAVE: "NEW_PLAYER_LEAVE",
-  // NEW_PLAYER_JOIN: "NEW_PLAYER_JOIN",
   UPDATE_PLAYERS_STATE: "UPDATE_PLAYERS_STATE",
   ADMIN_DISMISS_YOU: "ADMIN_DISMISS_YOU",
   START_GAME: "START_GAME",
@@ -41,11 +39,6 @@ const LOCAL_STORAGE = {
 
 const SERVER_URL = {
   protocol: "http",
-  // host: "192.168.1.181"
-  // host: "192.168.68.105",
-  // host: "13.53.235.207",
-  // host: "localhost",
-  // host: "10.0.0.8",
   host: "16.16.4.65",
 
   port: "3002",

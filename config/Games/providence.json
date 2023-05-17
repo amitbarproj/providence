@@ -1,7 +1,7 @@
 {
   "maxPlayers": 10,
-  "minPlayers": 0,
-  "maxPoints": 2,
+  "minPlayers": 3,
+  "maxPoints": 5,
   "allPlayersClockSec": 15,
   "currPlayerClockSec": 15,
   "mainWordMaxLength": 15,
