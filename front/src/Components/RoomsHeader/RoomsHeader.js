@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import { BACKGROUNDS, PLAYERS_BACKGROUND_COLOR } from "../../Enums/enums";
 
 const RoomsHeader = (props) => {
   const navigate = useNavigate();
@@ -15,21 +16,8 @@ const RoomsHeader = (props) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundImage: BACKGROUNDS.AppBar }} >
         <Toolbar>
-          <IconButton
-            onClick={handleClickOpen}
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 0 }}
-          >
-            <AddIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Rooms
-          </Typography>
           <IconButton
             onClick={() => {
               navigate("/");
@@ -41,6 +29,19 @@ const RoomsHeader = (props) => {
             sx={{ mr: 0 }}
           >
             <HomeIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Rooms
+          </Typography>
+          <IconButton
+            onClick={handleClickOpen}
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 0 }}
+          >
+            <AddIcon />
           </IconButton>
         </Toolbar>
       </AppBar>

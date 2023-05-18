@@ -46,7 +46,7 @@ class Main {
                         currRoom.getNumOfPlayers() < currRoom.getGame().getMinPlayers()) {
                         currRoom.getGame().endGame();
                     }
-                    else if (currRoom.getNumOfPlayers() === 0) {
+                    if (currRoom.getNumOfPlayers() === 0) {
                         this.deleteRoom(leaveRoomBody.roomId);
                     }
                     ans.success = true;
@@ -74,7 +74,8 @@ class Main {
                 else if (createRoomBody.roomId.length > 15) {
                     ans.description = `Room ID must be maximum 15 letters`;
                 }
-                else if (createRoomBody.description && createRoomBody.description.length > 50) {
+                else if (createRoomBody.description &&
+                    createRoomBody.description.length > 50) {
                     ans.description = `Room description must be maximum 50 letters`;
                 }
                 else if (createRoomBody.username === "") {
@@ -129,6 +130,7 @@ class Main {
             });
             app.post(api_enums_1.SERVER_API.leaveRoom, (req, res) => __awaiter(this, void 0, void 0, function* () {
                 const leaveRoomBody = req.body;
+                console.log("sdfgsdfgfdsgfsdgsfdgdsfgfdsgfdsgdfsg");
                 const ans = yield this.leaveRoom(leaveRoomBody);
                 res.send(ans);
             }));

@@ -60,7 +60,8 @@ export class Main {
           currRoom.getNumOfPlayers() < currRoom.getGame().getMinPlayers()
         ) {
           currRoom.getGame().endGame();
-        } else if (currRoom.getNumOfPlayers() === 0) {
+        }
+        if (currRoom.getNumOfPlayers() === 0) {
           this.deleteRoom(leaveRoomBody.roomId);
         }
         ans.success = true;
@@ -84,7 +85,10 @@ export class Main {
         ans.description = `Please select a Game`;
       } else if (createRoomBody.roomId.length > 15) {
         ans.description = `Room ID must be maximum 15 letters`;
-      }else if (createRoomBody.description && createRoomBody.description.length > 50) {
+      } else if (
+        createRoomBody.description &&
+        createRoomBody.description.length > 50
+      ) {
         ans.description = `Room description must be maximum 50 letters`;
       } else if (createRoomBody.username === "") {
         ans.description = `Please enter Username`;
@@ -132,6 +136,7 @@ export class Main {
 
     app.post(SERVER_API.leaveRoom, async (req, res) => {
       const leaveRoomBody: LEAVE_ROOM_BODY = req.body;
+      console.log("sdfgsdfgfdsgfsdgsfdgdsfgfdsgfdsgdfsg");
       const ans = await this.leaveRoom(leaveRoomBody);
       res.send(ans);
     });
@@ -183,7 +188,6 @@ export class Main {
       res.send(ans);
     });
 
-
     app.post(SERVER_API.checkIfUsernameExistInRoom, (req, res) => {
       const ans: ASYNC_RESPONSE<CHECK_IF_USERNAME_RES> = { success: false };
       const checkUsername: CHECK_IF_USERNAME_BODY = req.body;
@@ -203,8 +207,6 @@ export class Main {
       }
       res.send(ans);
     });
-
-
   };
 
   public static leaveRoom = Main.instance.leaveRoom;

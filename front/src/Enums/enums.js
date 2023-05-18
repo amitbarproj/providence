@@ -40,7 +40,7 @@ const LOCAL_STORAGE = {
 const SERVER_URL = {
   protocol: "http",
   // host: "13.48.126.17",
-    host: "10.0.0.8",
+  host: "10.0.0.8",
 
   port: "3002",
 };
@@ -53,8 +53,10 @@ const PLAYERS_BACKGROUND_COLOR = {
 };
 
 const BACKGROUNDS = {
-  GameHeader: `#FAF9F6`
-}
+  GameHeader: `#FAF9F6`,
+  AppBar: `linear-gradient(to bottom right, #00C0FF, #4218B8)`,
+  JoinRoomButtun: `linear-gradient(to bottom right, #00C0FF, #4218B8)`
+};
 
 module.exports = {
   PLAYERS_BACKGROUND_COLOR,
@@ -65,5 +67,5 @@ module.exports = {
   SOCKET_GAME,
   PROVIDENCE_SOCKET_GAME,
   PROVIDENCE_GAME_STATE,
-  BACKGROUNDS
+  BACKGROUNDS,
 };

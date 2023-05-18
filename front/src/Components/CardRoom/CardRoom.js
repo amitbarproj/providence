@@ -22,7 +22,7 @@ import HttpsIcon from "@mui/icons-material/Https";
 import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
 
 // import "./CardRoom.css";
-import { LOCAL_STORAGE, SERVER_URL } from "../../Enums/enums";
+import { BACKGROUNDS, LOCAL_STORAGE, SERVER_URL } from "../../Enums/enums";
 import { useNavigate } from "react-router-dom";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
@@ -86,87 +86,92 @@ const CardRoom = (props) => {
 
   return (
     <>
-    
-    <Card>
-      <Card.Header>Room ID: {roomId}</Card.Header>
-      <Card.Body>
-        <Card.Title>{gameType}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">
-          Players: {numOfPlayers}/{maxPlayers}
-        </Card.Subtitle>
-        <Card.Text>{description}</Card.Text>
-        {auth ? <HttpsIcon /> : <NoEncryptionGmailerrorredIcon />}
-      </Card.Body>
-      <Button
-        disabled={gameStarted || numOfPlayers >= maxPlayers}
-        variant="contained"
-        color={(gameStarted || numOfPlayers >= maxPlayers) ? "inherit" : "primary"}
-        onClick={handleClickOpen}
-      >
-        {gameStarted
-          ? "Game Started"
-          : numOfPlayers >= maxPlayers
-          ? "Full Room"
-          : "Join Room"}
-      </Button>
+      <Card>
+        <Card.Header>Room ID: {roomId}</Card.Header>
+        <Card.Body>
+          <Card.Title>{gameType}</Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">
+            Players: {numOfPlayers}/{maxPlayers}
+          </Card.Subtitle>
+          <Card.Text>{description}</Card.Text>
+          {auth ? <HttpsIcon /> : <NoEncryptionGmailerrorredIcon />}
+        </Card.Body>
+        <Button
+          disabled={gameStarted || numOfPlayers >= maxPlayers}
+          variant="contained"
+          //color={(gameStarted || numOfPlayers >= maxPlayers) ? "inherit" : "primary"}
+          style={{
+            backgroundImage:
+              gameStarted || numOfPlayers >= maxPlayers
+                ? "inherit"
+                : BACKGROUNDS.JoinRoomButtun,
+          }}
+          onClick={handleClickOpen}
+        >
+          {gameStarted
+            ? "Game Started"
+            : numOfPlayers >= maxPlayers
+            ? "Full Room"
+            : "Join Room"}
+        </Button>
 
-      <Dialog open={openDialog} onClose={handleClose}>
-        <DialogTitle>Join Room</DialogTitle>
-        <DialogContent>
-          <Divider />
-          <Box
-            component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: ["100%"] },
-            }}
-            Validate
-            autoComplete="off"
-          >
-            <FormControl sx={{ mt: 1 }}>
-              <TextField
-                // variant="standard"
-                required
-                label="Username"
-                inputRef={newUsername}
-              />
-              {auth && (
-                <>
-                  <TextField
-                    // variant="standard"
-                    required
-                    label="Room Password"
-                    inputRef={newSecret}
-                  />
-                </>
-              )}
+        <Dialog open={openDialog} onClose={handleClose}>
+          <DialogTitle>Join Room</DialogTitle>
+          <DialogContent>
+            <Divider />
+            <Box
+              component="form"
+              sx={{
+                "& .MuiTextField-root": { m: 1, width: ["100%"] },
+              }}
+              Validate
+              autoComplete="off"
+            >
+              <FormControl sx={{ mt: 1 }}>
+                <TextField
+                  // variant="standard"
+                  required
+                  label="Username"
+                  inputRef={newUsername}
+                />
+                {auth && (
+                  <>
+                    <TextField
+                      // variant="standard"
+                      required
+                      label="Room Password"
+                      inputRef={newSecret}
+                    />
+                  </>
+                )}
 
-              <Collapse in={joinRoomError !== ""} timeout="auto" unmountOnExit>
-                <br />
-                <FormLabel
-                  sx={{
-                    color: "#d32f2f",
-                  }}
+                <Collapse
+                  in={joinRoomError !== ""}
+                  timeout="auto"
+                  unmountOnExit
                 >
-                  {joinRoomError}
-                </FormLabel>
-              </Collapse>
-            </FormControl>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="outlined" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={joinRoom}>
-            Join
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Card>
-
-
-
-
+                  <br />
+                  <FormLabel
+                    sx={{
+                      color: "#d32f2f",
+                    }}
+                  >
+                    {joinRoomError}
+                  </FormLabel>
+                </Collapse>
+              </FormControl>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="outlined" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" onClick={joinRoom}>
+              Join
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Card>
 
       {/* <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -198,7 +203,6 @@ const CardRoom = (props) => {
       </CardActions>
     </Card> */}
     </>
-    
   );
 };
 

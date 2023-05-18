@@ -20,7 +20,7 @@ class SocketServer {
             console.log("init Socket-Server....");
             this.ioServer = new Server(server, {
                 cors: {
-                // origin: 'localhost'
+                    origin: '*'
                 },
             });
             this.ioServer.on("connection", (socket) => {
