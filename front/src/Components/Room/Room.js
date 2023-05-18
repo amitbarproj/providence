@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import {
   GAMES,
-  PLAYERS_BACKGROUND_COLOR,
   SOCKET_ENUMS,
 } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
@@ -89,11 +88,12 @@ const Room = (props) => {
     } else {
       setUsername(props.username);
       connectToRoom(props.username);
+
     }
   }, []);
 
   const connectToRoom = (usernamee) => {
-    const socket = io.connect();
+    const socket = io.connect(serverURL);
     setSocket(socket);
     console.log(`444444444444444444444`);
     socket.on("connect", () => {
