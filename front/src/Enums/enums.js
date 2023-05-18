@@ -55,7 +55,7 @@ const PLAYERS_BACKGROUND_COLOR = {
 const BACKGROUNDS = {
   GameHeader: `#FAF9F6`,
   AppBar: `linear-gradient(to bottom right, #00C0FF, #4218B8)`,
-  JoinRoomButtun: `linear-gradient(to bottom right, #00C0FF, #4218B8)`
+  JoinRoomButtun: `linear-gradient(to bottom right, #00C0FF, #4218B8)`,
 };
 
 module.exports = {

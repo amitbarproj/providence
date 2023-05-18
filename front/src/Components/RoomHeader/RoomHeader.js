@@ -16,6 +16,8 @@ import { useEffect, useRef, useState } from "react";
 import Popover from "@mui/material/Popover";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
 import { Divider } from "@mui/material";
+import { BACKGROUNDS, PLAYERS_BACKGROUND_COLOR } from "../../Enums/enums";
+
 
 const RoomHeader = (props) => {
   const leaveRoom = props.leaveRoom;
@@ -49,7 +51,7 @@ const RoomHeader = (props) => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position="static"  style={{ backgroundImage: BACKGROUNDS.AppBar }}>
           <Toolbar>
             <IconButton
               onClick={handleClick}
