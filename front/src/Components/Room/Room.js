@@ -1,11 +1,7 @@
 import io from "socket.io-client";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import Button from "react-bootstrap/Button";
-import {
-  GAMES,
-  SOCKET_ENUMS,
-} from "../../Enums/enums";
+import { GAMES, SOCKET_ENUMS } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
 import Providence from "../Providence/Providence";
@@ -15,6 +11,7 @@ import { styled } from "@mui/material/styles";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import "./Room.css";
 
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -75,7 +72,7 @@ const Room = (props) => {
           connectToRoom(usernamee);
         } else {
           //localStorage.clear();
-          navigate("/");
+          navigate("/rooms");
           console.log(data);
         }
       }
@@ -83,12 +80,11 @@ const Room = (props) => {
         usernamee = localObj.username;
         checkIfUsernameExistInRoom();
       } else {
-        navigate("/");
+        navigate("/rooms");
       }
     } else {
       setUsername(props.username);
       connectToRoom(props.username);
-
     }
   }, []);
 
@@ -128,14 +124,14 @@ const Room = (props) => {
             });
             socket.on(SOCKET_ENUMS.ADMIN_DISMISS_YOU, (msg) => {
               localStorage.clear();
-              navigate("/");
+              navigate("/rooms");
             });
             socket.on(SOCKET_ENUMS.START_GAME, (msg) => {
               setGameStarted(true);
             });
           } else {
             localStorage.clear();
-            navigate("/");
+            navigate("/rooms");
           }
         }
       );
@@ -166,7 +162,7 @@ const Room = (props) => {
     const data = response.data;
     if (data.success) {
       localStorage.clear();
-      navigate("/");
+      navigate("/rooms");
       console.log(data);
     } else {
       console.log(data);
@@ -195,7 +191,7 @@ const Room = (props) => {
           <h1>{socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
           {isAdmin && !gameStarted && (
             <StyledFab
-              disabled={(players && (players.length < gameConfig.minPlayers))}
+              disabled={players && players.length < gameConfig.minPlayers}
               onClick={() => {
                 startGame();
               }}

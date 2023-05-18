@@ -86,10 +86,6 @@ const CardRoom = (props) => {
 
   return (
     <>
-
-
-
-
     
     <Card>
       <Card.Header>Room ID: {roomId}</Card.Header>
