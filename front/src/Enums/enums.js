@@ -39,7 +39,7 @@ const LOCAL_STORAGE = {
 
 const SERVER_URL = {
   protocol: "http",
-  host: "16.16.203.55" ,
+  host: "16.171.56.101" ,
   // host: "10.0.0.8",
 
   port: "3002",

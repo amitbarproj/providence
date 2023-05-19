@@ -191,7 +191,7 @@ const Room = (props) => {
           <h1>{socket ? renderSwitch() : "GAME NOT STARTED"}</h1>
           {isAdmin && !gameStarted && (
             <StyledFab
-              // disabled={players && players.length < gameConfig.minPlayers}
+              disabled={players && players.length < gameConfig.minPlayers}
               onClick={() => {
                 startGame();
               }}
