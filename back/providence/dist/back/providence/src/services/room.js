@@ -35,7 +35,7 @@ class Room {
             }
         };
         this.joinRoom = (joinRoomBody) => {
-            this.players.set(joinRoomBody.username, new player_1.User(joinRoomBody.username, this.getNumOfPlayers() === 0 ? true : false, this.gameType));
+            this.players.set(joinRoomBody.username, new player_1.User(joinRoomBody.username, this.getNumOfPlayers() === 0 ? true : false, this.gameType, this.roomId));
         };
         this.leaveRoom = (leaveRoomBody) => __awaiter(this, void 0, void 0, function* () {
             const deletedPlayer = this.players.get(leaveRoomBody.username);
@@ -62,13 +62,6 @@ class Room {
             return ans;
         };
         this.startGame = () => {
-            // switch (this.gameType) {
-            //   case GAMES.Providence:
-            //     this.game = new Providence(this.players, this.roomId);
-            //     break;
-            //   default:
-            //     throw new Error("Game type not exist");
-            // }
             this.game.startGame();
         };
         this.getGame = () => {
@@ -112,7 +105,7 @@ class Room {
                     isAdmin: player.isAdmin(),
                     isConnected: player.Connected(),
                     imgURL: player.getImgURL(),
-                    gameData: player.getGameData()
+                    gameData: player.getGameData(),
                 });
             });
             return ans;
@@ -137,7 +130,7 @@ class Room {
         this.gameType = createRoomBody.game;
         this.description = createRoomBody.description || "";
         this.maxPlayers = createRoomBody.maxPlayers;
-        this.players.set(createRoomBody.username, new player_1.User(createRoomBody.username, true, this.gameType));
+        this.players.set(createRoomBody.username, new player_1.User(createRoomBody.username, true, this.gameType, this.roomId));
         this.openGame();
     }
 }

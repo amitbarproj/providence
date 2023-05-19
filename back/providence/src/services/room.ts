@@ -11,7 +11,6 @@ import { Game } from "./game";
 import { User } from "./player";
 import { SocketServer } from "./socketServer";
 
-
 export class Room {
   private roomId: string = undefined;
   private secret: string = undefined;
@@ -31,11 +30,9 @@ export class Room {
     this.maxPlayers = createRoomBody.maxPlayers;
     this.players.set(
       createRoomBody.username,
-      new User(createRoomBody.username, true, this.gameType)
+      new User(createRoomBody.username, true, this.gameType, this.roomId)
     );
     this.openGame();
-
-   
   }
 
   private openGame = () => {
@@ -46,7 +43,7 @@ export class Room {
       default:
         throw new Error("Game type not exist");
     }
-  }
+  };
 
   public joinRoom = (joinRoomBody: JOIN_ROOM_BODY) => {
     this.players.set(
@@ -54,7 +51,8 @@ export class Room {
       new User(
         joinRoomBody.username,
         this.getNumOfPlayers() === 0 ? true : false,
-        this.gameType
+        this.gameType,
+        this.roomId
       )
     );
   };
@@ -91,17 +89,11 @@ export class Room {
   };
 
   public startGame = () => {
-    // switch (this.gameType) {
-    //   case GAMES.Providence:
-    //     this.game = new Providence(this.players, this.roomId);
-    //     break;
-    //   default:
-    //     throw new Error("Game type not exist");
-    // }
     this.game.startGame();
   };
+
   public getGame = (): Game => {
-   return this.game;
+    return this.game;
   };
 
   public gameStarted = (): boolean => {
@@ -148,18 +140,18 @@ export class Room {
     const ans: PLAYER_SOCKET_DATA<any>[] = [];
     this.players.forEach((player) => {
       ans.push({
-          username: player.getUserName(),
-          isAdmin: player.isAdmin(),
-          isConnected: player.Connected(),
-          imgURL: player.getImgURL(),
-          gameData: player.getGameData()
+        username: player.getUserName(),
+        isAdmin: player.isAdmin(),
+        isConnected: player.Connected(),
+        imgURL: player.getImgURL(),
+        gameData: player.getGameData(),
       });
     });
     return ans;
   };
 
   public deleteRoom = () => {
-    if(this.game) {
+    if (this.game) {
       this.game.endGame();
     }
   };

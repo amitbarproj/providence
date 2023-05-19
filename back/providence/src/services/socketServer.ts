@@ -34,6 +34,7 @@ export class SocketServer {
           room.getPlayers().forEach((player) => {
             if (player.getSocketId() === socket.id) {
               player.setConnected(false);
+              
               const newPlayers = {
                 players: room.getPlayersSocketData(),
               };
