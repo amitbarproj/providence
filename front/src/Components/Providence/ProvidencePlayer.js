@@ -1,8 +1,9 @@
 import * as React from "react";
-
+import Lottie, { LottieRefCurrentProps } from "lottie-react";
+import animationData from "../../assets/144251-check.json";
 import { Avatar, Badge } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import Card from "@mui/material/Card";
@@ -46,12 +47,13 @@ const ProvidencePlayer = (props) => {
   const winner =
     playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
 
+  const phoneRef = useRef();
+
   useEffect(() => {
     setAllPlayersClockVal((currPlayerClock * 100) / currPlayerClockSec);
 
     return () => {};
   }, [currPlayerClock]);
-
 
   const theme = createTheme({
     typography: {
@@ -115,7 +117,7 @@ const ProvidencePlayer = (props) => {
                       /{maxPoints}
                     </Typography>
                   </ThemeProvider>{" "}
-                  <Typography variant="h6"  fontWeight={600}>
+                  <Typography variant="h6" fontWeight={600}>
                     {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
                       myWord ? (
                         myWord
@@ -124,6 +126,17 @@ const ProvidencePlayer = (props) => {
                       )
                     ) : gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
                       isVoted ? (
+                        // <Lottie
+                        //   loop={false}
+                        //   lottieRef={phoneRef}
+                        //   animationData={animationData}
+                        //   style={{
+                        //     marginLeft: "auto",
+                        //     // // marginRight: "15px",
+                        //     height: "30px",
+                        //     width: "30px",
+                        //   }}
+                        // />
                         <DoneIcon color="success" />
                       ) : (
                         <LinearProgress sx={{ marginTop: 1 }} />

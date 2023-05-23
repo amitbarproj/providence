@@ -54,7 +54,6 @@ const Providence = (props) => {
     });
     socket.on(SOCKET_GAME.UPDATE_ALL_CLOCK, (game_msg) => {
       const newTime = game_msg.counter;
-      console.log("dfgfdg");
       setClock(newTime);
     });
     socket.on(SOCKET_GAME.UPDATE_PLAYER_CLOCK, (game_msg) => {

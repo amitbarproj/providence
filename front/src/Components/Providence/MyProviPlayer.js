@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import Lottie from "lottie-react";
+import animationData from "../../assets/144251-check.json";
 import { useEffect, useState, useRef } from "react";
 import {
   PLAYERS_BACKGROUND_COLOR,
@@ -58,6 +59,7 @@ const MyProviPlayer = (props) => {
   const maxPoints = gameConfig.maxPoints;
   const winner =
     playerGameData.winner && gameState === PROVIDENCE_GAME_STATE.END_OF_GAME;
+  const phoneRef = useRef();
 
   useEffect(() => {
     console.log(isMyTurn);
@@ -165,7 +167,7 @@ const MyProviPlayer = (props) => {
                         /{maxPoints}
                       </Typography>
                     </ThemeProvider>
-                    <Typography variant="h6"  fontWeight={600}>
+                    <Typography variant="h6" fontWeight={600}>
                       {gameState === PROVIDENCE_GAME_STATE.CALCULATE_ROUND ? (
                         myWord ? (
                           myWord
@@ -175,6 +177,18 @@ const MyProviPlayer = (props) => {
                       ) : gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
                         isVoted ? (
                           <DoneIcon color="success" />
+                          // <Lottie
+                          //   loop={false}
+                          //   color="red"
+                          //   lottieRef={phoneRef}
+                          //   animationData={animationData}
+                          //   style={{
+                          //     marginLeft: "15px",
+                          //     marginRight: "15px",
+                          //     height: "30px",
+                          //     width: "30px",
+                          //   }}
+                          // />
                         ) : (
                           <LinearProgress sx={{ marginTop: 1 }} />
                         )

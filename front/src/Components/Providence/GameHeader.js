@@ -1,5 +1,11 @@
 import { Paper } from "@mui/material";
-import { BACKGROUNDS, PLAYERS_BACKGROUND_COLOR, PROVIDENCE_GAME_STATE } from "../../Enums/enums";
+import {
+  BACKGROUNDS,
+  PLAYERS_BACKGROUND_COLOR,
+  PROVIDENCE_GAME_STATE,
+} from "../../Enums/enums";
+import { createTheme } from '@mui/material/styles';
+
 import "./GameHeader.css";
 import Typography from "@mui/material/Typography";
 
@@ -17,8 +23,18 @@ const GameHeader = (props) => {
   const allPlayersClockSec = gameConfig.allPlayersClockSec;
   const [allPlayersClockVal, setAllPlayersClockVal] = useState(0);
 
+  const theme = createTheme({
+    typography: {
+      fontFamily: [
+   
+      ].join(','),
+    },
+  });
+
   useEffect(() => {
     setAllPlayersClockVal((clock * 100) / allPlayersClockSec);
+    console.log(clock);
+
     return () => {};
   }, [clock]);
 
@@ -29,8 +45,7 @@ const GameHeader = (props) => {
           <Paper
             sx={{
               height: "4rem",
-              backgroundColor: BACKGROUNDS.GameHeader
-
+              backgroundColor: BACKGROUNDS.GameHeader,
             }}
           ></Paper>
         );
@@ -39,7 +54,7 @@ const GameHeader = (props) => {
           <Paper
             sx={{
               height: "4rem",
-              backgroundColor: BACKGROUNDS.GameHeader
+              backgroundColor: BACKGROUNDS.GameHeader,
             }}
           >
             <Stack
@@ -48,13 +63,19 @@ const GameHeader = (props) => {
               marginLeft={2}
               marginRight={2}
             >
-              <Typography variant="h5" color="warning" fontWeight={600}>
+              <Typography theme={theme} variant="h5" color="warning" fontWeight={600}>
                 {currWord}
               </Typography>
               <LinearProgress
                 variant="determinate"
                 value={allPlayersClockVal}
-                // color="error"
+                color={
+                  clock <= 3
+                    ? "error"
+                    : clock <= allPlayersClockSec / 2
+                    ? "warning"
+                    : "primary"
+                }
               />
             </Stack>
           </Paper>
@@ -64,13 +85,12 @@ const GameHeader = (props) => {
           <Paper
             sx={{
               height: "4rem",
-              backgroundColor: BACKGROUNDS.GameHeader
-
+              backgroundColor: BACKGROUNDS.GameHeader,
             }}
           >
-            <Typography variant="h5" fontWeight={600}>
-              {currWord}
-            </Typography>
+            <Typography theme={theme} variant="h5" color="warning" fontWeight={600}>
+                {currWord}
+              </Typography>
           </Paper>
         );
       case PROVIDENCE_GAME_STATE.END_OF_GAME:
@@ -78,8 +98,7 @@ const GameHeader = (props) => {
           <Paper
             sx={{
               height: "4rem",
-              backgroundColor: BACKGROUNDS.GameHeader
-
+              backgroundColor: BACKGROUNDS.GameHeader,
             }}
           ></Paper>
         );
@@ -88,8 +107,7 @@ const GameHeader = (props) => {
           <Paper
             sx={{
               height: "4rem",
-              backgroundColor: BACKGROUNDS.GameHeader
-
+              backgroundColor: BACKGROUNDS.GameHeader,
             }}
           >
             <Typography variant="h5" fontWeight={600} mt={0}>
