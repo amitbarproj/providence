@@ -12,19 +12,10 @@ function App() {
   const [gameType, setGameType] = useState("");
 
   return (
-    <div
-      className="App"
-    >
+    <div className="App">
       <Routes>
+        <Route path="/" element={<Home></Home>} />
         <Route
-          path="/"
-          element={
-            <Home
-             
-            ></Home>
-          }
-        />
-         <Route
           path="/rooms"
           element={
             <Rooms

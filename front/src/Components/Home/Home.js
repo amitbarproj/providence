@@ -2,7 +2,9 @@ import { LOCAL_STORAGE, SERVER_URL } from "../../Enums/enums";
 import { useState, useEffect, useRef, forwardRef } from "react";
 import Lottie from "lottie-react";
 // import animationData from "../../assets/45082-game-controller.json";
-import animationData from "../../assets/120694-planet-earth-world-preloader-jumping-animation.json";
+// import animationData from "../../assets/120694-planet-earth-world-preloader-jumping-animation.json";
+import animationData from "../../assets/137560-sea-walk.json";
+import { Paper } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
@@ -27,7 +29,6 @@ const Home = () => {
   useEffect(() => {}, []);
   const joystickRef = useRef();
   const walkRef = useRef();
-
 
   return (
     <div className="home">
@@ -64,15 +65,27 @@ const Home = () => {
           </Toolbar>
         </AppBar>
       </Box>
+      <Paper
+        sx={{
+          height: "3rem",
+          backgroundColor: BACKGROUNDS.GameHeader,
+        }}
+      >
+        <Typography variant="h5" fontWeight={600} sx={{marginTop: "1.5rem" }}>
+          Welcome
+        </Typography>
+      </Paper>
       <Lottie
-              loop
-              lottieRef={walkRef}
-              animationData={animationData}
-              style={{
-                // height: "3rem",
-                // width: "3rem",
-              }}
-            />
+        loop
+        lottieRef={walkRef}
+        animationData={animationData}
+        style={
+          {
+            // height: "3rem",
+            // width: "3rem",
+          }
+        }
+      />
     </div>
   );
 };
