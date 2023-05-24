@@ -206,7 +206,7 @@ const Rooms = (props) => {
         setUsername={setUsername}
       ></CardsRoom>
       <Dialog open={openDialog} onClose={handleClose} disable>
-        <Box sx={{ width: "100%", height: "100%", paddingTop: 2 }}>
+        <Box sx={{ width: "100%", paddingTop: 2 }}>
           <Stepper alternativeLabel activeStep={activeStep}>
             {steps.map((label, index) => {
               const stepProps = {};
@@ -336,7 +336,11 @@ const Rooms = (props) => {
                 <Box
                   component="form"
                   sx={{
-                    "& .MuiTextField-root": { m: 1, width: ["100%"] },
+                    "& .MuiTextField-root": {
+                      m: 1,
+                      width: ["100%"],
+                      minHeight: newGame ? "auto" : "27vh",
+                    },
                   }}
                   noValidate
                   autoComplete="off"
@@ -394,17 +398,11 @@ const Rooms = (props) => {
                   Cancel
                 </Button>
               ) : (
-                <Button
-                  color="inherit"
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
+                <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
                   Back
                 </Button>
               )}
-
               <Box sx={{ flex: "1 1 auto" }} />
-
               <Button onClick={() => handleNext(activeStep)}>
                 {activeStep === steps.length - 1 ? "Create" : "Next"}
               </Button>

@@ -16,7 +16,7 @@ const ProvidenceConfig = (props) => {
       <FormLabel component="legend">Maximum Points: {maxPoints}</FormLabel>
       <Slider
         aria-label=""
-        color="success"
+        color="primary"
         value={maxPoints}
         onChange={(e) => {
           setMaxPoints(Number(e.target.value));
@@ -32,7 +32,7 @@ const ProvidenceConfig = (props) => {
       <br />
       <FormLabel component="legend">Time: {time}</FormLabel>
       <Slider
-        color="warning"
+        color="secondary"
         aria-label=""
         value={time}
         onChange={(e) => {
