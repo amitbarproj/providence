@@ -147,10 +147,10 @@ class Providence {
             this.updateGameStateAndSendToClients(enums_1.PROVIDENCE_GAME_STATE.PLAYER_CLOCK);
             clearInterval(this.allPlayersInterval);
             let counter = this.currPlayerClockSec;
-            this.currPlayerInterval = setInterval(() => {
+            this.currPlayerInterval = this.setIntervalAndExecute(() => {
                 socketServer_1.SocketServer.sendRoomMessage(this.roomId, socketEnums_1.SOCKET_GAME.UPDATE_PLAYER_CLOCK, counter);
                 counter -= 1;
-                if (counter < 0 || !this.currentPlayer.value[1].Connected()) {
+                if (counter < -1 || !this.currentPlayer.value[1].Connected()) {
                     this.startNewRound();
                 }
             }, 1000);
@@ -159,13 +159,13 @@ class Providence {
             this.updateGameStateAndSendToClients(enums_1.PROVIDENCE_GAME_STATE.ALL_CLOCK);
             clearInterval(this.allPlayersInterval);
             let counter = this.allPlayersClockSec;
-            this.allPlayersInterval = setInterval(() => {
+            this.allPlayersInterval = this.setIntervalAndExecute(() => {
                 socketServer_1.SocketServer.sendRoomMessage(this.roomId, socketEnums_1.SOCKET_GAME.UPDATE_ALL_CLOCK, {
                     counter: counter,
                     players: this.getNewPlayersStateSocket(),
                 });
                 counter -= 1;
-                if (counter < 0 || this.allPlayersVoted()) {
+                if (counter < -1 || this.allPlayersVoted()) {
                     clearInterval(this.allPlayersInterval);
                     socketServer_1.SocketServer.sendRoomMessage(this.roomId, socketEnums_1.SOCKET_GAME.UPDATE_ALL_CLOCK, "");
                     //caluclate results....
@@ -279,6 +279,10 @@ class Providence {
             this.currWord = undefined;
             this.gameState = undefined;
             this.startGame();
+        };
+        this.setIntervalAndExecute = (fn, t) => {
+            fn();
+            return (setInterval(fn, t));
         };
         this.socketFromUsers = (msg) => {
             if (msg.data.type === socketEnums_1.PROVIDENCE_SOCKET_GAME.SEND_PLAYER_WORD) {

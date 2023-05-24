@@ -176,18 +176,6 @@ const MyProviPlayer = (props) => {
                       ) : gameState === PROVIDENCE_GAME_STATE.ALL_CLOCK ? (
                         isVoted ? (
                           <DoneIcon color="success" />
-                          // <Lottie
-                          //   loop={false}
-                          //   color="red"
-                          //   lottieRef={phoneRef}
-                          //   animationData={animationData}
-                          //   style={{
-                          //     marginLeft: "15px",
-                          //     marginRight: "15px",
-                          //     height: "30px",
-                          //     width: "30px",
-                          //   }}
-                          // />
                         ) : (
                           <LinearProgress sx={{ marginTop: 1 }} />
                         )
@@ -240,7 +228,8 @@ const MyProviPlayer = (props) => {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <h4 style={{ color: "black" }}>
-              <AlarmIcon color="primary" /> {currPlayerClock}
+              <AlarmIcon color="primary" />{" "}
+              {currPlayerClock >= 0 ? currPlayerClock : 0}
             </h4>
           </DialogContentText>
           <TextField

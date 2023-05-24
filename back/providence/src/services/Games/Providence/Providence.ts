@@ -189,14 +189,14 @@ export class Providence implements Game {
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.PLAYER_CLOCK);
     clearInterval(this.allPlayersInterval);
     let counter = this.currPlayerClockSec;
-    this.currPlayerInterval = setInterval(() => {
+    this.currPlayerInterval = this.setIntervalAndExecute(() => {
       SocketServer.sendRoomMessage(
         this.roomId,
         SOCKET_GAME.UPDATE_PLAYER_CLOCK,
         counter
       );
       counter -= 1;
-      if (counter < 0 || !this.currentPlayer.value[1].Connected()) {
+      if (counter < -1 || !this.currentPlayer.value[1].Connected()) {
         this.startNewRound();
       }
     }, 1000);
@@ -206,13 +206,13 @@ export class Providence implements Game {
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.ALL_CLOCK);
     clearInterval(this.allPlayersInterval);
     let counter = this.allPlayersClockSec;
-    this.allPlayersInterval = setInterval(() => {
+    this.allPlayersInterval = this.setIntervalAndExecute(() => {
       SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_ALL_CLOCK, {
         counter: counter,
         players: this.getNewPlayersStateSocket(),
       });
       counter -= 1;
-      if (counter < 0 || this.allPlayersVoted()) {
+      if (counter < -1 || this.allPlayersVoted()) {
         clearInterval(this.allPlayersInterval);
         SocketServer.sendRoomMessage(
           this.roomId,
@@ -349,6 +349,11 @@ export class Providence implements Game {
     this.startGame();
   };
 
+  private setIntervalAndExecute = (fn, t) => {
+    fn();
+    return(setInterval(fn, t));
+}
+
   public socketFromUsers = (msg: {
     username: string;
     data: { type: string; content: any };
@@ -390,4 +395,6 @@ export class Providence implements Game {
       this.startNewGame();
     }
   };
+
+  
 }
