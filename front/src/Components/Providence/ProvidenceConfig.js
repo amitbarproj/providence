@@ -11,6 +11,13 @@ const ProvidenceConfig = (props) => {
   const [maxPoints, setMaxPoints] = useState(10);
   const [time, setTime] = useState(15);
 
+  useEffect(() => {
+    setGameConfig({
+      maxPoints: 10,
+      time: 15,
+    });
+  }, []);
+
   return (
     <>
       <FormLabel component="legend">Points to win: {maxPoints}</FormLabel>
