@@ -104,7 +104,7 @@ const CardRoom = (props) => {
             backgroundImage:
               gameStarted || numOfPlayers >= maxPlayers
                 ? "inherit"
-                : BACKGROUNDS.JoinRoomButtun,
+                : BACKGROUNDS.JoinRoomButton,
           }}
           onClick={handleClickOpen}
         >

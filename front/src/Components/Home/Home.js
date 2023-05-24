@@ -7,7 +7,9 @@ import animationData from "../../assets/137560-sea-walk.json";
 import animationDataPlay from "../../assets/98342-play.json";
 
 import { Paper } from "@mui/material";
-
+import Fab from "@mui/material/Fab";
+import { styled } from "@mui/material/styles";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -32,6 +34,15 @@ const Home = () => {
   const joystickRef = useRef();
   const walkRef = useRef();
   const playRef = useRef();
+
+  const StyledFab = styled(Fab)({
+    position: "fixed",
+    zIndex: 1,
+    bottom: 30,
+    right: 20,
+    margin: "0 auto",
+    backgroundImage: BACKGROUNDS.RoomsButton,
+  });
 
   return (
     <div className="home">
@@ -93,7 +104,17 @@ const Home = () => {
           marginInline: "auto",
         }}
       />
-      <Lottie
+      <StyledFab
+        // disabled={players && players.length < gameConfig.minPlayers}
+        onClick={() => {
+          navigate(`/rooms`);
+        }}
+        variant="extended"
+      >
+        <SportsEsportsIcon sx={{ marginRight: 1 }} />
+        Rooms
+      </StyledFab>
+      {/* <Lottie
         loop
         lottieRef={playRef}
         onClick={() => {
@@ -109,7 +130,7 @@ const Home = () => {
           height: "10rem",
           width: "10rem",
         }}
-      />
+      /> */}
     </div>
   );
 };
