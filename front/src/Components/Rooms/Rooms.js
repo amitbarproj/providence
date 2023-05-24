@@ -160,6 +160,8 @@ const Rooms = (props) => {
 
   const handleClose = () => {
     setOpenDialog(false);
+    setActiveStep(0);
+    setCreateRoomError("");
   };
 
   const selectRender = Object.keys(GAMES).map((item) => {
@@ -203,9 +205,9 @@ const Rooms = (props) => {
         setRoomId={setRoomId}
         setUsername={setUsername}
       ></CardsRoom>
-      <Dialog open={openDialog} onClose={handleClose}>
-        <Box sx={{ width: "100%" }}>
-          <Stepper activeStep={activeStep}>
+      <Dialog open={openDialog} onClose={handleClose} disable>
+        <Box sx={{ width: "100%", height: "100%", paddingTop: 2 }}>
+          <Stepper alternativeLabel activeStep={activeStep}>
             {steps.map((label, index) => {
               const stepProps = {};
               const labelProps = {};
@@ -357,7 +359,10 @@ const Rooms = (props) => {
                     <br />
 
                     {newGame === GAMES.Providence ? (
-                      <ProvidenceConfig setGameConfig={setGameConfig} />
+                      <ProvidenceConfig
+                        gameConfig={gameConfig}
+                        setGameConfig={setGameConfig}
+                      />
                     ) : (
                       ""
                     )}
@@ -384,14 +389,20 @@ const Rooms = (props) => {
               ""
             )}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Back
-              </Button>
+              {activeStep === 0 ? (
+                <Button color="inherit" onClick={handleClose}>
+                  Cancel
+                </Button>
+              ) : (
+                <Button
+                  color="inherit"
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                >
+                  Back
+                </Button>
+              )}
+
               <Box sx={{ flex: "1 1 auto" }} />
 
               <Button onClick={() => handleNext(activeStep)}>
@@ -414,9 +425,11 @@ export default Rooms;
 }
 
 // <DialogActions>
-// <Button variant="outlined" onClick={handleClose}>
-//   Cancel
-// </Button>
+{
+  /* <Button variant="outlined" onClick={handleClose}>
+  Cancel
+</Button> */
+}
 // <Button variant="contained" onClick={createRoom}>
 //   Create
 // </Button>
