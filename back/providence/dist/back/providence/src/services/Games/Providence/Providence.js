@@ -290,7 +290,8 @@ class Providence {
                     this.players.get(msg.username).getGameData().currWord =
                         msg.data.content === "" ||
                             !msg.data.content ||
-                            msg.data.content.length > providenceConf.playerWordMaxLength
+                            msg.data.content.length > providenceConf.playerWordMaxLength ||
+                            msg.data.content === this.currWord
                             ? undefined
                             : msg.data.content.trim();
                     this.updatePlayersToUI();
