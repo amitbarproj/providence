@@ -1,17 +1,15 @@
-import {  SERVER_URL } from "../../Enums/enums";
-import {  useEffect, useRef } from "react";
+import { SERVER_URL } from "../../Enums/enums";
+import { useEffect, useRef, useState } from "react";
 import Lottie from "lottie-react";
-
-
+import SettingsIcon from "@mui/icons-material/Settings";
 import animationData from "../../assets/75503-social-media-connection-video-with-a-mobile-on-hand.json";
-
-
-
-
-
+import InfoIcon from "@mui/icons-material/Info";
+import Popover from "@mui/material/Popover";
 import { Paper } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import { styled } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
+
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -21,7 +19,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import { BACKGROUNDS } from "../../Enums/enums";
-
+import { Divider } from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -38,27 +36,56 @@ const Home = () => {
     backgroundImage: BACKGROUNDS.RoomsButton,
   });
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const id = open ? "simple-popover" : undefined;
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClosee = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className="home">
-      <Box sx={{ flexGrow: 1 }}>
+      <Box>
         <AppBar
           position="static"
           style={{ backgroundImage: BACKGROUNDS.AppBar }}
         >
           <Toolbar>
+            <Grid
+              justify="space-between" // Add it here :)
+              container
+              spacing={24}
+            >
+              <Grid item>
+                <div>
+                  <IconButton
+                    onClick={handleClick}
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                  >
+                    <InfoIcon />
+                  </IconButton>
+                </div>
+              </Grid>
+            </Grid>
+
             <IconButton
-              onClick={() => {
-                navigate(`/rooms`);
-              }}
+              // onClick={}
               size="large"
-              edge="start"
+              edge="end"
               color="inherit"
               aria-label="menu"
-              sx={{ mr: 2 }}
             >
-              <SportsEsportsIcon />
+              <SettingsIcon />
             </IconButton>
-          
           </Toolbar>
         </AppBar>
       </Box>
@@ -71,13 +98,13 @@ const Home = () => {
           Name
         </Typography>
         <Typography variant="h6" sx={{ paddingBottom: "1rem" }}>
-          An online Multiplayer-Game platform
+          An online Multiplayer-Games platform
         </Typography>
         {/* <Typography>Develop version</Typography> */}
         {/* <br /> */}
       </Paper>
       <Lottie
-        loop = {false}
+        loop={false}
         lottieRef={walkRef}
         animationData={animationData}
         style={{
@@ -97,23 +124,27 @@ const Home = () => {
         <SportsEsportsIcon sx={{ marginRight: 1 }} />
         Rooms
       </StyledFab>
-      {/* <Lottie
-        loop
-        lottieRef={playRef}
-        onClick={() => {
-          navigate(`/rooms`);
+
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClosee}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
         }}
-        animationData={animationDataPlay}
-        style={{
-          position: "fixed",
-          zIndex: 1,
-          bottom: -30,
-          right: 0,
-          margin: "0",
-          height: "10rem",
-          width: "10rem",
-        }}
-      /> */}
+      >
+        <Typography variant="h6" sx={{ p: 2 }}>
+          Name - Development Version
+        </Typography>
+        <Divider /> <Divider />
+        <Divider />
+        <Typography sx={{ p: 2 }}>
+          A simple online multiplayer games platform. Create or join a room and
+          start to play immediately.
+        </Typography>
+      </Popover>
     </div>
   );
 };
