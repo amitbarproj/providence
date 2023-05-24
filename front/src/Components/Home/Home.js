@@ -2,7 +2,7 @@ import {  SERVER_URL } from "../../Enums/enums";
 import {  useEffect, useRef } from "react";
 import Lottie from "lottie-react";
 
-import animationData from "../../assets/137560-sea-walk.json";
+import animationData from "../../assets/58762-game.json";
 
 import { Paper } from "@mui/material";
 import Fab from "@mui/material/Fab";
