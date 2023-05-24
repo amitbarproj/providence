@@ -28,13 +28,6 @@ const Providence = (props) => {
   const [gameState, setGameState] = useState(undefined);
   const [gameStats, setGameStats] = useState([]);
 
- 
-
-  // const ldfgd = gameStats.map((arr, index) => {
-  //   return <h3>{arr[index].username}</h3>;
-   
-  // });
-
   useEffect(() => {
     if (gameStarted) {
       sendGameMsgToServer("GET_GAME_INFO", "");

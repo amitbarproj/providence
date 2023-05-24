@@ -1,6 +1,5 @@
 import * as React from "react";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
-import animationData from "../../assets/144251-check.json";
 import { Avatar, Badge } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useState, useEffect, useRef } from "react";

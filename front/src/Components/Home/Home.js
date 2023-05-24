@@ -4,6 +4,8 @@ import Lottie from "lottie-react";
 // import animationData from "../../assets/45082-game-controller.json";
 // import animationData from "../../assets/120694-planet-earth-world-preloader-jumping-animation.json";
 import animationData from "../../assets/137560-sea-walk.json";
+import animationDataPlay from "../../assets/98342-play.json";
+
 import { Paper } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -29,6 +31,7 @@ const Home = () => {
   useEffect(() => {}, []);
   const joystickRef = useRef();
   const walkRef = useRef();
+  const playRef = useRef();
 
   return (
     <div className="home">
@@ -59,32 +62,53 @@ const Home = () => {
                 width: "3rem",
               }}
             /> */}
-            <Typography variant="h6" component="div" sx={{ flexGrow: 0.75 }}>
+            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 0.75 }}>
               Multiplayer
-            </Typography>
+            </Typography> */}
           </Toolbar>
         </AppBar>
       </Box>
       <Paper
         sx={{
-          height: "3rem",
           backgroundColor: BACKGROUNDS.GameHeader,
         }}
       >
-        <Typography variant="h5" fontWeight={600} sx={{marginTop: "1.5rem" }}>
-          Welcome
+        <Typography variant="h4" fontWeight={600} sx={{ paddingTop: "1.5rem" }}>
+          Name
         </Typography>
+        <Typography variant="h6" sx={{ paddingBottom: "1rem" }}>
+          An online Multiplayer-Game platform
+        </Typography>
+        <Typography>Develop version</Typography>
+        <br />
       </Paper>
       <Lottie
         loop
         lottieRef={walkRef}
         animationData={animationData}
-        style={
-          {
-            // height: "3rem",
-            // width: "3rem",
-          }
-        }
+        style={{
+          // marginTop: "5rem",
+          height: "50vh",
+          width: "50vh",
+          marginInline: "auto",
+        }}
+      />
+      <Lottie
+        loop
+        lottieRef={playRef}
+        onClick={() => {
+          navigate(`/rooms`);
+        }}
+        animationData={animationDataPlay}
+        style={{
+          position: "fixed",
+          zIndex: 1,
+          bottom: -30,
+          right: 0,
+          margin: "0",
+          height: "10rem",
+          width: "10rem",
+        }}
       />
     </div>
   );

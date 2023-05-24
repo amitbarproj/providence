@@ -1,7 +1,6 @@
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Lottie from "lottie-react";
-import animationData from "../../assets/144251-check.json";
 import { useEffect, useState, useRef } from "react";
 import {
   PLAYERS_BACKGROUND_COLOR,
