@@ -2,7 +2,12 @@ import {  SERVER_URL } from "../../Enums/enums";
 import {  useEffect, useRef } from "react";
 import Lottie from "lottie-react";
 
-import animationData from "../../assets/58762-game.json";
+
+import animationData from "../../assets/75503-social-media-connection-video-with-a-mobile-on-hand.json";
+
+
+
+
 
 import { Paper } from "@mui/material";
 import Fab from "@mui/material/Fab";
@@ -68,17 +73,17 @@ const Home = () => {
         <Typography variant="h6" sx={{ paddingBottom: "1rem" }}>
           An online Multiplayer-Game platform
         </Typography>
-        <Typography>Develop version</Typography>
-        <br />
+        {/* <Typography>Develop version</Typography> */}
+        {/* <br /> */}
       </Paper>
       <Lottie
-        loop
+        loop = {false}
         lottieRef={walkRef}
         animationData={animationData}
         style={{
-          // marginTop: "5rem",
-          height: "50vh",
-          width: "50vh",
+          marginTop: "1rem",
+          // height: "50vh",
+          // width: "50vh",
           marginInline: "auto",
         }}
       />
