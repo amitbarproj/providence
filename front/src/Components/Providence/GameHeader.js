@@ -1,7 +1,6 @@
 import { Paper } from "@mui/material";
 import {
   BACKGROUNDS,
-  PLAYERS_BACKGROUND_COLOR,
   PROVIDENCE_GAME_STATE,
 } from "../../Enums/enums";
 import { createTheme } from '@mui/material/styles';
@@ -18,7 +17,7 @@ const GameHeader = (props) => {
   const gameState = props.gameState;
   const currWord = props.currWord;
   const gameConfig = props.gameConfig;
-  const maxPoints = gameConfig.maxPoints;
+  // const maxPoints = gameConfig.maxPoints;
   const clock = props.clock;
   const allPlayersClockSec = gameConfig.allPlayersClockSec;
   const [allPlayersClockVal, setAllPlayersClockVal] = useState(0);

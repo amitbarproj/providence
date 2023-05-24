@@ -1,16 +1,14 @@
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Lottie from "lottie-react";
 import { useEffect, useState, useRef } from "react";
 import {
   PLAYERS_BACKGROUND_COLOR,
   PROVIDENCE_GAME_STATE,
   PROVIDENCE_SOCKET_GAME,
 } from "../../Enums/enums";
-import { Avatar, Badge, CardContent } from "@mui/material";
+import { Avatar, Badge } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import Collapse from "@mui/material/Collapse";
-import Divider from "@mui/material/Divider";
+
 import Card from "@mui/material/Card";
 import { CardHeader } from "@mui/material";
 import Input from "@mui/material/Input";

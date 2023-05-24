@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { GAMES, SOCKET_ENUMS } from "../../Enums/enums";
 import { useParams, useNavigate } from "react-router-dom";
 import { SERVER_URL, LOCAL_STORAGE } from "../../Enums/enums";
