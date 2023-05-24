@@ -1,10 +1,8 @@
 import { LOCAL_STORAGE, SERVER_URL } from "../../Enums/enums";
 import { useState, useEffect, useRef, forwardRef } from "react";
 import Lottie from "lottie-react";
-// import animationData from "../../assets/45082-game-controller.json";
-// import animationData from "../../assets/120694-planet-earth-world-preloader-jumping-animation.json";
+
 import animationData from "../../assets/137560-sea-walk.json";
-import animationDataPlay from "../../assets/98342-play.json";
 
 import { Paper } from "@mui/material";
 import Fab from "@mui/material/Fab";
@@ -31,9 +29,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {}, []);
-  const joystickRef = useRef();
   const walkRef = useRef();
-  const playRef = useRef();
 
   const StyledFab = styled(Fab)({
     position: "fixed",
@@ -64,18 +60,7 @@ const Home = () => {
             >
               <SportsEsportsIcon />
             </IconButton>
-            {/* <Lottie
-              loop={false}
-              lottieRef={joystickRef}
-              animationData={animationData}
-              style={{
-                height: "3rem",
-                width: "3rem",
-              }}
-            /> */}
-            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 0.75 }}>
-              Multiplayer
-            </Typography> */}
+          
           </Toolbar>
         </AppBar>
       </Box>

@@ -35,6 +35,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import ProvidenceConfig from "../Providence/ProvidenceConfig";
 
+
 // import "./Home.css"
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -54,6 +55,7 @@ const Rooms = (props) => {
   const [newMaxPlayers, setNewMaxPlayers] = useState(9);
   const [gameConfig, setGameConfig] = useState({});
   const [roomConfig, setRoomConfig] = useState({});
+  const emptyRoomsRef = useRef();
 
   const createRoom = async () => {
     const dataToSend = {
