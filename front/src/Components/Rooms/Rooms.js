@@ -158,7 +158,8 @@ const Rooms = (props) => {
     setOpenDialog(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (event, reason) => {
+    if (reason && reason == "backdropClick") return;
     setOpenDialog(false);
     setActiveStep(0);
     setCreateRoomError("");
