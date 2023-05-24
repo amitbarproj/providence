@@ -13,7 +13,7 @@ const ProvidenceConfig = (props) => {
 
   return (
     <>
-      <FormLabel component="legend">Maximum Points: {maxPoints}</FormLabel>
+      <FormLabel component="legend">Points to win: {maxPoints}</FormLabel>
       <Slider
         aria-label=""
         color="primary"

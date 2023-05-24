@@ -348,8 +348,9 @@ const Rooms = (props) => {
                   <FormControl sx={{ mt: 0 }}>
                     <Autocomplete
                       onChange={(event, value) => {
-                        setCreateRoomError("")
-                        setNewGame(value)}}
+                        setCreateRoomError("");
+                        setNewGame(value);
+                      }}
                       id="disabled-options-demo"
                       options={selectRender}
                       getOptionDisabled={(option) =>
