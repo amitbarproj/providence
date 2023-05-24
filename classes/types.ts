@@ -7,6 +7,20 @@ export type ASYNC_RESPONSE<T = any> = {
 };
 
 export type CREATE_ROOM_BODY = {
+  roomConfig: {
+    roomId: string;
+    auth: boolean;
+    secret?: string;
+    username: string;
+    maxPlayers?: number;
+    minPlayers?: number;
+    description?: string;
+  }
+  game: GAMES;
+  gameConfig: any
+};
+
+export type CHECK_ROOM_SETTINGS_BODY = {
   roomId: string;
   auth: boolean;
   secret?: string;
@@ -14,8 +28,24 @@ export type CREATE_ROOM_BODY = {
   maxPlayers?: number;
   minPlayers?: number;
   description?: string;
-  game: GAMES;
 };
+
+export type PROVIDENCE_CONFIG = {
+  maxPoints: number
+};
+
+// const dataToSend = {
+//   roomId: newRoomId.current.value,
+//   auth: open,
+//   secret: open ? newSecret.current.value : undefined,
+//   username: newUsername.current.value,
+//   description: open2 ? newDescription.current.value : "",
+//   game: newGame,
+//   gameConfig: {
+//     maxPlayers: newMaxPlayers,
+//     minPlayers: undefined,
+//   },
+// };
 
 export type CREATE_ROOM_RES = {};
 

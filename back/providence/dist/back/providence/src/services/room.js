@@ -25,10 +25,10 @@ class Room {
         this.maxPlayers = undefined;
         this.gameType = undefined;
         this.game = undefined;
-        this.openGame = () => {
+        this.openGame = (gameConfig) => {
             switch (this.gameType) {
                 case enums_1.GAMES.Providence:
-                    this.game = new Providence_1.Providence(this.players, this.roomId);
+                    this.game = new Providence_1.Providence(this.players, this.roomId, gameConfig);
                     break;
                 default:
                     throw new Error("Game type not exist");
@@ -124,14 +124,14 @@ class Room {
             });
             return ans;
         };
-        this.roomId = createRoomBody.roomId;
-        this.auth = createRoomBody.auth;
-        this.secret = createRoomBody.secret;
+        this.roomId = createRoomBody.roomConfig.roomId;
+        this.auth = createRoomBody.roomConfig.auth;
+        this.secret = createRoomBody.roomConfig.secret;
         this.gameType = createRoomBody.game;
-        this.description = createRoomBody.description || "";
-        this.maxPlayers = createRoomBody.maxPlayers;
-        this.players.set(createRoomBody.username, new player_1.User(createRoomBody.username, true, this.gameType, this.roomId));
-        this.openGame();
+        this.description = createRoomBody.roomConfig.description || "";
+        this.maxPlayers = createRoomBody.roomConfig.maxPlayers;
+        this.players.set(createRoomBody.roomConfig.username, new player_1.User(createRoomBody.roomConfig.username, true, this.gameType, this.roomId));
+        this.openGame(createRoomBody.gameConfig);
     }
 }
 exports.Room = Room;

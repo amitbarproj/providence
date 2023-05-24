@@ -5,5 +5,7 @@ export enum SERVER_API  {
     getAllRooms = "/api/getAllRooms",
     getPlayersByRoom = "/api/getPlayersByRoom",
     startGame = "/api/startGame",
-    checkIfUsernameExistInRoom = "/api/checkIfUsernameExistInRoom"
+    checkIfUsernameExistInRoom = "/api/checkIfUsernameExistInRoom",
+    checkRoomSettings = "/api/checkRoomSettings"
+
 }

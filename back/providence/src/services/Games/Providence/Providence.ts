@@ -25,7 +25,9 @@ export class Providence implements Game {
   private allPlayersInterval = undefined;
   private currWord = undefined;
   private gameState = undefined;
-  private maxPoints = providenceConf.maxPoints;
+  private maxPoints = undefined;
+  private allPlayersClockSec = undefined;
+  private currPlayerClockSec = undefined;
   private isGameStarted = false;
   private gameInfo = providenceConf.gameInfo || undefined;
   private gameStats: {
@@ -34,11 +36,18 @@ export class Providence implements Game {
     word: string;
   }[][] = [];
 
-  constructor(players: Map<string, User>, roomId: string) {
+  constructor(players: Map<string, User>, roomId: string, gameConfig: any) {
     this.players = players;
     this.myIterator = this.players.entries();
     this.currentPlayer = this.myIterator.next();
     this.roomId = roomId;
+    //game config
+    console.log(gameConfig);
+    this.maxPoints = gameConfig.maxPoints || providenceConf.maxPoints;
+    this.allPlayersClockSec =
+      gameConfig.allPlayersClockSec || providenceConf.allPlayersClockSec;
+    this.currPlayerClockSec =
+      gameConfig.currPlayerClockSec || providenceConf.currPlayerClockSec;
   }
 
   public startGame = () => {
@@ -179,7 +188,7 @@ export class Providence implements Game {
   private startCurrPlayerClock = () => {
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.PLAYER_CLOCK);
     clearInterval(this.allPlayersInterval);
-    let counter = providenceConf.currPlayerClockSec;
+    let counter = this.currPlayerClockSec;
     this.currPlayerInterval = setInterval(() => {
       SocketServer.sendRoomMessage(
         this.roomId,
@@ -196,7 +205,7 @@ export class Providence implements Game {
   private startAllPlayersClock = () => {
     this.updateGameStateAndSendToClients(PROVIDENCE_GAME_STATE.ALL_CLOCK);
     clearInterval(this.allPlayersInterval);
-    let counter = providenceConf.allPlayersClockSec;
+    let counter = this.allPlayersClockSec;
     this.allPlayersInterval = setInterval(() => {
       SocketServer.sendRoomMessage(this.roomId, SOCKET_GAME.UPDATE_ALL_CLOCK, {
         counter: counter,
@@ -286,10 +295,10 @@ export class Providence implements Game {
 
   public getGameConfig = () => {
     return {
-      maxPoints: providenceConf.maxPoints,
-      minPlayers: providenceConf.minPlayers,
-      allPlayersClockSec: providenceConf.allPlayersClockSec,
-      currPlayerClockSec: providenceConf.currPlayerClockSec,
+      maxPoints: this.maxPoints,
+      minPlayers: this.minPlayers,
+      allPlayersClockSec: this.allPlayersClockSec,
+      currPlayerClockSec: this.currPlayerClockSec,
     };
   };
 

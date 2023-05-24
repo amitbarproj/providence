@@ -65,11 +65,40 @@ class Main {
                 const ans = { success: false };
                 const createRoomBody = req.body;
                 console.log(createRoomBody);
-                if (createRoomBody.roomId === "") {
+                if (createRoomBody.roomConfig.roomId === "") {
                     ans.description = `Please enter Room ID`;
                 }
                 else if (createRoomBody.game === enums_1.GAMES.Error) {
                     ans.description = `Please select a Game`;
+                }
+                else if (createRoomBody.roomConfig.roomId.length > 15) {
+                    ans.description = `Room ID must be maximum 15 letters`;
+                }
+                else if (createRoomBody.roomConfig.description &&
+                    createRoomBody.roomConfig.description.length > 50) {
+                    ans.description = `Room description must be maximum 50 letters`;
+                }
+                else if (createRoomBody.roomConfig.username === "") {
+                    ans.description = `Please enter Username`;
+                }
+                else if (createRoomBody.roomConfig.username.length > 10) {
+                    ans.description = `Username must be maximum 10 letters`;
+                }
+                else if (!this.rooms.has(createRoomBody.roomConfig.roomId)) {
+                    this.rooms.set(createRoomBody.roomConfig.roomId, new room_1.Room(createRoomBody));
+                    ans.success = true;
+                }
+                else {
+                    ans.description = `Room ${createRoomBody.roomConfig.roomId} already exist. Please choose another ID`;
+                }
+                res.send(ans);
+            });
+            app.post(api_enums_1.SERVER_API.checkRoomSettings, (req, res) => {
+                const ans = { success: false };
+                const createRoomBody = req.body;
+                console.log(createRoomBody);
+                if (createRoomBody.roomId === "") {
+                    ans.description = `Please enter Room ID`;
                 }
                 else if (createRoomBody.roomId.length > 15) {
                     ans.description = `Room ID must be maximum 15 letters`;
@@ -85,7 +114,6 @@ class Main {
                     ans.description = `Username must be maximum 10 letters`;
                 }
                 else if (!this.rooms.has(createRoomBody.roomId)) {
-                    this.rooms.set(createRoomBody.roomId, new room_1.Room(createRoomBody));
                     ans.success = true;
                 }
                 else {

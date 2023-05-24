@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect, useRef, forwardRef } from "react";
 import { styled } from "@mui/material/styles";
 import Fab from "@mui/material/Fab";
+import * as React from "react";
 
 import CardsRoom from "../CardsRoom/CardsRoom";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +28,13 @@ import Switch from "@mui/material/Switch";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import RoomsHeader from "../RoomsHeader/RoomsHeader";
+
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Typography from "@mui/material/Typography";
+import ProvidenceConfig from "../Providence/ProvidenceConfig";
+
 // import "./Home.css"
 const serverURL = `${SERVER_URL.protocol}://${SERVER_URL.host}:${SERVER_URL.port}`;
 
@@ -44,6 +52,70 @@ const Rooms = (props) => {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [newMaxPlayers, setNewMaxPlayers] = useState(9);
+  const [gameConfig, setGameConfig] = useState({});
+  const [roomConfig, setRoomConfig] = useState({});
+
+  const createRoom = async () => {
+    const dataToSend = {
+      roomConfig: roomConfig,
+      game: newGame,
+      gameConfig: gameConfig,
+    };
+    console.log(dataToSend);
+    const response = await axios.post(
+      `${serverURL}/api/createRoom`,
+      dataToSend
+    );
+    const data = response.data;
+    console.log(data);
+
+    if (data.success) {
+      setRoomId(dataToSend.roomConfig.roomId);
+      setUsername(dataToSend.roomConfig.username);
+      setGameType(dataToSend.game);
+      localStorage.clear();
+      const localStorageObj = {
+        username: dataToSend.roomConfig.username,
+        roomId: dataToSend.roomConfig.roomId,
+        gameType: dataToSend.game,
+      };
+      localStorage.setItem(
+        LOCAL_STORAGE.UserInfo,
+        JSON.stringify(localStorageObj)
+      );
+      navigate(`/room/${dataToSend.roomConfig.roomId}`);
+    } else {
+      setCreateRoomError(data.description);
+      console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
+    }
+  };
+
+  const checkIfRoomSettingsValid = async () => {
+    const dataToSend = {
+      roomId: newRoomId.current.value,
+      auth: open,
+      secret: open ? newSecret.current.value : undefined,
+      username: newUsername.current.value,
+      description: open2 ? newDescription.current.value : "",
+      maxPlayers: newMaxPlayers,
+    };
+    console.log(dataToSend);
+    const response = await axios.post(
+      `${serverURL}/api/checkRoomSettings`,
+      dataToSend
+    );
+    const data = response.data;
+    console.log(data);
+
+    if (data.success) {
+      setRoomConfig(dataToSend);
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setCreateRoomError("");
+    } else {
+      setCreateRoomError(data.description);
+      console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
+    }
+  };
 
   // const StyledFab = styled(Fab)({
   //   position: "fixed",
@@ -52,6 +124,35 @@ const Rooms = (props) => {
   //   right: 20,
   //   margin: "0 auto",
   // });
+
+  //----------------------------
+  const steps = ["Room settings", "Game settings"];
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
+
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
+
+  const handleNext = (activeStep) => {
+    if (activeStep === steps.length - 1) {
+      createRoom();
+    } else if (activeStep === 0) {
+      checkIfRoomSettingsValid();
+    }
+  };
+
+  const handleBack = () => {
+    setCreateRoomError("");
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
+  //-------------------------------
 
   const handleClickOpen = () => {
     setOpenDialog(true);
@@ -83,46 +184,6 @@ const Rooms = (props) => {
     }
   }, []);
 
-  const createRoom = async () => {
-    const dataToSend = {
-      roomId: newRoomId.current.value,
-      auth: open,
-      secret: open ? newSecret.current.value : undefined,
-      username: newUsername.current.value,
-      description: open2 ? newDescription.current.value : "",
-      game: newGame,
-      maxPlayers: newMaxPlayers,
-      minPlayers: undefined,
-    };
-    console.log(dataToSend);
-    const response = await axios.post(
-      `${serverURL}/api/createRoom`,
-      dataToSend
-    );
-    const data = response.data;
-    console.log(data);
-
-    if (data.success) {
-      setRoomId(dataToSend.roomId);
-      setUsername(dataToSend.username);
-      setGameType(dataToSend.game);
-      localStorage.clear();
-      const localStorageObj = {
-        username: dataToSend.username,
-        roomId: dataToSend.roomId,
-        gameType: dataToSend.game,
-      };
-      localStorage.setItem(
-        LOCAL_STORAGE.UserInfo,
-        JSON.stringify(localStorageObj)
-      );
-      navigate(`/room/${dataToSend.roomId}`);
-    } else {
-      setCreateRoomError(data.description);
-      console.log(`BLA BLA BLA BLA BLA BLA BLA BLA`);
-    }
-  };
-
   const getAllRooms = async () => {
     const response = await axios.get(`${serverURL}/api/getAllRooms`);
     const data = response.data;
@@ -142,140 +203,221 @@ const Rooms = (props) => {
         setRoomId={setRoomId}
         setUsername={setUsername}
       ></CardsRoom>
-      {/* <StyledFab
-        className="fab"
-        color="info"
-        onClick={handleClickOpen}
-        aria-label="add"
-      >
-        <AddIcon />
-      </StyledFab> */}
       <Dialog open={openDialog} onClose={handleClose}>
-        <DialogTitle>Create Room</DialogTitle>
-        <DialogContent>
-          <Divider />
-          <Box
-            component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: ["100%"] },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <FormControl sx={{ mt: 1 }}>
-              <TextField
-                id="outlined-sdfdfd"
-                label="Room ID"
-                variant="standard"
-                required
-                inputRef={newRoomId}
-              />
-              <Divider />
-              <Autocomplete
-                onChange={(event, value) => setNewGame(value)}
-                id="disabled-options-demo"
-                options={selectRender}
-                getOptionDisabled={(option) => option !== GAMES.Providence}
-                required
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Select a Game" />
-                )}
-              />
-              {/* <Divider/> */}
-              <br />
-              <FormLabel component="legend">
-                Maximum Players: {newMaxPlayers}
-              </FormLabel>
-              <Slider
-                aria-label=""
-                value={newMaxPlayers}
-                onChange={(e) => {
-                  setNewMaxPlayers(Number(e.target.value));
-                }}
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={3}
-                max={9}
-              />
-              <Divider />
+        <Box sx={{ width: "100%" }}>
+          <Stepper activeStep={activeStep}>
+            {steps.map((label, index) => {
+              const stepProps = {};
+              const labelProps = {};
+              if (isStepSkipped(index)) {
+                stepProps.completed = false;
+              }
+              return (
+                <Step key={label} {...stepProps}>
+                  <StepLabel {...labelProps}>{label}</StepLabel>
+                </Step>
+              );
+            })}
+          </Stepper>
 
-              <FormControlLabel
-                control={
-                  <Switch checked={open2} onChange={() => setOpen2(!open2)} />
-                }
-                label={open2 ? "" : "Add Description"}
-                labelPlacement="end"
-              />
-              <Collapse in={open2} timeout="auto" unmountOnExit>
-                <div id="example-collapse-text">
-                  <TextField
-                    id="outlined-sdfdfd"
-                    label="Description"
-                    variant="standard"
-                    inputRef={newDescription}
-                  />
-                </div>
-              </Collapse>
-
-              <FormControlLabel
-                control={
-                  <Switch checked={open} onChange={() => setOpen(!open)} />
-                }
-                label={open ? <HttpsIcon /> : <NoEncryptionGmailerrorredIcon />}
-                labelPlacement="end"
-              />
-              <Collapse in={open} timeout="auto" unmountOnExit>
-                <div id="example-collapse-text">
-                  <TextField
-                    id="outlined-password-input"
-                    label="Password"
-                    type="password"
-                    // variant="standard"
-                    autoComplete="current-password"
-                    inputRef={newSecret}
-                    helperText="Enter Room Password"
-                  />
-                </div>
-              </Collapse>
-              {/* <br /> */}
-              <Divider />
-
-              <TextField
-                // variant="standard"
-                required
-                label="Username"
-                inputRef={newUsername}
-              />
-              <Collapse
-                in={createRoomError !== ""}
-                timeout="auto"
-                unmountOnExit
-              >
-                <br />
-                <FormLabel
+          <React.Fragment>
+            {activeStep + 1 === 1 ? (
+              <DialogContent>
+                <Box
+                  component="form"
                   sx={{
-                    color: "#d32f2f",
+                    "& .MuiTextField-root": { m: 1, width: ["100%"] },
                   }}
+                  noValidate
+                  autoComplete="off"
                 >
-                  {createRoomError}
-                </FormLabel>
-              </Collapse>
-            </FormControl>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="outlined" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={createRoom}>
-            Create
-          </Button>
-        </DialogActions>
+                  <FormControl sx={{ mt: 0 }}>
+                    <TextField
+                      id="outlined-sdfdfd"
+                      label="Room ID"
+                      variant="standard"
+                      required
+                      inputRef={newRoomId}
+                    />
+                    <Divider />
+                    <br />
+                    <FormLabel component="legend">
+                      Maximum Players: {newMaxPlayers}
+                    </FormLabel>
+                    <Slider
+                      aria-label=""
+                      value={newMaxPlayers}
+                      onChange={(e) => {
+                        setNewMaxPlayers(Number(e.target.value));
+                      }}
+                      valueLabelDisplay="auto"
+                      step={1}
+                      marks
+                      min={3}
+                      max={9}
+                    />
+                    <Divider />
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={open2}
+                          onChange={() => setOpen2(!open2)}
+                        />
+                      }
+                      label={open2 ? "" : "Add Description"}
+                      labelPlacement="end"
+                    />
+                    <Collapse in={open2} timeout="auto" unmountOnExit>
+                      <div id="example-collapse-text">
+                        <TextField
+                          id="outlined-sdfdfd"
+                          label="Description"
+                          variant="standard"
+                          inputRef={newDescription}
+                        />
+                      </div>
+                    </Collapse>
+
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={open}
+                          onChange={() => setOpen(!open)}
+                        />
+                      }
+                      label={
+                        open ? <HttpsIcon /> : <NoEncryptionGmailerrorredIcon />
+                      }
+                      labelPlacement="end"
+                    />
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                      <div id="example-collapse-text">
+                        <TextField
+                          id="outlined-password-input"
+                          label="Password"
+                          type="password"
+                          // variant="standard"
+                          autoComplete="current-password"
+                          inputRef={newSecret}
+                          helperText="Enter Room Password"
+                        />
+                      </div>
+                    </Collapse>
+                    {/* <br /> */}
+                    <Divider />
+
+                    <TextField
+                      // variant="standard"
+                      required
+                      label="Username"
+                      inputRef={newUsername}
+                    />
+                    <Collapse
+                      in={createRoomError !== ""}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <br />
+                      <FormLabel
+                        sx={{
+                          color: "#d32f2f",
+                        }}
+                      >
+                        {createRoomError}
+                      </FormLabel>
+                    </Collapse>
+                  </FormControl>
+                </Box>
+              </DialogContent>
+            ) : activeStep + 1 === 2 ? (
+              <DialogContent>
+                <Box
+                  component="form"
+                  sx={{
+                    "& .MuiTextField-root": { m: 1, width: ["100%"] },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <FormControl sx={{ mt: 0 }}>
+                    <Autocomplete
+                      onChange={(event, value) => setNewGame(value)}
+                      id="disabled-options-demo"
+                      options={selectRender}
+                      getOptionDisabled={(option) =>
+                        option !== GAMES.Providence
+                      }
+                      value={newGame}
+                      required
+                      sx={{ width: 300 }}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Select a Game" />
+                      )}
+                    />
+                    <br />
+
+                    {newGame === GAMES.Providence ? (
+                      <ProvidenceConfig setGameConfig={setGameConfig} />
+                    ) : (
+                      ""
+                    )}
+
+                    <Divider />
+                    <Collapse
+                      in={createRoomError !== ""}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <br />
+                      <FormLabel
+                        sx={{
+                          color: "#d32f2f",
+                        }}
+                      >
+                        {createRoomError}
+                      </FormLabel>
+                    </Collapse>
+                  </FormControl>
+                </Box>
+              </DialogContent>
+            ) : (
+              ""
+            )}
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Button
+                color="inherit"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+              >
+                Back
+              </Button>
+              <Box sx={{ flex: "1 1 auto" }} />
+
+              <Button onClick={() => handleNext(activeStep)}>
+                {activeStep === steps.length - 1 ? "Create" : "Next"}
+              </Button>
+            </Box>
+          </React.Fragment>
+        </Box>
       </Dialog>
     </div>
   );
 };
 
 export default Rooms;
+
+{
+  /* <Dialog open={openDialog} onClose={handleClose}>
+ 
+</Dialog>; */
+}
+
+// <DialogActions>
+// <Button variant="outlined" onClick={handleClose}>
+//   Cancel
+// </Button>
+// <Button variant="contained" onClick={createRoom}>
+//   Create
+// </Button>
+// </DialogActions>

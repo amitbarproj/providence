@@ -5,6 +5,7 @@ import {
   ASYNC_RESPONSE,
   CHECK_IF_USERNAME_BODY,
   CHECK_IF_USERNAME_RES,
+  CHECK_ROOM_SETTINGS_BODY,
   CREATE_ROOM_BODY,
   CREATE_ROOM_RES,
   GET_ROOM_RES,
@@ -79,10 +80,36 @@ export class Main {
       const ans: ASYNC_RESPONSE<CREATE_ROOM_RES> = { success: false };
       const createRoomBody: CREATE_ROOM_BODY = req.body;
       console.log(createRoomBody);
-      if (createRoomBody.roomId === "") {
+      if (createRoomBody.roomConfig.roomId === "") {
         ans.description = `Please enter Room ID`;
       } else if (createRoomBody.game === GAMES.Error) {
         ans.description = `Please select a Game`;
+      } else if (createRoomBody.roomConfig.roomId.length > 15) {
+        ans.description = `Room ID must be maximum 15 letters`;
+      } else if (
+        createRoomBody.roomConfig.description &&
+        createRoomBody.roomConfig.description.length > 50
+      ) {
+        ans.description = `Room description must be maximum 50 letters`;
+      } else if (createRoomBody.roomConfig.username === "") {
+        ans.description = `Please enter Username`;
+      } else if (createRoomBody.roomConfig.username.length > 10) {
+        ans.description = `Username must be maximum 10 letters`;
+      } else if (!this.rooms.has(createRoomBody.roomConfig.roomId)) {
+        this.rooms.set(createRoomBody.roomConfig.roomId, new Room(createRoomBody));
+        ans.success = true;
+      } else {
+        ans.description = `Room ${createRoomBody.roomConfig.roomId} already exist. Please choose another ID`;
+      }
+      res.send(ans);
+    });
+
+    app.post(SERVER_API.checkRoomSettings, (req, res) => {
+      const ans: ASYNC_RESPONSE = { success: false };
+      const createRoomBody: CHECK_ROOM_SETTINGS_BODY = req.body;
+      console.log(createRoomBody);
+      if (createRoomBody.roomId === "") {
+        ans.description = `Please enter Room ID`;
       } else if (createRoomBody.roomId.length > 15) {
         ans.description = `Room ID must be maximum 15 letters`;
       } else if (
@@ -95,13 +122,14 @@ export class Main {
       } else if (createRoomBody.username.length > 10) {
         ans.description = `Username must be maximum 10 letters`;
       } else if (!this.rooms.has(createRoomBody.roomId)) {
-        this.rooms.set(createRoomBody.roomId, new Room(createRoomBody));
         ans.success = true;
       } else {
         ans.description = `Room ${createRoomBody.roomId} already exist. Please choose another ID`;
       }
       res.send(ans);
     });
+
+    
 
     app.post(SERVER_API.joinRoom, (req, res) => {
       const ans: ASYNC_RESPONSE<JOIN_ROOM_RES> = { success: false };

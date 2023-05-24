@@ -6,7 +6,7 @@ const socketEnums_1 = require("../../../../../../classes/socketEnums");
 const socketServer_1 = require("../../socketServer");
 const providenceConf = require("../../../../../../../../../config/Games/providence.json");
 class Providence {
-    constructor(players, roomId) {
+    constructor(players, roomId, gameConfig) {
         this.roomId = undefined;
         this.players = undefined;
         this.minPlayers = providenceConf.minPlayers;
@@ -16,7 +16,9 @@ class Providence {
         this.allPlayersInterval = undefined;
         this.currWord = undefined;
         this.gameState = undefined;
-        this.maxPoints = providenceConf.maxPoints;
+        this.maxPoints = undefined;
+        this.allPlayersClockSec = undefined;
+        this.currPlayerClockSec = undefined;
         this.isGameStarted = false;
         this.gameInfo = providenceConf.gameInfo || undefined;
         this.gameStats = [];
@@ -144,7 +146,7 @@ class Providence {
         this.startCurrPlayerClock = () => {
             this.updateGameStateAndSendToClients(enums_1.PROVIDENCE_GAME_STATE.PLAYER_CLOCK);
             clearInterval(this.allPlayersInterval);
-            let counter = providenceConf.currPlayerClockSec;
+            let counter = this.currPlayerClockSec;
             this.currPlayerInterval = setInterval(() => {
                 socketServer_1.SocketServer.sendRoomMessage(this.roomId, socketEnums_1.SOCKET_GAME.UPDATE_PLAYER_CLOCK, counter);
                 counter -= 1;
@@ -156,7 +158,7 @@ class Providence {
         this.startAllPlayersClock = () => {
             this.updateGameStateAndSendToClients(enums_1.PROVIDENCE_GAME_STATE.ALL_CLOCK);
             clearInterval(this.allPlayersInterval);
-            let counter = providenceConf.allPlayersClockSec;
+            let counter = this.allPlayersClockSec;
             this.allPlayersInterval = setInterval(() => {
                 socketServer_1.SocketServer.sendRoomMessage(this.roomId, socketEnums_1.SOCKET_GAME.UPDATE_ALL_CLOCK, {
                     counter: counter,
@@ -232,10 +234,10 @@ class Providence {
         };
         this.getGameConfig = () => {
             return {
-                maxPoints: providenceConf.maxPoints,
-                minPlayers: providenceConf.minPlayers,
-                allPlayersClockSec: providenceConf.allPlayersClockSec,
-                currPlayerClockSec: providenceConf.currPlayerClockSec,
+                maxPoints: this.maxPoints,
+                minPlayers: this.minPlayers,
+                allPlayersClockSec: this.allPlayersClockSec,
+                currPlayerClockSec: this.currPlayerClockSec,
             };
         };
         this.getGameInfo = () => {
@@ -318,6 +320,13 @@ class Providence {
         this.myIterator = this.players.entries();
         this.currentPlayer = this.myIterator.next();
         this.roomId = roomId;
+        //game config
+        console.log(gameConfig);
+        this.maxPoints = gameConfig.maxPoints || providenceConf.maxPoints;
+        this.allPlayersClockSec =
+            gameConfig.allPlayersClockSec || providenceConf.allPlayersClockSec;
+        this.currPlayerClockSec =
+            gameConfig.currPlayerClockSec || providenceConf.currPlayerClockSec;
     }
 }
 exports.Providence = Providence;

@@ -22,23 +22,23 @@ export class Room {
   private game: Game = undefined;
 
   constructor(createRoomBody: CREATE_ROOM_BODY) {
-    this.roomId = createRoomBody.roomId;
-    this.auth = createRoomBody.auth;
-    this.secret = createRoomBody.secret;
+    this.roomId = createRoomBody.roomConfig.roomId;
+    this.auth = createRoomBody.roomConfig.auth;
+    this.secret = createRoomBody.roomConfig.secret;
     this.gameType = createRoomBody.game;
-    this.description = createRoomBody.description || "";
-    this.maxPlayers = createRoomBody.maxPlayers;
+    this.description = createRoomBody.roomConfig.description || "";
+    this.maxPlayers = createRoomBody.roomConfig.maxPlayers;
     this.players.set(
-      createRoomBody.username,
-      new User(createRoomBody.username, true, this.gameType, this.roomId)
+      createRoomBody.roomConfig.username,
+      new User(createRoomBody.roomConfig.username, true, this.gameType, this.roomId)
     );
-    this.openGame();
+    this.openGame(createRoomBody.gameConfig);
   }
 
-  private openGame = () => {
+  private openGame = (gameConfig) => {
     switch (this.gameType) {
       case GAMES.Providence:
-        this.game = new Providence(this.players, this.roomId);
+        this.game = new Providence(this.players, this.roomId,gameConfig );
         break;
       default:
         throw new Error("Game type not exist");
