@@ -69,9 +69,9 @@ const GameHeader = (props) => {
                 variant="determinate"
                 value={allPlayersClockVal}
                 color={
-                  clock <= 3
+                  clock < 3
                     ? "error"
-                    : clock <= allPlayersClockSec / 2
+                    : clock < allPlayersClockSec / 2
                     ? "warning"
                     : "primary"
                 }
